@@ -78,7 +78,7 @@ static inline size_t  mulle_utf8_max_length_as_utf16( size_t len)
 // returns length in characters
 // returns size in bytes
 // returns pointer to character, that is invalid (first of compound chars)
-//
+// TODO: find encoding where nothing needs to be composed
 struct mulle_utf8_information
 {
    size_t     utf8len;
@@ -89,7 +89,7 @@ struct mulle_utf8_information
    int        has_bom;
    int        is_ascii;
    int        has_terminating_zero;
-} ;
+};
 
 
 static int  mulle_utf8_has_bom( utf8char *src, size_t len)
@@ -113,7 +113,13 @@ utf32char   mulle_utf8_get_utf32_value( utf8char *s);
 int         mulle_utf8_are_valid_extra_chars( char *src, unsigned int len);
 
 
-size_t  mulle_utf8_convert_to_utf16_bytebuffer( struct mulle_bytebuffer *dst, utf8char *src, size_t len);
+// supply a "mulle_buffer" here as "buffer" and `mulle_buffer_guarantee` as
+// "reserve"
+// int == 0 : OK!
+int  mulle_utf8_convert_to_utf16_bytebuffer( void *buffer,
+                                             void (*adduint16)( void *, uint16_t),
+                                             utf8char *src,
+                                             size_t len);
 
 #endif
 

@@ -38,7 +38,9 @@
 #define mulle_utf16_h__
 
 #include "mulle_utf_type.h"
-#include "mulle_bytebuffer.h"
+
+#include <assert.h>
+#include <stddef.h>
 
 //
 //
@@ -70,8 +72,6 @@ static inline void  mulle_utf16_encode_surrogatepair( utf32char x, utf16char *hi
 }
 
 
-void  mulle_utf16_encode_surrogatepair_into_bytebuffer( struct mulle_bytebuffer *dst, utf32char x);
-
 
 static inline utf32char  mulle_utf16_decode_surrogatepair( utf16char hi, utf16char lo)
 {
@@ -88,26 +88,26 @@ static inline utf32char  mulle_utf16_decode_surrogatepair( utf16char hi, utf16ch
 }
 
 
-static inline int  mulle_utf16_is_bom( utf16char c)
+static inline int  mulle_utf16_is_bom_char( utf16char c)
 {
    return( c == 0xFEFF);  // only native encoding so far...
 }
 
-size_t  _mulle_utf16_convert_to_utf8( utf8char *dst, size_t dst_len, utf16char *src, size_t *p_len);
-size_t  _mulle_utf16_convert_to_utf8_bytebuffer( struct mulle_bytebuffer *dst, utf16char *src, size_t *p_len);
 
-static inline size_t   mulle_utf16_convert_to_utf8_bytebuffer( struct mulle_bytebuffer *dst,
-                                                               utf16char *src,
-                                                               size_t len)
+
+struct mulle_utf16_information
 {
-   return( _mulle_utf16_convert_to_utf8_bytebuffer( dst, src, &len));
-}
+   size_t     utf8len;
+   size_t     utf16len;
+   size_t     utf32len;
+   utf16char  *start;          // behind BOM if bommed, otherwise start
+   utf16char  *invalid_utf16;  // first fail char
+   int        has_bom;
+   int        is_ascii;
+   int        has_terminating_zero;
+};
 
-static inline size_t   mulle_utf16_convert_to_utf8( utf8char *dst, size_t dst_len, utf16char *src, size_t len)
-{
-   return( _mulle_utf16_convert_to_utf8( dst, dst_len, src, &len));
-}
-
+size_t  mulle_utf16_information( utf16char *src, size_t len, struct mulle_utf16_information *info);
 
 size_t  mulle_utf16_length_as_utf8( utf16char *src, size_t len);
 size_t  mulle_utf16_length( utf16char *src, size_t len);
@@ -123,5 +123,17 @@ utf16char  *mulle_utf16_validate( utf16char *src, size_t len);
 
 // hi and lo MUST be surrogates
 int  mulle_utf16_is_valid_surrogatepair( utf16char hi, utf16char lo);
+
+// supply a "mulle_buffer" here as "buffer" and `mulle_buffer_guarantee` as
+// "reserve"
+// int == 0 : OK!
+int  _mulle_utf16_convert_to_utf8_bytebuffer( void *buffer,
+                                              unsigned char *(*reserve)( void *, size_t),
+                                              utf16char *src,
+                                              size_t len);
+
+void  mulle_utf16_encode_surrogatepair_into_utf16_bytebuffer( void *buffer,
+                                                              void (*adduint16)( void *, uint16_t),
+                                                              utf32char x);
 
 #endif

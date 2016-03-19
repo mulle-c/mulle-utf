@@ -234,17 +234,20 @@ int   mulle_utf8_are_valid_extra_chars( char *src, unsigned int len)
 //
 // this also does not do any error checking, the UTF8 string must be perfect
 //
-// -1  dst buffer too small
+// -1  check errno
 //  0  OK!
 //
 
-size_t  mulle_utf8_convert_to_utf16_bytebuffer( struct mulle_bytebuffer *dst, utf8char *src, size_t len)
+int  mulle_utf8_convert_to_utf16_bytebuffer( void *buffer,
+                                             void (*adduint16)( void *, uint16_t),
+                                             utf8char *src,
+                                             size_t len)
 {
    utf8char   _c;
-   uint32_t        x;
+   uint32_t   x;
    utf8char   *next;
    utf8char   *sentinel;
-   size_t          extra_len;
+   size_t     extra_len;
    
    assert( src);
    
@@ -267,7 +270,7 @@ size_t  mulle_utf8_convert_to_utf16_bytebuffer( struct mulle_bytebuffer *dst, ut
       
       if( (char) _c >= 0)
       {
-         _mulle_bytebuffer_add_uint16( dst, _c);
+         (*adduint16)( buffer, _c);
          continue;
       }
       
@@ -283,28 +286,14 @@ size_t  mulle_utf8_convert_to_utf16_bytebuffer( struct mulle_bytebuffer *dst, ut
       src = next;
       if( x < 0x10000)
       {
-         _mulle_bytebuffer_add_uint16( dst, (uint16_t) x);
+         (*adduint16)( buffer, (uint16_t) x);
          continue;
       }
       
-      mulle_utf16_encode_surrogatepair_into_bytebuffer( dst, x);
+      mulle_utf32_encode_as_surrogatepair_into_utf16_bytebuffer( buffer, adduint16, x);
    }
    
-   if( _mulle_bytebuffer_is_overflown( dst))
-   {
-      errno = EACCES;
-      return( -1);
-   }
-   return( _mulle_bytebuffer_get_length( dst) / 2);
-}
-
-
-size_t  mulle_utf8_convert_to_utf16( utf16char *dst, size_t dst_len, utf8char *src, size_t len)
-{
-   struct mulle_bytebuffer    buf;
-   
-   _mulle_bytebuffer_inflexable_init_with_static_bytes( &buf, dst, dst_len * 2);
-   return( mulle_utf8_convert_to_utf16_bytebuffer( &buf, src, len));
+   return( 0);
 }
 
 
@@ -391,7 +380,7 @@ size_t  mulle_utf8_information( utf8char *src, size_t len, struct mulle_utf8_inf
    info->utf32len  = dst_len - (len - info->utf8len);  // number of characters
    info->utf16len += info->utf32len;                   // size in utf16 with escapes
 
-   return( info->utf16len);            // our "regular" -length
+   return( info->utf8len);            // our "regular" -length
 
 fail:
    memset( info, 0, sizeof( *info));
