@@ -41,3 +41,8 @@ static inline int   mulle_utf32_is_non_char( utf32char c)
 {
    return( (c >= 0xFFFE && c <= 0xFFFF) || (c >= 0xFDD0 && c <= 0xFDEF));
 }
+
+
+void  mulle_utf32_encode_as_surrogatepair_into_utf16_bytebuffer( void *buffer,
+                                                                 void (*adduint16)( void *, uint16_t),
+                                                                 utf32char x);
