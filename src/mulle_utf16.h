@@ -46,14 +46,14 @@
 //
 // These routines will strip off a leading BOM, but they will never add one.
 //
-// The utf16char endianness is machine specific. For import/export there are
+// The mulle_utf16char_t endianness is machine specific. For import/export there are
 // conversion routines somewhere else
 //
 
-static inline void  mulle_utf16_encode_surrogatepair( utf32char x, utf16char *hi, utf16char *lo)
+static inline void  mulle_utf16_encode_surrogatepair( mulle_utf32char_t x, mulle_utf16char_t *hi, mulle_utf16char_t *lo)
 {
-   utf16char  top;
-   utf16char  bottom;
+   mulle_utf16char_t  top;
+   mulle_utf16char_t  bottom;
    
    assert( x >= 0x10000 && x <= 0x10FFFF);
    
@@ -61,8 +61,8 @@ static inline void  mulle_utf16_encode_surrogatepair( utf32char x, utf16char *hi
    
    assert( (x >> 10) <= 0x3FF);
    
-   top    = (utf16char) (x >> 10);
-   bottom = (utf16char) (x & 0x3FF);
+   top    = (mulle_utf16char_t) (x >> 10);
+   bottom = (mulle_utf16char_t) (x & 0x3FF);
    
    *hi = 0xD800 + top;
    *lo = 0xDC00 + bottom;
@@ -73,22 +73,22 @@ static inline void  mulle_utf16_encode_surrogatepair( utf32char x, utf16char *hi
 
 
 
-static inline utf32char  mulle_utf16_decode_surrogatepair( utf16char hi, utf16char lo)
+static inline mulle_utf32char_t  mulle_utf16_decode_surrogatepair( mulle_utf16char_t hi, mulle_utf16char_t lo)
 {
-   utf32char   top;
-   utf32char   bottom;
+   mulle_utf32char_t   top;
+   mulle_utf32char_t   bottom;
    
    assert( hi >= 0xD800 && hi < 0xDC00);
    assert( lo >= 0xDC00 && lo < 0xE000);
    
-   top    = (utf32char) (hi - 0xD800);
-   bottom = (utf32char) (lo - 0xDC00);
+   top    = (mulle_utf32char_t) (hi - 0xD800);
+   bottom = (mulle_utf32char_t) (lo - 0xDC00);
    
    return( 0x10000 + (top << 10) + bottom);
 }
 
 
-static inline int  mulle_utf16_is_bom_char( utf16char c)
+static inline int  mulle_utf16_is_bom_char( mulle_utf16char_t c)
 {
    return( c == 0xFEFF);  // only native encoding so far...
 }
@@ -97,43 +97,46 @@ static inline int  mulle_utf16_is_bom_char( utf16char c)
 
 struct mulle_utf16_information
 {
-   size_t     utf8len;
-   size_t     utf16len;
-   size_t     utf32len;
-   utf16char  *start;          // behind BOM if bommed, otherwise start
-   utf16char  *invalid_utf16;  // first fail char
-   int        has_bom;
-   int        is_ascii;
-   int        has_terminating_zero;
+   size_t              utf8len;
+   size_t              utf16len;
+   size_t              utf32len;
+   mulle_utf16char_t   *start;          // behind BOM if bommed, otherwise start
+   mulle_utf16char_t   *invalid_utf16;  // first fail char
+   int                 has_bom;
+   int                 is_ascii;
+   int                 has_terminating_zero;
 };
 
-size_t  mulle_utf16_information( utf16char *src, size_t len, struct mulle_utf16_information *info);
+int     mulle_utf16_information( mulle_utf16char_t *src, size_t len, struct mulle_utf16_information *info);
 
-size_t  mulle_utf16_length_as_utf8( utf16char *src, size_t len);
-size_t  mulle_utf16_length( utf16char *src, size_t len);
-int     mulle_utf16_is_ascii( utf16char *src, size_t len);
-size_t  mulle_utf16_strlen( utf16char *src);
+size_t  mulle_utf16_length_as_utf8( mulle_utf16char_t *src, size_t len);
+size_t  mulle_utf16_length( mulle_utf16char_t *src, size_t len);
+int     mulle_utf16_is_ascii( mulle_utf16char_t *src, size_t len);
+size_t  mulle_utf16_strlen( mulle_utf16char_t *src);
+size_t  mulle_utf16_strnlen( mulle_utf16char_t *src, size_t len);
 
 static inline size_t  mulle_utf16_max_length_as_utf8( size_t len)
 {
    return( len * 4);
 }
 
-utf16char  *mulle_utf16_validate( utf16char *src, size_t len);
+mulle_utf16char_t  *mulle_utf16_validate( mulle_utf16char_t *src, size_t len);
 
 // hi and lo MUST be surrogates
-int  mulle_utf16_is_valid_surrogatepair( utf16char hi, utf16char lo);
+int  mulle_utf16_is_valid_surrogatepair( mulle_utf16char_t hi, mulle_utf16char_t lo);
 
-// supply a "mulle_buffer" here as "buffer" and `mulle_buffer_guarantee` as
-// "reserve"
+// supply a "mulle_buffer" here as "buffer" and mulle_buffer_guarantee as the
+// callback.
+// This will not stop on a zero. It will not by itself append a zero.
 // int == 0 : OK!
 int  _mulle_utf16_convert_to_utf8_bytebuffer( void *buffer,
-                                              unsigned char *(*reserve)( void *, size_t),
-                                              utf16char *src,
+                                              void *(*advance)( void *, size_t),
+                                              mulle_utf16char_t *src,
                                               size_t len);
 
-void  mulle_utf16_encode_surrogatepair_into_utf16_bytebuffer( void *buffer,
-                                                              void (*adduint16)( void *, uint16_t),
-                                                              utf32char x);
+int  _mulle_utf16_convert_to_utf32_bytebuffer( void *buffer,
+                                               void *(*adduint32)( void *, uint32_t),
+                                               mulle_utf16char_t *src,
+                                               size_t len);
 
 #endif
