@@ -49,10 +49,10 @@ void  _mulle_utf32_encode_as_surrogatepair_into_utf16_bytebuffer( void *buffer,
                                                                   void (*adduint16)( void *, uint16_t),
                                                                   mulle_utf32char_t x)
 {
-   unichar  top;
-   unichar  bottom;
-   unichar  hi;
-   unichar  lo;
+   mulle_utf32char_t  top;
+   mulle_utf32char_t  bottom;
+   mulle_utf32char_t  hi;
+   mulle_utf32char_t  lo;
    
    assert( x >= 0x10000 && x <= 0x10FFFF);
    
@@ -60,8 +60,8 @@ void  _mulle_utf32_encode_as_surrogatepair_into_utf16_bytebuffer( void *buffer,
    
    assert( (x >> 10) <= 0x3FF);
    
-   top    = (unichar) (x >> 10);
-   bottom = (unichar) (x & 0x3FF);
+   top    = (mulle_utf32char_t) (x >> 10);
+   bottom = (mulle_utf32char_t) (x & 0x3FF);
    
    hi = 0xD800 + top;
    lo = 0xDC00 + bottom;

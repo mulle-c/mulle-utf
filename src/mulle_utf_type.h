@@ -40,9 +40,13 @@ typedef uint8_t    mulle_utf8char_t;
 typedef uint16_t   mulle_utf16char_t;
 typedef int32_t    mulle_utf32char_t; //  0 - 0x10FFFF.
 
+enum
+{
+   mulle_utf32char_max = 0x10FFFF
+};
+
 //
 // keeping mulle_utf32char_t signed, makes it easier
 //
-typedef mulle_utf32char_t  unichar;
 
 #endif 

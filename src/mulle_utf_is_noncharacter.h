@@ -11,9 +11,9 @@
 
 #include "mulle_utf.h"
 
+int   mulle_utf16_is_noncharacter( mulle_utf16char_t c);
+int   mulle_utf32_is_noncharacter( mulle_utf32char_t c);
+int   mulle_utf_is_noncharacterplane( unsigned int plane);
 
-// http://www.unicode.org/faq/private_use.html
-int   mulle_utf_is_noncharacter( unichar c);
-int   mulle_utf_is_privatecharacter( unichar c);
 
-#endif /* mulle_utf_is_noncharacter_h */
+#endif /* mulle_utf_is_alphanumeric_h */
