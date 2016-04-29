@@ -36,13 +36,13 @@
 
 #include <stdint.h>
 
-typedef uint8_t    mulle_utf8char_t;
-typedef uint16_t   mulle_utf16char_t;
-typedef int32_t    mulle_utf32char_t; //  0 - 0x10FFFF.
+typedef uint8_t    mulle_utf8_t;
+typedef uint16_t   mulle_utf16_t;
+typedef int32_t    mulle_utf32_t; //  0 - 0x10FFFF.
 
 enum
 {
-   mulle_utf32char_max = 0x10FFFF
+   mulle_utf32_max = 0x10FFFF
 };
 
 //

@@ -12,13 +12,13 @@
 #include <string.h>
 
 
-static inline int   mulle_utf32_is_ascii_char( mulle_utf32char_t c)
+static inline int   mulle_utf32_is_ascii_char( mulle_utf32_t c)
 {
    return( c < 0x80);
 }
 
 
-size_t  mulle_utf32_strlen( mulle_utf32char_t *src)
+size_t  mulle_utf32_strlen( mulle_utf32_t *src)
 {
    size_t   len;
 
@@ -29,15 +29,16 @@ size_t  mulle_utf32_strlen( mulle_utf32char_t *src)
 }
 
 
-size_t  mulle_utf32_strnlen( mulle_utf32char_t *src, size_t len)
+size_t  mulle_utf32_strnlen( mulle_utf32_t *src, size_t len)
 {
-   mulle_utf32char_t   *sentinel;
+   mulle_utf32_t   *sentinel;
    
    sentinel = &src[ len];
+
    len = 0;
    while( src < sentinel)
    {
-      if( ! *src)
+      if( ! *src++)
          break;
       ++len;
    }
@@ -45,14 +46,15 @@ size_t  mulle_utf32_strnlen( mulle_utf32char_t *src, size_t len)
 }
 
 
-void  _mulle_utf32_encode_as_surrogatepair_into_utf16_bytebuffer( void *buffer,
-                                                                  void (*adduint16)( void *, uint16_t),
-                                                                  mulle_utf32char_t x)
+void  _mulle_utf32_encode_as_surrogatepair_into_utf16_bytebuffer(
+            void *buffer,
+            void (*add)( void *, void *, size_t size),
+            mulle_utf32_t x)
 {
-   mulle_utf32char_t  top;
-   mulle_utf32char_t  bottom;
-   mulle_utf32char_t  hi;
-   mulle_utf32char_t  lo;
+   uint16_t  top;
+   uint16_t  bottom;
+   uint16_t  hi;
+   uint16_t  lo;
    
    assert( x >= 0x10000 && x <= 0x10FFFF);
    
@@ -60,8 +62,8 @@ void  _mulle_utf32_encode_as_surrogatepair_into_utf16_bytebuffer( void *buffer,
    
    assert( (x >> 10) <= 0x3FF);
    
-   top    = (mulle_utf32char_t) (x >> 10);
-   bottom = (mulle_utf32char_t) (x & 0x3FF);
+   top    = (uint16_t) (x >> 10);
+   bottom = (uint16_t) (x & 0x3FF);
    
    hi = 0xD800 + top;
    lo = 0xDC00 + bottom;
@@ -69,22 +71,19 @@ void  _mulle_utf32_encode_as_surrogatepair_into_utf16_bytebuffer( void *buffer,
    assert( hi >= 0xD800 && hi < 0xDC00);
    assert( lo >= 0xDC00 && lo < 0xE000);
 
-#if __LITTLE_ENDIAN__      // should've been called __LITTLE_END_FIRST__
-   (*adduint16)( buffer, (uint16_t) lo);
-   (*adduint16)( buffer, (uint16_t) hi);
-#else
-   (*adduint16)( buffer, (uint16_t) hi);
-   (*adduint16)( buffer, (uint16_t) lo);
-#endif
+   // (nat) I used to flip those adds around based on endianness, but I think
+   // that was wrong
+   (*add)( buffer, &hi, sizeof( uint16_t));
+   (*add)( buffer, &lo, sizeof( uint16_t));
 }
 
 
 // must be proper UTF32 code!
-size_t   mulle_utf32_length_as_utf8( mulle_utf32char_t *src,
+size_t   mulle_utf32_length_as_utf8( mulle_utf32_t *src,
                                      size_t len)
 {
-   mulle_utf32char_t       *sentinel;
-   mulle_utf32char_t       x;
+   mulle_utf32_t       *sentinel;
+   mulle_utf32_t       x;
    
    if( ! src)
       return( 0);
@@ -132,10 +131,10 @@ size_t   mulle_utf32_length_as_utf8( mulle_utf32char_t *src,
 
 
 
-int   mulle_utf32_information( mulle_utf32char_t *src, size_t len, struct mulle_utf32_information *info)
+int   mulle_utf32_information( mulle_utf32_t *src, size_t len, struct mulle_utf32_information *info)
 {
-   mulle_utf32char_t                        _c;
-   mulle_utf32char_t                        *sentinel;
+   mulle_utf32_t                        _c;
+   mulle_utf32_t                        *sentinel;
    struct mulle_utf32_information   dummy;
    
    if( ! info)
@@ -208,13 +207,13 @@ fail:
 
 // must be proper UTF32 code!
 int  _mulle_utf32_convert_to_utf8_bytebuffer( void *buffer,
-                                              void *(*advance)( void *, size_t),
-                                              mulle_utf32char_t *src,
+                                              void (*add)( void *, void *, size_t size),
+                                              mulle_utf32_t *src,
                                               size_t len)
 {
-   mulle_utf32char_t   *sentinel;
-   mulle_utf8char_t    *s;
-   mulle_utf32char_t   x;
+   mulle_utf32_t   *sentinel;
+   mulle_utf32_t   x;
+   mulle_utf8_t    s[ 4];
    
    assert( src);
    
@@ -238,18 +237,14 @@ int  _mulle_utf32_convert_to_utf8_bytebuffer( void *buffer,
       {
          if( x < 0x80)
          {
-            if( ! (s = (*advance)( buffer, 1)))
-               return( -1);
-            
-            s[ 0] = (mulle_utf8char_t) x;
+            s[ 0] = (mulle_utf8_t) x;
+            (*add)( buffer, s, 1);
             continue;
          }
 
-         if( ! (s = (*advance)( buffer, 2)))
-            return( -1);
-         
-         s[ 0] = 0xC0 | (mulle_utf8char_t) (x >> 6);
+         s[ 0] = 0xC0 | (mulle_utf8_t) (x >> 6);
          s[ 1] = 0x80 | (x & 0x3F);
+         (*add)( buffer, s, 2);
          continue;
       }
       else
@@ -258,24 +253,20 @@ int  _mulle_utf32_convert_to_utf8_bytebuffer( void *buffer,
          {
             assert( x >= 0xD800 || x < 0xE000);
 
-            if( ! (s = (*advance)( buffer, 3)))
-               return( -1);
-         
-            s[ 0] = 0xE0 | (mulle_utf8char_t) (x >> 12);
+            s[ 0] = 0xE0 | (mulle_utf8_t) (x >> 12);
             s[ 1] = 0x80 | ((x >> 6) & 0x3F);
             s[ 2] = 0x80 | (x & 0x3F);
+            (*add)( buffer, s, 3);
             continue;
          }
 
          assert( x <= 0x10FFFF);
          
-         if( ! (s = (*advance)( buffer, 4)))
-            return( -1);
-         
-         s[ 0] = 0xF0 | (mulle_utf8char_t) (x >> 18);
+         s[ 0] = 0xF0 | (mulle_utf8_t) (x >> 18);
          s[ 1] = 0x80 | ((x >> 12) & 0x3F);
          s[ 2] = 0x80 | ((x >> 6) & 0x3F);
          s[ 3] = 0x80 | (x & 0x3F);
+         (*add)( buffer, s, 4);
       }
    }
    return( 0);
@@ -284,12 +275,13 @@ int  _mulle_utf32_convert_to_utf8_bytebuffer( void *buffer,
 
 
 int  _mulle_utf32_convert_to_utf16_bytebuffer( void *buffer,
-                                               void (*adduint16)( void *, uint16_t),
-                                               mulle_utf32char_t *src,
+                                               void (*add)( void *, void *, size_t size),
+                                               mulle_utf32_t *src,
                                                size_t len)
 {
-   mulle_utf32char_t       *sentinel;
-   mulle_utf32char_t       x;
+   mulle_utf32_t   *sentinel;
+   mulle_utf32_t   x;
+   mulle_utf16_t   _w;
    
    assert( src);
    
@@ -313,10 +305,11 @@ int  _mulle_utf32_convert_to_utf16_bytebuffer( void *buffer,
       {
          assert( x >= 0xD800 || x < 0xE000);
          
-         (*adduint16)( buffer, (uint16_t) x);
+         _w = (uint16_t) x;
+         (*add)( buffer, &_w, sizeof( _w));
          continue;
       }
-      _mulle_utf32_encode_as_surrogatepair_into_utf16_bytebuffer( buffer, adduint16, x);
+      _mulle_utf32_encode_as_surrogatepair_into_utf16_bytebuffer( buffer, add, x);
    }
    return( 0);
 }

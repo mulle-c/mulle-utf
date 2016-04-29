@@ -12,8 +12,8 @@
 #include "mulle_utf.h"
 
 
-int   mulle_utf16_is_validurluser( mulle_utf16char_t c);
-int   mulle_utf32_is_validurluser( mulle_utf32char_t c);
+int   mulle_utf16_is_validurluser( mulle_utf16_t c);
+int   mulle_utf32_is_validurluser( mulle_utf32_t c);
 int   mulle_utf_is_validurluserplane( unsigned int plane);
 
 #endif /* mulle_utf_is_validurluser_h */

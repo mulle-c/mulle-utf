@@ -12,7 +12,7 @@
 #include "mulle_utf.h"
 
 
-int   mulle_utf16_tolower( mulle_utf16char_t c);
-int   mulle_utf32_tolower( mulle_utf32char_t c);
+int   mulle_utf16_tolower( mulle_utf16_t c);
+int   mulle_utf32_tolower( mulle_utf32_t c);
 
 #endif /* mulle_utf_tolower_h */
