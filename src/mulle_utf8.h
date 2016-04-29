@@ -58,13 +58,13 @@ struct mulle_bytebuffer;
 // -1  dst buffer too small
 //  0  OK!
 //
-size_t  mulle_utf8_convert_to_utf16( mulle_utf16char_t *dst, size_t dst_len, mulle_utf8char_t *src, size_t len);
+size_t  mulle_utf8_convert_to_utf16( mulle_utf16_t *dst, size_t dst_len, mulle_utf8_t *src, size_t len);
 
 
 // UTF16 must be valid
 // if len is -1, assume that *s is '\0' terminated
 //
-size_t  mulle_utf8_length_as_utf16( mulle_utf8char_t *src, size_t len);
+size_t  mulle_utf8_length_as_utf16( mulle_utf8_t *src, size_t len);
 
 
 static inline size_t  mulle_utf8_max_length_as_utf16( size_t len)
@@ -72,7 +72,7 @@ static inline size_t  mulle_utf8_max_length_as_utf16( size_t len)
    return( len * 4);
 }
 
-static inline int  mulle_utf8_has_bom( mulle_utf8char_t *src, size_t len)
+static inline int  mulle_utf8_has_bom( mulle_utf8_t *src, size_t len)
 {
    if( len < 3)
       return( 0);
@@ -89,50 +89,62 @@ static inline int  mulle_utf8_has_bom( mulle_utf8char_t *src, size_t len)
 
 struct mulle_utf8_information
 {
-   size_t             utf8len;
-   size_t             utf16len;
-   size_t             utf32len;
-   mulle_utf8char_t   *start;         // behind BOM if bommed, otherwise start
-   mulle_utf8char_t   *invalid_utf8;  // first fail char
-   int                has_bom;
-   int                is_ascii;
-   int                has_terminating_zero;
+   size_t         utf8len;
+   size_t         utf16len;
+   size_t         utf32len;
+   mulle_utf8_t   *start;         // behind BOM if bommed, otherwise start
+   mulle_utf8_t   *invalid_utf8;  // first fail char
+   int            has_bom;
+   int            is_ascii;
+   int            has_terminating_zero;
 };
 
 
-int  mulle_utf8_information( mulle_utf8char_t *src, size_t len, struct mulle_utf8_information *info);
-int  mulle_utf8_is_ascii( mulle_utf8char_t *src, size_t len);
+int  mulle_utf8_information( mulle_utf8_t *src, size_t len, struct mulle_utf8_information *info);
+int  mulle_utf8_is_ascii( mulle_utf8_t *src, size_t len);
 
 
-static inline size_t  mulle_utf8_strlen( mulle_utf8char_t *src)
+static inline size_t  mulle_utf8_strlen( mulle_utf8_t *src)
 {
    return( strlen( (char *) src));
 }
 
 
-static inline size_t  mulle_utf8_strnlen( mulle_utf8char_t *src, size_t len)
+static inline size_t  mulle_utf8_strnlen( mulle_utf8_t *src, size_t len)
 {
    return( strnlen( (char *) src, len));
 }
 
 
-mulle_utf32char_t   mulle_utf8_get_utf32_value( mulle_utf8char_t *s);
+
+// use this to walk through a utf8 string
+
+static inline mulle_utf32_t   mulle_utf8_next_utf32_value( mulle_utf8_t **s)
+{
+   extern mulle_utf32_t   _mulle_utf8_next_utf32_value( mulle_utf8_t **s);
+
+   if( **s <= 0x7F)
+      return( *(*s)++);
+   return( _mulle_utf8_next_utf32_value( s));
+}
+
+
 
 int         mulle_utf8_are_valid_extra_chars( char *src, unsigned int len);
 
 
-// supply a "mulle_buffer" here as "buffer" and mulle_buffer_add_uint16 as the
+// supply a "mulle_buffer" here as "buffer" and mulle_buffer_add_bytes as the
 // callback.
 // int == 0 : OK!
 int  mulle_utf8_convert_to_utf16_bytebuffer( void *buffer,
-                                             void (*adduint16)( void *, uint16_t),
-                                             mulle_utf8char_t *src,
+                                             void (*add)( void *, void *, size_t size),
+                                             mulle_utf8_t *src,
                                              size_t len);
 
 // as above, but for utf32
 int  mulle_utf8_convert_to_utf32_bytebuffer( void *buffer,
-                                             void (*adduint32)( void *, uint32_t),
-                                             mulle_utf8char_t *src,
+                                             void (*add)( void *, void *, size_t size),
+                                             mulle_utf8_t *src,
                                              size_t len);
 
 

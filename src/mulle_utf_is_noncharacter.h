@@ -11,8 +11,8 @@
 
 #include "mulle_utf.h"
 
-int   mulle_utf16_is_noncharacter( mulle_utf16char_t c);
-int   mulle_utf32_is_noncharacter( mulle_utf32char_t c);
+int   mulle_utf16_is_noncharacter( mulle_utf16_t c);
+int   mulle_utf32_is_noncharacter( mulle_utf32_t c);
 int   mulle_utf_is_noncharacterplane( unsigned int plane);
 
 

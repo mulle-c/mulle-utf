@@ -19,6 +19,7 @@
 #include "mulle_utf_is_newline.h"
 #include "mulle_utf_is_nonbase.h"
 #include "mulle_utf_is_noncharacter.h"
+#include "mulle_utf_is_nonpercentescape.h"
 #include "mulle_utf_is_punctuation.h"
 #include "mulle_utf_is_privatecharacter.h"
 #include "mulle_utf_is_symbol.h"

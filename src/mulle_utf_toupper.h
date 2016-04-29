@@ -12,10 +12,10 @@
 #include "mulle_utf.h"
 
 
-int   mulle_utf16_toupper( mulle_utf16char_t c);
-int   mulle_utf32_toupper( mulle_utf32char_t c);
+int   mulle_utf16_toupper( mulle_utf16_t c);
+int   mulle_utf32_toupper( mulle_utf32_t c);
 
-int   mulle_utf16_totitlecase( mulle_utf16char_t c);
-int   mulle_utf32_totitlecase( mulle_utf32char_t c);
+int   mulle_utf16_totitlecase( mulle_utf16_t c);
+int   mulle_utf32_totitlecase( mulle_utf32_t c);
 
 #endif /* mulle_utf_toupper_h */
