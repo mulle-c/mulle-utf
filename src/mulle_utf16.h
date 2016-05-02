@@ -109,6 +109,7 @@ struct mulle_utf16_information
    mulle_utf16_t   *invalid_utf16;  // first fail char
    int             has_bom;
    int             is_ascii;
+   int             is_char5;
    int             has_terminating_zero;
 };
 
@@ -134,14 +135,15 @@ int  mulle_utf16_is_valid_surrogatepair( mulle_utf16_t hi, mulle_utf16_t lo);
 // callback.
 // This will not stop on a zero. It will not by itself append a zero.
 // int == 0 : OK!
-int  _mulle_utf16_convert_to_utf8_bytebuffer( void *buffer,
-                                              void *(*advance)( void *, size_t),
+// these routines do not skip BOM characters
+int  mulle_utf16_convert_to_utf8_bytebuffer( void *buffer,
+                                             void *(*addbytes)( void *buffer, void *bytes, size_t length),
+                                             mulle_utf16_t *src,
+                                             size_t len);
+
+int  mulle_utf16_convert_to_utf32_bytebuffer( void *buffer,
+                                              void *(*addbytes)( void *buffer, void *bytes, size_t length),
                                               mulle_utf16_t *src,
                                               size_t len);
-
-int  _mulle_utf16_convert_to_utf32_bytebuffer( void *buffer,
-                                               void *(*adduint32)( void *, uint32_t),
-                                               mulle_utf16_t *src,
-                                               size_t len);
 
 #endif
