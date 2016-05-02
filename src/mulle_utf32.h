@@ -74,6 +74,7 @@ struct mulle_utf32_information
    mulle_utf32_t   *invalid_utf32;  // first fail char
    int             has_bom;
    int             is_ascii;
+   int             is_char5;
    int             has_terminating_zero;
 };
 
@@ -83,17 +84,18 @@ int     mulle_utf32_information( mulle_utf32_t *src,
 
 
 
-void  _mulle_utf32_encode_as_surrogatepair_into_utf16_bytebuffer(
+void  mulle_utf32_encode_as_surrogatepair_into_utf16_bytebuffer(
                        void *buffer,
-                       void (*add)( void *, void *, size_t size),
+                       void (*addbytes)( void *buffer, void *bytes, size_t size),
                        mulle_utf32_t x);
 
-int  _mulle_utf32_convert_to_utf8_bytebuffer( void *buffer,
-                                              void (*add)( void *, void *, size_t size),
+// these routines do not skip BOM characters
+int  mulle_utf32_convert_to_utf8_bytebuffer( void *buffer,
+                                              void (*addbytes)( void *buffer, void *bytes, size_t size),
                                               mulle_utf32_t *src,
                                               size_t len);
 
-int  _mulle_utf32_convert_to_utf16_bytebuffer( void *buffer,
-                                               void (*add)( void *, void *, size_t size),
-                                               mulle_utf32_t *src,
-                                               size_t len);
+int  mulle_utf32_convert_to_utf16_bytebuffer( void *buffer,
+                                              void (*addbytes)( void *buffer, void *bytes, size_t size),
+                                              mulle_utf32_t *src,
+                                              size_t len);

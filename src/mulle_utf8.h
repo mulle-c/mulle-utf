@@ -96,6 +96,7 @@ struct mulle_utf8_information
    mulle_utf8_t   *invalid_utf8;  // first fail char
    int            has_bom;
    int            is_ascii;
+   int            is_char5;
    int            has_terminating_zero;
 };
 
@@ -136,6 +137,7 @@ int         mulle_utf8_are_valid_extra_chars( char *src, unsigned int len);
 // supply a "mulle_buffer" here as "buffer" and mulle_buffer_add_bytes as the
 // callback.
 // int == 0 : OK!
+// these routines do not skip BOM characters
 int  mulle_utf8_convert_to_utf16_bytebuffer( void *buffer,
                                              void (*add)( void *, void *, size_t size),
                                              mulle_utf8_t *src,

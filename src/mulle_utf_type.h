@@ -36,9 +36,12 @@
 
 #include <stdint.h>
 
+
+typedef void       mulle_char5_t;  // doesn't really exist on its own
 typedef uint8_t    mulle_utf8_t;
 typedef uint16_t   mulle_utf16_t;
-typedef int32_t    mulle_utf32_t; //  0 - 0x10FFFF.
+typedef int32_t    mulle_utf32_t;  //  0 - 0x10FFFF.
+
 
 enum
 {
