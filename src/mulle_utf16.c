@@ -118,7 +118,7 @@ int  mulle_utf16_convert_to_utf8_bytebuffer( void *buffer,
    while( src < sentinel)
    {
       x = *src++;
-      if( x >= 0xD800 && x < 0xDC00)  // hi surrogate
+      if( mulle_utf_is_hi_surrogate( x))  // hi surrogate
       {
          // decode surrogate
          if( src >= sentinel)
@@ -148,7 +148,7 @@ int  mulle_utf16_convert_to_utf8_bytebuffer( void *buffer,
       {
          if( x < 0x10000)
          {
-            assert( x >= 0xD800 || x < 0xE000);
+            assert( ! mulle_utf_is_lo_surrogate( x));
          
             tmp[ 0] = 0xE0 | (mulle_utf8_t) (x >> 12);
             tmp[ 1] = 0x80 | ((x >> 6) & 0x3F);
@@ -192,7 +192,7 @@ int  mulle_utf16_convert_to_utf32_bytebuffer( void *buffer,
    while( src < sentinel)
    {
       x = *src++;
-      if( x >= 0xD800 && x < 0xDC00)  // hi surrogate
+      if( mulle_utf_is_hi_surrogate( x))  // hi surrogate
       {
          // decode surrogate
          if( src >= sentinel)
@@ -236,17 +236,17 @@ mulle_utf16_t  *mulle_utf16_validate( mulle_utf16_t *src, size_t len)
       if( c >= 0xFFFE || c >= 0xFDD0 && c <= 0xFDEF)
          return( src);
 #endif      
-      if( c < 0xD800 || c >= 0xE000)
+      if( ! mulle_utf_is_surrogate( c))
          continue;
       
-      if( c >= 0xDC00)
+      if( mulle_utf_is_lo_surrogate( c))
          return( src);
 
       if( src >= sentinel)
          return( src);
       
       d = *++src;
-      if( d < 0xDC00 || d >= 0xE000)
+      if( ! mulle_utf_is_lo_surrogate( d))
          return( src);
 
       if( ! mulle_utf16_is_valid_surrogatepair( c, d))
@@ -286,7 +286,7 @@ size_t  mulle_utf16_length_as_utf8( mulle_utf16_t *src, size_t len)
       }
 
       // not a surrogate pair ?
-      if( c < 0xD800 || c > 0xE000)
+      if( ! mulle_utf_is_surrogate( c))
       {
          len += 2;
          continue;
@@ -355,7 +355,7 @@ size_t  mulle_utf16_length( mulle_utf16_t *src, size_t len)
          continue;
 
       // not a surrogate pair ?
-      if( c < 0xD800 || c > 0xE000)
+      if( ! mulle_utf_is_surrogate( c))
       {
          dst_len--;
          continue;
@@ -371,6 +371,40 @@ size_t  mulle_utf16_length( mulle_utf16_t *src, size_t len)
 }
 
 
+mulle_utf32_t   _mulle_utf16_next_utf32_char( mulle_utf16_t **s_p)
+{
+   mulle_utf16_t   *s;
+   mulle_utf32_t   value;
+   
+   s     = *s_p;
+   value = *s++;
+   if( mulle_utf_is_surrogate( value))
+      value = mulle_utf16_decode_surrogatepair( (mulle_utf16_t) value, *s++);
+   *s_p  = s;
+
+   return( value);
+}
+
+
+// sorta undoes _mulle_utf8_next_utf32_value
+mulle_utf32_t   _mulle_utf16_previous_utf32_char( mulle_utf16_t **s_p)
+{
+   mulle_utf16_t   *s;
+   mulle_utf32_t   value;
+   
+   s     = *s_p;
+   value = *--s;
+
+   if( mulle_utf_is_surrogate( value))
+      value = mulle_utf16_decode_surrogatepair( *--s, (mulle_utf16_t) value);
+
+   *s_p  = s;
+
+   return( value);
+}
+
+
+
 //
 // make it more optimal, by (a) checking that pointer can be accessed with
 // a long or long long
@@ -378,8 +412,8 @@ size_t  mulle_utf16_length( mulle_utf16_t *src, size_t len)
 //
 int  mulle_utf16_information( mulle_utf16_t *src, size_t len, struct mulle_utf16_information *info)
 {
-   mulle_utf16_t                        _c;
-   mulle_utf16_t                        *sentinel;
+   mulle_utf16_t                    _c;
+   mulle_utf16_t                    *sentinel;
    struct mulle_utf16_information   dummy;
    
    if( ! info)
@@ -403,9 +437,9 @@ int  mulle_utf16_information( mulle_utf16_t *src, size_t len, struct mulle_utf16
    info->start                = src;
    info->is_ascii             = 1;
    info->is_char5             = 1;
-   info->utf8len              =
-   info->utf32len             =
-   info->utf16len             = len;
+   info->utf8len              = 0;
+   info->utf32len             = 0;
+   info->utf16len             = 0;
 
    sentinel = &src[ len];
    
@@ -419,7 +453,7 @@ int  mulle_utf16_information( mulle_utf16_t *src, size_t len, struct mulle_utf16
       
       if( mulle_utf16_is_ascii_char( _c))
       {
-         if( ! mulle_utf16_is_char5_char( _c))
+         if( info->is_char5 && ! mulle_utf16_is_char5_char( _c))
             info->is_char5 = 0;
          continue;
       }
@@ -445,6 +479,12 @@ int  mulle_utf16_information( mulle_utf16_t *src, size_t len, struct mulle_utf16
          goto fail;
 #endif
    }
+
+   info->utf8len  += src - info->start;
+   info->utf16len += src - info->start;
+   info->utf32len += src - info->start;
+
+   info->is_char5 &= info->is_ascii;
 
    return( 0);
 

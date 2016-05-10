@@ -8,6 +8,7 @@
 
 #include "mulle_utf32.h"
 
+#include "mulle_utf16.h"
 #include "mulle_char5.h"
 #include <assert.h>
 #include <string.h>
@@ -119,7 +120,7 @@ size_t   mulle_utf32_length_as_utf8( mulle_utf32_t *src,
 
       if( x < 0x10000)
       {
-         assert( x >= 0xD800 || x < 0xE000);
+         assert( ! mulle_utf_is_surrogate( x));
          len += 2;
          continue;
       }
@@ -159,9 +160,9 @@ int   mulle_utf32_information( mulle_utf32_t *src, size_t len, struct mulle_utf3
    info->start                = src;
    info->is_ascii             = 1;
    info->is_char5             = 1;
-   info->utf8len              =
-   info->utf32len             =
-   info->utf16len             = len;
+   info->utf8len              = 0;
+   info->utf32len             = 0;
+   info->utf16len             = 0;
 
    sentinel = &src[ len];
    
@@ -175,7 +176,7 @@ int   mulle_utf32_information( mulle_utf32_t *src, size_t len, struct mulle_utf3
       
       if( mulle_utf32_is_ascii_char( _c))
       {
-         if( ! mulle_utf32_is_char5_char( _c))
+         if( info->is_char5 && ! mulle_utf32_is_char5_char( _c))
             info->is_char5 = 0;
          continue;
       }
@@ -202,6 +203,10 @@ int   mulle_utf32_information( mulle_utf32_t *src, size_t len, struct mulle_utf3
       }
    }
 
+   info->utf8len  += src - info->start;
+   info->utf16len += src - info->start;
+   info->utf32len += src - info->start;
+   info->is_char5 &= info->is_ascii;
    return( 0);
 
 fail:
@@ -254,7 +259,7 @@ int  mulle_utf32_convert_to_utf8_bytebuffer( void *buffer,
       {
          if( x < 0x10000)
          {
-            assert( x >= 0xD800 || x < 0xE000);
+            assert( ! mulle_utf_is_surrogate( x));
 
             s[ 0] = 0xE0 | (mulle_utf8_t) (x >> 12);
             s[ 1] = 0x80 | ((x >> 6) & 0x3F);
@@ -303,7 +308,7 @@ int  mulle_utf32_convert_to_utf16_bytebuffer( void *buffer,
       
       if( x < 0x10000)
       {
-         assert( x >= 0xD800 || x < 0xE000);
+         assert( ! mulle_utf_is_surrogate( x));
          
          _w = (uint16_t) x;
          (*addbytes)( buffer, &_w, sizeof( _w));

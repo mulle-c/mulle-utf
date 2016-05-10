@@ -42,9 +42,25 @@
 #include <assert.h>
 #include <stddef.h>
 
-//
-//
-// These routines will strip off a leading BOM, but they will never add one.
+
+static inline int   mulle_utf_is_hi_surrogate( unsigned int x)
+{
+   return( x >= 0xD800 && x < 0xDC00);
+}
+
+
+static inline int   mulle_utf_is_lo_surrogate( unsigned int x)
+{
+   return( x >= 0xDC00 && x < 0xE000);
+}
+
+
+static inline int   mulle_utf_is_surrogate( unsigned int x)
+{
+   return( x >= 0xD800 && x < 0xE000);
+}
+
+
 //
 // The mulle_utf16_t endianness is machine specific.
 //
@@ -77,8 +93,8 @@ static inline mulle_utf32_t  mulle_utf16_decode_surrogatepair( mulle_utf16_t hi,
    mulle_utf32_t   top;
    mulle_utf32_t   bottom;
    
-   assert( hi >= 0xD800 && hi < 0xDC00);
-   assert( lo >= 0xDC00 && lo < 0xE000);
+   assert( mulle_utf_is_hi_surrogate( hi));
+   assert( mulle_utf_is_lo_surrogate( lo));
    
    top    = (mulle_utf32_t) (hi - 0xD800);
    bottom = (mulle_utf32_t) (lo - 0xDC00);
@@ -130,6 +146,10 @@ mulle_utf16_t  *mulle_utf16_validate( mulle_utf16_t *src, size_t len);
 
 // hi and lo MUST be surrogates
 int  mulle_utf16_is_valid_surrogatepair( mulle_utf16_t hi, mulle_utf16_t lo);
+
+
+mulle_utf32_t   _mulle_utf16_next_utf32_char( mulle_utf16_t **s_p);
+mulle_utf32_t   _mulle_utf16_previous_utf32_char( mulle_utf16_t **s_p);
 
 // supply a "mulle_buffer" here as "buffer" and mulle_buffer_guarantee as the
 // callback.
