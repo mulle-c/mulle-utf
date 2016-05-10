@@ -809,7 +809,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4146E0161C9C980B00209E86 /* Debug.xcconfig */;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 0.2;
+				CURRENT_PROJECT_VERSION = 0.3;
 			};
 			name = Debug;
 		};
@@ -817,7 +817,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4146E01D1C9C980B00209E86 /* Release.xcconfig */;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 0.2;
+				CURRENT_PROJECT_VERSION = 0.3;
 			};
 			name = Release;
 		};
@@ -845,6 +845,7 @@
 				41373CD21CD7538500984B3C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		41373CDB1CD753B500984B3C /* Build configuration list for PBXNativeTarget "mulle_standalone_utf" */ = {
 			isa = XCConfigurationList;
@@ -853,6 +854,7 @@
 				41373CDD1CD753B500984B3C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		41373CFA1CD781AF00984B3C /* Build configuration list for PBXNativeTarget "some_test" */ = {
 			isa = XCConfigurationList;
@@ -861,6 +863,7 @@
 				41373CFC1CD781AF00984B3C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		41B878D51C9C97A6009F113F /* Build configuration list for PBXProject "mulle-utf" */ = {
 			isa = XCConfigurationList;

@@ -83,6 +83,21 @@ int     mulle_utf32_information( mulle_utf32_t *src,
                                  struct mulle_utf32_information *info);
 
 
+//
+// these two are just here for completeness
+//
+static inline mulle_utf32_t   _mulle_utf32_next_utf32_char( mulle_utf32_t **s_p)
+{
+   return( *(*s_p)++);
+}
+
+
+static inline mulle_utf32_t   _mulle_utf32_previous_utf32_char( mulle_utf32_t **s_p)
+{
+   return( *--(*s_p));
+}
+
+
 
 void  mulle_utf32_encode_as_surrogatepair_into_utf16_bytebuffer(
                        void *buffer,

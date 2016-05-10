@@ -131,7 +131,15 @@ static inline mulle_utf32_t   mulle_utf8_next_utf32_value( mulle_utf8_t **s)
 
 
 
-int         mulle_utf8_are_valid_extra_chars( char *src, unsigned int len);
+int   mulle_utf8_are_valid_extra_chars( char *src, unsigned int len);
+
+
+// extremely primitive!
+// iterate back and forth over a  buffer. the utf8 must be valid, and
+// this doesn't check for zero or buffer overflow
+//
+mulle_utf32_t   _mulle_utf8_next_utf32_char( mulle_utf8_t **s_p);
+mulle_utf32_t   _mulle_utf8_previous_utf32_char( mulle_utf8_t **s_p);
 
 
 // supply a "mulle_buffer" here as "buffer" and mulle_buffer_add_bytes as the

@@ -67,11 +67,17 @@ static inline int   mulle_utf8_is_char5_char( mulle_utf8_t c)
 }
 
 
-
 static inline int   mulle_utf8_is_invalid_start_char( mulle_utf8_t c)
 {
    return( (c >= 0x80 && c < 0xC2) || c >= 0xF5);
 }
+
+
+static inline int   mulle_utf8_is_start_char( mulle_utf8_t c)
+{
+   return( !  mulle_utf8_is_invalid_start_char( c));
+}
+
 
 
 static inline int   mulle_utf8_start_char_type( mulle_utf8_t c)
@@ -106,19 +112,21 @@ static inline unsigned int  mulle_utf8_extra_characters_length( mulle_utf8_t c)
 }
 
 
-
-static mulle_utf32_t   mulle_utf8_extra_chars_value( mulle_utf8_t *src, size_t len)
+//
+// this also works with extra_len = 0
+//
+static mulle_utf32_t   mulle_utf8_extra_chars_value( mulle_utf8_t *src, size_t extra_len)
 {
    mulle_utf8_t    _c;
    mulle_utf32_t   x;
    
    assert( src);
-   assert( len >=1 && len <= 3);
+   assert( extra_len >=0 && extra_len <= 3);
    
    _c = *src++;
-   x  = 0;   
+   x  = _c;
 
-   switch( len)
+   switch( extra_len)
    {
    case 1 : // 11 bits
       x   = (_c & 0x1F) << 6;
@@ -165,10 +173,7 @@ static mulle_utf32_t   mulle_utf8_extra_chars_value( mulle_utf8_t *src, size_t l
 }
 
 
-// first char is known not to be ascii!
-mulle_utf32_t   _mulle_utf8_next_utf32_value( mulle_utf8_t **s_p);
-
-mulle_utf32_t   _mulle_utf8_next_utf32_value( mulle_utf8_t **s_p)
+mulle_utf32_t   _mulle_utf8_next_utf32_char( mulle_utf8_t **s_p)
 {
    mulle_utf8_t    *s;
    mulle_utf8_t    c;
@@ -176,16 +181,47 @@ mulle_utf32_t   _mulle_utf8_next_utf32_value( mulle_utf8_t **s_p)
    unsigned int    len;
    
    s = *s_p;
-   c = *s;
-   if( mulle_utf8_is_invalid_start_char( c))
-      return( -1);
+   c = *s++;
+   if( mulle_utf8_is_ascii_char( c))
+   {
+      *s_p  = s;
+      return( c);
+   }
 
    len   = mulle_utf8_extra_characters_length( c);
-   value = mulle_utf8_extra_chars_value( s, len);
-   *s_p  = &s[ len + 1];
+   value = mulle_utf8_extra_chars_value( &s[ -1], len);
+   *s_p  = &s[ len];
 
    return( value);
 }
+
+
+// sorta undoes _mulle_utf8_next_utf32_value
+mulle_utf32_t   _mulle_utf8_previous_utf32_char( mulle_utf8_t **s_p)
+{
+   mulle_utf8_t    *s;
+   mulle_utf8_t    c;
+   mulle_utf32_t   value;
+   unsigned int    extra_len;
+
+   extra_len = 0;
+   s         = *s_p;
+   for(;;)
+   {
+      c = *--s;
+
+      if( mulle_utf8_start_char_type( c) != mulle_utf8_invalid_start_char)
+         break;
+      
+      ++extra_len;
+   }
+
+   value = mulle_utf8_extra_chars_value( s, extra_len);
+   *s_p  = s;
+
+   return( value);
+}
+
 
 
 //
@@ -400,17 +436,30 @@ int  mulle_utf8_information( mulle_utf8_t *src, size_t len, struct mulle_utf8_in
 
    if( ! src)
       goto fail;
-      
+   
+   //
+   // remove leading BOM
+   //
+   
+   info->has_bom = mulle_utf8_has_bom( src, len);
+   if( info->has_bom)
+   {
+      src += 3;
+      len -= 3;
+   }
+   
    info->has_terminating_zero = 0;
    info->invalid_utf8         = NULL;
+   info->start                = src;
+   info->is_ascii             = 1;
+   info->is_char5             = 1;
+   info->utf8len              = 0;
    info->utf16len             = 0;
    info->utf32len             = 0;
 
-   info->start    = src;
-   info->is_ascii = 1;
-
-   sentinel = &src[ len];
    dst_len  = len;
+   sentinel = &src[ len];
+   
    
    for( ; src < sentinel; src++)
    {
@@ -422,7 +471,7 @@ int  mulle_utf8_information( mulle_utf8_t *src, size_t len, struct mulle_utf8_in
       
       if( mulle_utf8_is_ascii_char( _c))
       {
-         if( ! mulle_utf8_is_char5_char( _c))
+         if( info->is_char5 && ! mulle_utf8_is_char5_char( _c))
             info->is_char5 = 0;
          continue;
       }
@@ -454,6 +503,8 @@ int  mulle_utf8_information( mulle_utf8_t *src, size_t len, struct mulle_utf8_in
    info->utf32len  = dst_len - (len - info->utf8len);  // number of characters
    info->utf16len += info->utf32len;                   // size in utf16 with escapes
 
+   info->is_char5 &= info->is_ascii;
+   
    return( 0);            // our "regular" -length
 
 fail:
