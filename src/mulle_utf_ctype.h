@@ -29,6 +29,7 @@
 #include "mulle_utf_is_validurlpassword.h"
 #include "mulle_utf_is_validurlpath.h"
 #include "mulle_utf_is_validurlquery.h"
+#include "mulle_utf_is_validurlscheme.h"
 #include "mulle_utf_is_validurluser.h"
 #include "mulle_utf_is_whitespace.h"
 #include "mulle_utf_is_whitespaceornewline.h"

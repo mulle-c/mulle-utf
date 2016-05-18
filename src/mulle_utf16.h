@@ -115,21 +115,7 @@ static inline int  mulle_utf16_is_bom_char( mulle_utf16_t c)
 }
 
 
-
-struct mulle_utf16_information
-{
-   size_t          utf8len;
-   size_t          utf16len;
-   size_t          utf32len;
-   mulle_utf16_t   *start;          // behind BOM if bommed, otherwise start
-   mulle_utf16_t   *invalid_utf16;  // first fail char
-   int             has_bom;
-   int             is_ascii;
-   int             is_char5;
-   int             has_terminating_zero;
-};
-
-int     mulle_utf16_information( mulle_utf16_t *src, size_t len, struct mulle_utf16_information *info);
+int     mulle_utf16_information( mulle_utf16_t *src, size_t len, struct mulle_utf_information *info);
 
 size_t  mulle_utf16_length_as_utf8( mulle_utf16_t *src, size_t len);
 size_t  mulle_utf16_length( mulle_utf16_t *src, size_t len);

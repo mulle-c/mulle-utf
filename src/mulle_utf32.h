@@ -56,32 +56,32 @@ static inline int  mulle_utf32_is_bom_char( mulle_utf32_t c)
 }
 
 
+static inline int   mulle_utf32_is_surrogate_char( mulle_utf32_t c)
+{
+   return( c >= 0xD800 && c <= 0xE000);
+}
+
+
+// complete ? doubtful
 static inline int   mulle_utf32_is_non_char( mulle_utf32_t c)
 {
    return( (c >= 0xFFFE && c <= 0xFFFF) || (c >= 0xFDD0 && c <= 0xFDEF));
 }
 
 
+// somewhat arbitrary
+static inline int   mulle_utf32_is_invalid_char( mulle_utf32_t c)
+{
+   return( mulle_utf32_is_surrogate_char( c) || mulle_utf32_is_non_char( c));   // utf-16 surrogate pair
+}
+
+
 size_t   mulle_utf32_length_as_utf8( mulle_utf32_t *src,
                                      size_t len);
 
-struct mulle_utf32_information
-{
-   size_t          utf8len;
-   size_t          utf16len;
-   size_t          utf32len;
-   mulle_utf32_t   *start;          // behind BOM if bommed, otherwise start
-   mulle_utf32_t   *invalid_utf32;  // first fail char
-   int             has_bom;
-   int             is_ascii;
-   int             is_char5;
-   int             has_terminating_zero;
-};
-
-int     mulle_utf32_information( mulle_utf32_t *src,
-                                 size_t len,
-                                 struct mulle_utf32_information *info);
-
+int   mulle_utf32_information( mulle_utf32_t *src,
+                              size_t len,
+                              struct mulle_utf_information *info);
 
 //
 // these two are just here for completeness

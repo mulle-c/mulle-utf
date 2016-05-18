@@ -35,6 +35,7 @@
 #define mulle_utf_type_h__
 
 #include <stdint.h>
+#include <stddef.h>
 
 
 typedef void       mulle_char5_t;  // doesn't really exist on its own
@@ -51,5 +52,19 @@ enum
 //
 // keeping mulle_utf32char_t signed, makes it easier
 //
+
+struct mulle_utf_information
+{
+   size_t   utf8len;
+   size_t   utf16len;
+   size_t   utf32len;
+   void     *start;          // behind BOM if bommed, otherwise start
+   void     *invalid;        // first fail char
+   int      has_bom;
+   int      is_ascii;
+   int      is_char5;
+   int      is_utf15;
+   int      has_terminating_zero;
+};
 
 #endif 

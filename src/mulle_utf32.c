@@ -14,6 +14,9 @@
 #include <string.h>
 
 
+#define FORBID_NON_CHARACTERS  1
+
+
 static inline int   mulle_utf32_is_char5_char( mulle_utf32_t c)
 {
    return( mulle_char5_encode( c) >= 0);
@@ -132,19 +135,30 @@ size_t   mulle_utf32_length_as_utf8( mulle_utf32_t *src,
 }
 
 
-
-int   mulle_utf32_information( mulle_utf32_t *src, size_t len, struct mulle_utf32_information *info)
+int   mulle_utf32_information( mulle_utf32_t *src, size_t len, struct mulle_utf_information *info)
 {
-   mulle_utf32_t                        _c;
-   mulle_utf32_t                        *sentinel;
-   struct mulle_utf32_information   dummy;
+   mulle_utf32_t                  _c;
+   mulle_utf32_t                  *start;
+   mulle_utf32_t                  *sentinel;
+   struct mulle_utf_information   dummy;
    
    if( ! info)
       info = &dummy;
 
-   if( ! src)
-      goto fail;
-
+   info->has_terminating_zero = 0;
+   info->invalid              = NULL;
+   info->start                = src;
+   info->is_ascii             = 1;
+   info->is_char5             = 1;
+   info->is_utf15             = 1;
+   info->utf8len              = 0;
+   info->utf16len             = 0;
+   info->utf32len             = 0;
+   info->has_bom              = 0;
+   
+   if( ! len)
+      return( 0);
+   
    //
    // remove leading BOM
    //
@@ -155,16 +169,9 @@ int   mulle_utf32_information( mulle_utf32_t *src, size_t len, struct mulle_utf3
       len -= 1;
    }
 
-   info->has_terminating_zero = 0;
-   info->invalid_utf32        = NULL;
-   info->start                = src;
-   info->is_ascii             = 1;
-   info->is_char5             = 1;
-   info->utf8len              = 0;
-   info->utf32len             = 0;
-   info->utf16len             = 0;
-
-   sentinel = &src[ len];
+   info->start = src;
+   start       = src;
+   sentinel    = &src[ len];
    
    for( ; src < sentinel; src++)
    {
@@ -189,13 +196,13 @@ int   mulle_utf32_information( mulle_utf32_t *src, size_t len, struct mulle_utf3
 
       
 #if FORBID_NON_CHARACTERS
-      if( c >= 0xD800 && c <= 0xE000)   // utf-16 surrogate pair
-         goto fail;
-
-      if( _c >= 0xFFFE || _c >= 0xFDD0 && _c <= 0xFDEF)
+      if( mulle_utf32_is_invalid_char( _c))
          goto fail;
 #endif
-     
+
+      if( _c >= 0x8000)
+         info->is_utf15 = 0;
+      
       if( _c >= 0x10000)
       {
          info->utf8len++;
@@ -203,15 +210,16 @@ int   mulle_utf32_information( mulle_utf32_t *src, size_t len, struct mulle_utf3
       }
    }
 
-   info->utf8len  += src - info->start;
-   info->utf16len += src - info->start;
-   info->utf32len += src - info->start;
+   info->utf8len  += src - start;
+   info->utf16len += src - start;
+   info->utf32len += src - start;
    info->is_char5 &= info->is_ascii;
+
    return( 0);
 
 fail:
    memset( info, 0, sizeof( *info));
-   info->invalid_utf32 = src;
+   info->invalid = src;
    return( -1);
 }
 
@@ -225,8 +233,6 @@ int  mulle_utf32_convert_to_utf8_bytebuffer( void *buffer,
    mulle_utf32_t   *sentinel;
    mulle_utf32_t   x;
    mulle_utf8_t    s[ 4];
-   
-   assert( src);
    
    if( len == (size_t) -1)
       len = mulle_utf32_strlen( src);
@@ -290,8 +296,6 @@ int  mulle_utf32_convert_to_utf16_bytebuffer( void *buffer,
    mulle_utf32_t   *sentinel;
    mulle_utf32_t   x;
    mulle_utf16_t   _w;
-   
-   assert( src);
    
    if( len == (size_t) -1)
       len = mulle_utf32_strlen( src);
