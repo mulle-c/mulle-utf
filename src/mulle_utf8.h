@@ -87,21 +87,7 @@ static inline int  mulle_utf8_has_bom( mulle_utf8_t *src, size_t len)
 // returns pointer to character, that is invalid (first of compound chars)
 // TODO: find encoding where nothing needs to be composed
 
-struct mulle_utf8_information
-{
-   size_t         utf8len;
-   size_t         utf16len;
-   size_t         utf32len;
-   mulle_utf8_t   *start;         // behind BOM if bommed, otherwise start
-   mulle_utf8_t   *invalid_utf8;  // first fail char
-   int            has_bom;
-   int            is_ascii;
-   int            is_char5;
-   int            has_terminating_zero;
-};
-
-
-int  mulle_utf8_information( mulle_utf8_t *src, size_t len, struct mulle_utf8_information *info);
+int  mulle_utf8_information( mulle_utf8_t *src, size_t len, struct mulle_utf_information *info);
 int  mulle_utf8_is_ascii( mulle_utf8_t *src, size_t len);
 
 

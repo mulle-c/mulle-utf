@@ -51,18 +51,83 @@ static void  buffer_add( struct buffer *p, void *bytes, size_t len)
 }
 
 
-
-static void   test( mulle_utf32_t text[ 4])
+static void   test_prediction( mulle_utf32_t text[ 4])
 {
    struct buffer   buffer32;
    struct buffer   buffer16;
    struct buffer   buffer8;
+   struct mulle_utf_information   info;
+
+   // UTF32 <-> UTF8
+   mulle_utf32_information( text,4, &info);
+
+   memset( &buffer8, 0, sizeof( buffer8));
+   mulle_utf32_convert_to_utf8_bytebuffer( &buffer8, (void *) buffer_add, info.start, info.utf32len);
+   if( buffer8.n != info.utf8len)
+   {
+      printf( "failed with %ls\n", text);
+      return;
+   }
+
+   memset( &buffer32, 0, sizeof( buffer32));
+   mulle_utf8_convert_to_utf32_bytebuffer( &buffer32, (void *) buffer_add, buffer8.text._8, buffer8.n);
+   if( buffer32.n / sizeof( mulle_utf32_t) != info.utf32len)
+   {
+      printf( "failed with %ls\n", text);
+      return;
+   }
+
+
+   // UTF32 <-> UTF16
+   memset( &buffer16, 0, sizeof( buffer16));
+   mulle_utf32_convert_to_utf16_bytebuffer( &buffer16, (void *) buffer_add, info.start, info.utf32len);
+   if( buffer16.n / sizeof( mulle_utf16_t) != info.utf16len)
+   {
+      printf( "failed with %ls\n", text);
+      return;
+   }
+
+   memset( &buffer32, 0, sizeof( buffer32));
+   mulle_utf16_convert_to_utf32_bytebuffer( &buffer32, (void *) buffer_add, buffer16.text._16, buffer16.n / sizeof( mulle_utf16_t));
+   if( buffer32.n / sizeof( mulle_utf32_t) != info.utf32len)
+   {
+      printf( "failed with %ls\n", text);
+      return;
+   }
+
+   // UTF16 <-> UTF8
+   memset( &buffer8, 0, sizeof( buffer8));
+   mulle_utf16_convert_to_utf8_bytebuffer( &buffer8, (void *) buffer_add, buffer16.text._16, buffer16.n / sizeof( mulle_utf16_t));
+   if( buffer8.n != info.utf8len)
+   {
+      printf( "failed with %ls\n", text);
+      return;
+   }
+
+   memset( &buffer16, 0, sizeof( buffer16));
+   mulle_utf8_convert_to_utf16_bytebuffer( &buffer16, (void *) buffer_add, buffer8.text._8, buffer8.n);
+   if( buffer16.n / sizeof( mulle_utf16_t) != info.utf16len)
+   {
+      printf( "failed with %ls\n", text);
+      return;
+   }
+}
+
+
+static void   test_conversion( mulle_utf32_t text[ 4])
+{
+   struct buffer   buffer32;
+   struct buffer   buffer16;
+   struct buffer   buffer8;
+   struct mulle_utf_information   info;
+
 
    memset( &buffer32, 0, sizeof( buffer32));
    memset( &buffer8, 0, sizeof( buffer8));
 
    mulle_utf32_convert_to_utf8_bytebuffer( &buffer8, (void *) buffer_add, text, 4);
    mulle_utf8_convert_to_utf32_bytebuffer( &buffer32, (void *) buffer_add, buffer8.text._8, buffer8.n);
+
 
    // buffer.n is bytes!
    if( buffer32.n != 16 || memcmp( text, buffer32.text._32, 4))
@@ -81,7 +146,7 @@ static void   test( mulle_utf32_t text[ 4])
    if( buffer32.n != 16 || memcmp( text, buffer32.text._32, 4))
    {
       printf( "failed with %ls\n", text);
-      abort();
+      return;
    }
 
    memset( &buffer32, 0, sizeof( buffer32));
@@ -99,8 +164,15 @@ static void   test( mulle_utf32_t text[ 4])
    if( buffer32.n != 16 || memcmp( text, buffer32.text._32, 4))
    {
       printf( "failed with %S\n", text);
-      abort();
+      return;
    }
+}
+
+
+static void  test( mulle_utf32_t text[ 4])
+{
+   test_prediction( text);
+   test_conversion( text);
 }
 
 
@@ -128,13 +200,21 @@ static void   stress_test()
    }
 }
 
-
+// 3emos: UTF8   f0 9f 8c 91 f0 9f 9a 9a f0 9f 91 a0  (unbommed)
+// 3emos: UTF16  ff fe 3c d8 11 df 3d d8  9a de 3d d8 60 dc (bommed)
+// 3emos: UTF32  ff fe 00 00 11 f3 01 00  9a f6 01 00 60 f4 01 00
 
 int  main()
 {
-   mulle_utf32_t   killer[ 4] = { 65279, 47177, 29938, 18497 };
+   mulle_utf32_t   bom_3emos[ 4]  = { 0xfeff, 0x01f311, 0x01f69a, 0x1f460 };
+   mulle_utf32_t   bom_utf16[ 4]  = { 65279, 47177, 29938, 18497 };
+   mulle_utf32_t   bom_utf15[ 4]  = { 65279, 32313, 29938, 18497 };
+   mulle_utf32_t   ascii_trailing_zero[ 4]  = { 'V', 'f', 'L', 0 };
 
-   test( killer);
+   test( bom_3emos);
+   test( bom_utf15);
+   test( bom_utf16);
+   test( ascii_trailing_zero);
    stress_test();
 }
 

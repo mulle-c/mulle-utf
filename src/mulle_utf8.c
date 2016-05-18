@@ -229,8 +229,8 @@ mulle_utf32_t   _mulle_utf8_previous_utf32_char( mulle_utf8_t **s_p)
 //
 int   mulle_utf8_are_valid_extra_chars( char *src, unsigned int len)
 {
-   mulle_utf8_t   _c;
-   mulle_utf32_t       x;
+   mulle_utf8_t    _c;
+   mulle_utf32_t   x;
    
    assert( src);
    assert( len >= 1 && len <= 3);
@@ -266,10 +266,8 @@ int   mulle_utf8_are_valid_extra_chars( char *src, unsigned int len)
 
       if( x < 0x800)
          return( 0);
-      if( x >= 0xD800 && x < 0xE000)
-         return( 0);
 #if FORBID_NON_CHARACTERS         
-      if( mulle_utf32_is_non_char( x))
+      if( mulle_utf32_is_invalid_char( x))
          return( 0);
 #endif         
       break;
@@ -317,8 +315,6 @@ int  mulle_utf8_convert_to_utf16_bytebuffer( void *buffer,
    mulle_utf8_t    _c;
    size_t          extra_len;
    uint32_t        x;
-   
-   assert( src);
    
    if( len == (size_t) -1)
       len = mulle_utf8_strlen( src);
@@ -380,8 +376,6 @@ int   mulle_utf8_convert_to_utf32_bytebuffer( void *buffer,
    size_t         extra_len;
    mulle_utf32_t   x;
    
-   assert( src);
-   
    if( len == (size_t) -1)
       len = mulle_utf8_strlen( src);
    // if dst_len == -1, then sentinel - 1 = dst_sentinel (OK!)
@@ -422,20 +416,33 @@ int   mulle_utf8_convert_to_utf32_bytebuffer( void *buffer,
 // a long or long long
 // (b) masking value with 0x80808080 to figure out if all are "ASCII"
 //
-int  mulle_utf8_information( mulle_utf8_t *src, size_t len, struct mulle_utf8_information *info)
+int  mulle_utf8_information( mulle_utf8_t *src, size_t len, struct mulle_utf_information *info)
 {
-   mulle_utf8_t                    *end;
-   mulle_utf8_t                    *sentinel;
-   mulle_utf8_t                    _c;
-   size_t                          dst_len;
-   size_t                          extra_len;
-   struct mulle_utf8_information   dummy;
+   mulle_utf8_t                   *start;
+   mulle_utf8_t                   *end;
+   mulle_utf8_t                   *sentinel;
+   mulle_utf8_t                   _c;
+   size_t                         dst_len;
+   size_t                         extra_len;
+   struct mulle_utf_information   dummy;
+   mulle_utf32_t                  _x;
    
    if( ! info)
       info = &dummy;
 
-   if( ! src)
-      goto fail;
+   info->has_terminating_zero = 0;
+   info->invalid              = NULL;
+   info->start                = src;
+   info->is_ascii             = 1;
+   info->is_char5             = 1;
+   info->is_utf15             = 1;
+   info->utf8len              = 0;
+   info->utf16len             = 0;
+   info->utf32len             = 0;
+   info->has_bom              = 0;
+
+   if( ! len)
+      return( 0);
    
    //
    // remove leading BOM
@@ -448,18 +455,10 @@ int  mulle_utf8_information( mulle_utf8_t *src, size_t len, struct mulle_utf8_in
       len -= 3;
    }
    
-   info->has_terminating_zero = 0;
-   info->invalid_utf8         = NULL;
-   info->start                = src;
-   info->is_ascii             = 1;
-   info->is_char5             = 1;
-   info->utf8len              = 0;
-   info->utf16len             = 0;
-   info->utf32len             = 0;
-
-   dst_len  = len;
-   sentinel = &src[ len];
-   
+   info->start = src;
+   start       = src;
+   sentinel    = &src[ len];
+   dst_len     = len;
    
    for( ; src < sentinel; src++)
    {
@@ -487,7 +486,10 @@ int  mulle_utf8_information( mulle_utf8_t *src, size_t len, struct mulle_utf8_in
       if( end >= sentinel)
          goto fail;
 
-      if( mulle_utf8_extra_chars_value( src, extra_len) >= 0x10000)
+      _x = mulle_utf8_extra_chars_value( src, extra_len);
+      if( _x >= 0x08000)
+         info->is_utf15 = 0;
+      if( _x >= 0x10000)
          info->utf16len += 1;
          
 //      
@@ -499,17 +501,16 @@ int  mulle_utf8_information( mulle_utf8_t *src, size_t len, struct mulle_utf8_in
       src = end;
    }
 
-   info->utf8len   = src - info->start;                // actual UTF8 strlen
+   info->utf8len   = src - start;                // actual UTF8 strlen
    info->utf32len  = dst_len - (len - info->utf8len);  // number of characters
    info->utf16len += info->utf32len;                   // size in utf16 with escapes
-
    info->is_char5 &= info->is_ascii;
-   
+  
    return( 0);            // our "regular" -length
 
 fail:
    memset( info, 0, sizeof( *info));
-   info->invalid_utf8 = src;
+   info->invalid = src;
    return( -1);
 }
 
@@ -517,8 +518,6 @@ fail:
 int   mulle_utf8_is_ascii( mulle_utf8_t *src, size_t len)
 {
    mulle_utf8_t   *sentinel;
-   
-   assert( src);
    
    if( len == (size_t) -1)
       len = mulle_utf8_strlen( src);
@@ -543,14 +542,11 @@ size_t  mulle_utf8_length_as_utf16( mulle_utf8_t *src, size_t len)
    size_t          extra_len;
    size_t          dst_len;
    
-   assert( src);
-   
    if( len == (size_t) -1)
       len = mulle_utf8_strlen( src);
    
    sentinel = &src[ len];
-   
-   dst_len = len;
+   dst_len  = len;
    
    for( ; src < sentinel; src++)
    {
