@@ -8,6 +8,7 @@
 
 #include "mulle_utf32.h"
 
+#include "mulle_utf32_string.h"
 #include "mulle_utf16.h"
 #include "mulle_char5.h"
 #include <assert.h>
@@ -26,34 +27,6 @@ static inline int   mulle_utf32_is_char5_char( mulle_utf32_t c)
 static inline int   mulle_utf32_is_ascii_char( mulle_utf32_t c)
 {
    return( c < 0x80);
-}
-
-
-size_t  mulle_utf32_strlen( mulle_utf32_t *src)
-{
-   size_t   len;
-
-   len = 0;
-   if( src)
-      for( len = 0; *src++; len++);
-   return( len);
-}
-
-
-size_t  mulle_utf32_strnlen( mulle_utf32_t *src, size_t len)
-{
-   mulle_utf32_t   *sentinel;
-   
-   sentinel = &src[ len];
-
-   len = 0;
-   while( src < sentinel)
-   {
-      if( ! *src++)
-         break;
-      ++len;
-   }
-   return( len);
 }
 
 
@@ -158,6 +131,8 @@ int   mulle_utf32_information( mulle_utf32_t *src, size_t len, struct mulle_utf_
    
    if( ! len)
       return( 0);
+   if( len == (size_t) -1)
+      len = mulle_utf32_strlen( src);
    
    //
    // remove leading BOM
@@ -225,10 +200,10 @@ fail:
 
 
 // must be proper UTF32 code!
-int  mulle_utf32_convert_to_utf8_bytebuffer( void *buffer,
-                                             void (*addbytes)( void *, void *, size_t size),
-                                             mulle_utf32_t *src,
-                                             size_t len)
+int  mulle_utf32_convert_to_utf8_bytebuffer( mulle_utf32_t *src,
+                                             size_t len,
+                                             void *buffer,
+                                             void (*addbytes)( void *, void *, size_t size))
 {
    mulle_utf32_t   *sentinel;
    mulle_utf32_t   x;
@@ -288,10 +263,10 @@ int  mulle_utf32_convert_to_utf8_bytebuffer( void *buffer,
 
 
 
-int  mulle_utf32_convert_to_utf16_bytebuffer( void *buffer,
-                                              void (*addbytes)( void *, void *, size_t size),
-                                              mulle_utf32_t *src,
-                                              size_t len)
+int  mulle_utf32_convert_to_utf16_bytebuffer( mulle_utf32_t *src,
+                                              size_t len,
+                                              void *buffer,
+                                              void (*addbytes)( void *, void *, size_t size))
 {
    mulle_utf32_t   *sentinel;
    mulle_utf32_t   x;

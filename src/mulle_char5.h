@@ -43,16 +43,16 @@ static inline int   mulle_char5_decode( int c)
 int   mulle_char5_is32bit( char *src, size_t len);
 int   mulle_char5_is64bit( char *src, size_t len);
 
-uint32_t  mulle_char5_encode32_ascii( char *src, size_t len);
-uint64_t  mulle_char5_encode64_ascii( char *src, size_t len);
+uint32_t   mulle_char5_encode32_ascii( char *src, size_t len);
+uint64_t   mulle_char5_encode64_ascii( char *src, size_t len);
 
-size_t  mulle_char5_decode32_ascii( uint32_t value, char *dst, size_t len);
-size_t  mulle_char5_decode64_ascii( uint64_t value, char *src, size_t len);
+size_t   mulle_char5_decode32_ascii( uint32_t value, char *dst, size_t len);
+size_t   mulle_char5_decode64_ascii( uint64_t value, char *src, size_t len);
 
 
-static inline size_t  mulle_char5_strlen64( uint64_t value)
+static inline size_t   mulle_char5_strlen64( uint64_t value)
 {
-   size_t  len;
+   size_t   len;
    
    len = 0;
    while( value)
@@ -66,7 +66,7 @@ static inline size_t  mulle_char5_strlen64( uint64_t value)
 
 static inline size_t  mulle_char5_strlen32( uint32_t value)
 {
-   size_t  len;
+   size_t   len;
    
    len = 0;
    while( value)
