@@ -33,15 +33,13 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
+#ifndef mulle_utf32_h__
+#define mulle_utf32_h__
 
 #include "mulle_utf_type.h"
 
 
 #include <stddef.h>
-
-
-size_t  mulle_utf32_strlen( mulle_utf32_t *src);
-size_t  mulle_utf32_strnlen( mulle_utf32_t *src, size_t len);
 
 
 static inline mulle_utf32_t  mulle_utf32_get_bom_char( void)
@@ -80,8 +78,8 @@ size_t   mulle_utf32_length_as_utf8( mulle_utf32_t *src,
                                      size_t len);
 
 int   mulle_utf32_information( mulle_utf32_t *src,
-                              size_t len,
-                              struct mulle_utf_information *info);
+                               size_t len,
+                               struct mulle_utf_information *info);
 
 //
 // these two are just here for completeness
@@ -105,12 +103,14 @@ void  mulle_utf32_encode_as_surrogatepair_into_utf16_bytebuffer(
                        mulle_utf32_t x);
 
 // these routines do not skip BOM characters
-int  mulle_utf32_convert_to_utf8_bytebuffer( void *buffer,
-                                              void (*addbytes)( void *buffer, void *bytes, size_t size),
-                                              mulle_utf32_t *src,
-                                              size_t len);
+int  mulle_utf32_convert_to_utf8_bytebuffer( mulle_utf32_t *src,
+                                             size_t len,
+                                             void *buffer,
+                                             void (*addbytes)( void *buffer, void *bytes, size_t size));
 
-int  mulle_utf32_convert_to_utf16_bytebuffer( void *buffer,
-                                              void (*addbytes)( void *buffer, void *bytes, size_t size),
-                                              mulle_utf32_t *src,
-                                              size_t len);
+int  mulle_utf32_convert_to_utf16_bytebuffer( mulle_utf32_t *src,
+                                              size_t len,
+                                              void *buffer,
+                                              void (*addbytes)( void *buffer, void *bytes, size_t size));
+#endif
+

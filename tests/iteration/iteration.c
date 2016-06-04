@@ -16,7 +16,7 @@ static mulle_utf32_t   random_char( mulle_utf32_t mask)
       if( ! c)
          continue;
    }
-   while( mulle_utf16_is_bom_char( c) || mulle_utf32_is_noncharacter( c) || mulle_utf32_is_privatecharacter( c));
+   while( mulle_utf32_is_bom_char( c) || mulle_utf32_is_noncharacter( c) || mulle_utf32_is_privatecharacter( c));
 
    return( c);
 }
@@ -66,8 +66,8 @@ static void   test( mulle_utf32_t text[ 4])
    memset( &buffer16, 0, sizeof( buffer16));
    memset( &buffer8, 0, sizeof( buffer8));
 
-   mulle_utf32_convert_to_utf8_bytebuffer( &buffer8, (void *) buffer_add, text, 4);
-   mulle_utf32_convert_to_utf16_bytebuffer( &buffer16, (void *) buffer_add, text, 4);
+   mulle_utf32_convert_to_utf8_bytebuffer( text, 4, &buffer8, (void *) buffer_add);
+   mulle_utf32_convert_to_utf16_bytebuffer( text, 4, &buffer16, (void *) buffer_add);
 
    utf8  = buffer8.text._8;
    utf16 = buffer16.text._16;

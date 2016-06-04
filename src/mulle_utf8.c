@@ -40,6 +40,8 @@
 #include "mulle_utf32.h"
 #include <errno.h>
 #include <assert.h>
+#include <stdlib.h>
+#include <string.h>
 
 
 // it's not compatible to Apple
@@ -73,10 +75,10 @@ static inline int   mulle_utf8_is_invalid_start_char( mulle_utf8_t c)
 }
 
 
-static inline int   mulle_utf8_is_start_char( mulle_utf8_t c)
-{
-   return( !  mulle_utf8_is_invalid_start_char( c));
-}
+//static inline int   mulle_utf8_is_start_char( mulle_utf8_t c)
+//{
+//   return( !  mulle_utf8_is_invalid_start_char( c));
+//}
 
 
 
@@ -304,10 +306,10 @@ int   mulle_utf8_are_valid_extra_chars( char *src, unsigned int len)
 //  0  OK!
 //
 
-int  mulle_utf8_convert_to_utf16_bytebuffer( void *buffer,
-                                             void (*addbytes)( void *, void *, size_t size),
-                                             mulle_utf8_t *src,
-                                             size_t len)
+int  mulle_utf8_convert_to_utf16_bytebuffer( mulle_utf8_t *src,
+                                             size_t len,
+                                             void *buffer,
+                                             void (*addbytes)( void *, void *, size_t size))
 {
    mulle_utf16_t   _w;
    mulle_utf8_t    *next;
@@ -365,10 +367,10 @@ int  mulle_utf8_convert_to_utf16_bytebuffer( void *buffer,
 //  0  OK!
 //
 
-int   mulle_utf8_convert_to_utf32_bytebuffer( void *buffer,
-                                              void (*addbytes)( void *, void *, size_t size),
-                                              mulle_utf8_t *src,
-                                              size_t len)
+int   mulle_utf8_convert_to_utf32_bytebuffer( mulle_utf8_t *src,
+                                              size_t len,
+                                              void *buffer,
+                                              void (*addbytes)( void *, void *, size_t size))
 {
    mulle_utf8_t   *next;
    mulle_utf8_t   *sentinel;
@@ -443,6 +445,8 @@ int  mulle_utf8_information( mulle_utf8_t *src, size_t len, struct mulle_utf_inf
 
    if( ! len)
       return( 0);
+   if( len == (size_t) -1)
+      len = mulle_utf8_strlen( src);
    
    //
    // remove leading BOM
@@ -501,12 +505,12 @@ int  mulle_utf8_information( mulle_utf8_t *src, size_t len, struct mulle_utf_inf
       src = end;
    }
 
-   info->utf8len   = src - start;                // actual UTF8 strlen
+   info->utf8len   = src - start;                      // actual UTF8 strlen
    info->utf32len  = dst_len - (len - info->utf8len);  // number of characters
    info->utf16len += info->utf32len;                   // size in utf16 with escapes
    info->is_char5 &= info->is_ascii;
   
-   return( 0);            // our "regular" -length
+   return( 0);
 
 fail:
    memset( info, 0, sizeof( *info));

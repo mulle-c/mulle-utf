@@ -36,6 +36,7 @@
 
 #include "mulle_utf16.h"
 
+#include "mulle_utf16_string.h"
 #include "mulle_char5.h"
 #include <errno.h>
 #include <string.h>
@@ -95,10 +96,10 @@ int  mulle_utf16_is_valid_surrogatepair( mulle_utf16_t hi, mulle_utf16_t lo)
 //
 
 // must be proper UTF16 code!
-int  mulle_utf16_convert_to_utf8_bytebuffer( void *buffer,
-                                             void *(*addbytes)( void *buffer, void *bytes, size_t length),
-                                             mulle_utf16_t *src,
-                                             size_t len)
+int  mulle_utf16_convert_to_utf8_bytebuffer( mulle_utf16_t *src,
+                                             size_t len,
+                                             void *buffer,
+                                             void *(*addbytes)( void *buffer, void *bytes, size_t length))
 {
    mulle_utf16_t   *sentinel;
    mulle_utf32_t   x;
@@ -166,10 +167,10 @@ int  mulle_utf16_convert_to_utf8_bytebuffer( void *buffer,
 }
 
 
-int  mulle_utf16_convert_to_utf32_bytebuffer( void *buffer,
-                                              void *(*addbytes)( void *buffer, void *bytes, size_t length),
-                                              mulle_utf16_t *src,
-                                              size_t len)
+int  mulle_utf16_convert_to_utf32_bytebuffer( mulle_utf16_t *src,
+                                              size_t len,
+                                              void *buffer,
+                                              void *(*addbytes)( void *buffer, void *bytes, size_t length))
 {
    mulle_utf16_t   *sentinel;
    mulle_utf32_t   x;
@@ -293,35 +294,6 @@ size_t  mulle_utf16_length_as_utf8( mulle_utf16_t *src, size_t len)
 }
 
 
-size_t  mulle_utf16_strlen( mulle_utf16_t *src)
-{
-   size_t   len;
-
-   len = 0;
-   if( src)
-      for( len = 0; *src++; len++);
-   return( len);
-}
-
-
-size_t  mulle_utf16_strnlen( mulle_utf16_t *src, size_t len)
-{
-   mulle_utf16_t   *sentinel;
-   mulle_utf16_t   *p;
-   
-   p        = src;
-   sentinel = &p[ len];
-
-   while( p < sentinel)
-   {
-      if( ! *p)
-         break;
-      ++p;
-   }
-   return( p - src);
-}
-
-
 size_t  mulle_utf16_length( mulle_utf16_t *src, size_t len)
 {
    mulle_utf16_t   c;
@@ -422,7 +394,9 @@ int  mulle_utf16_information( mulle_utf16_t *src, size_t len, struct mulle_utf_i
    
    if( ! len)
       return( 0);
-      
+   if( len == (size_t) -1)
+      len = mulle_utf16_strlen( src);
+   
    //
    // remove leading BOM
    //

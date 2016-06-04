@@ -41,10 +41,16 @@
 		4146E0331C9C9A1200209E86 /* mulle_utf_type.h in Headers */ = {isa = PBXBuildFile; fileRef = 4146E0321C9C9A1200209E86 /* mulle_utf_type.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		418638D01CCCF1DD00A1784E /* mulle_utf_is_nonpercentescape.c in Sources */ = {isa = PBXBuildFile; fileRef = 418638CE1CCCF1DD00A1784E /* mulle_utf_is_nonpercentescape.c */; };
 		418638D11CCCF1DD00A1784E /* mulle_utf_is_nonpercentescape.h in Headers */ = {isa = PBXBuildFile; fileRef = 418638CF1CCCF1DD00A1784E /* mulle_utf_is_nonpercentescape.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		418C4C7B1CFC9911009FA8A6 /* mulle_utf_convenience.c in Sources */ = {isa = PBXBuildFile; fileRef = 418C4C791CFC9911009FA8A6 /* mulle_utf_convenience.c */; };
+		418C4C7C1CFC9911009FA8A6 /* mulle_utf_convenience.h in Headers */ = {isa = PBXBuildFile; fileRef = 418C4C7A1CFC9911009FA8A6 /* mulle_utf_convenience.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		41A225541CC26223002DCD85 /* mulle_utf_toupper.c in Sources */ = {isa = PBXBuildFile; fileRef = 41A225521CC26223002DCD85 /* mulle_utf_toupper.c */; };
 		41A225551CC26223002DCD85 /* mulle_utf_toupper.h in Headers */ = {isa = PBXBuildFile; fileRef = 41A225531CC26223002DCD85 /* mulle_utf_toupper.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		41A225581CC26877002DCD85 /* mulle_utf_tolower.c in Sources */ = {isa = PBXBuildFile; fileRef = 41A225561CC26877002DCD85 /* mulle_utf_tolower.c */; };
 		41A225591CC26877002DCD85 /* mulle_utf_tolower.h in Headers */ = {isa = PBXBuildFile; fileRef = 41A225571CC26877002DCD85 /* mulle_utf_tolower.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		41A403E51CFC69CA00997CCE /* mulle_utf16_string.h in Headers */ = {isa = PBXBuildFile; fileRef = 41A403E11CFC69CA00997CCE /* mulle_utf16_string.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		41A403E61CFC69CA00997CCE /* mulle_utf16_string.c in Sources */ = {isa = PBXBuildFile; fileRef = 41A403E21CFC69CA00997CCE /* mulle_utf16_string.c */; };
+		41A403E71CFC69CA00997CCE /* mulle_utf32_string.h in Headers */ = {isa = PBXBuildFile; fileRef = 41A403E31CFC69CA00997CCE /* mulle_utf32_string.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		41A403E81CFC69CA00997CCE /* mulle_utf32_string.c in Sources */ = {isa = PBXBuildFile; fileRef = 41A403E41CFC69CA00997CCE /* mulle_utf32_string.c */; };
 		41BECA901CEA122F00559ACB /* mulle_utf_is_validurlscheme.c in Sources */ = {isa = PBXBuildFile; fileRef = 41BECA8E1CEA122F00559ACB /* mulle_utf_is_validurlscheme.c */; };
 		41BECA911CEA122F00559ACB /* mulle_utf_is_validurlscheme.h in Headers */ = {isa = PBXBuildFile; fileRef = 41BECA8F1CEA122F00559ACB /* mulle_utf_is_validurlscheme.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		41C42CB11CC0F198000CBA00 /* mulle_utf_is_noncharacter.c in Sources */ = {isa = PBXBuildFile; fileRef = 41C42CB01CC0F198000CBA00 /* mulle_utf_is_noncharacter.c */; };
@@ -160,6 +166,8 @@
 		416024F41CE72D4000B7D5A4 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		418638CE1CCCF1DD00A1784E /* mulle_utf_is_nonpercentescape.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mulle_utf_is_nonpercentescape.c; sourceTree = "<group>"; };
 		418638CF1CCCF1DD00A1784E /* mulle_utf_is_nonpercentescape.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mulle_utf_is_nonpercentescape.h; sourceTree = "<group>"; };
+		418C4C791CFC9911009FA8A6 /* mulle_utf_convenience.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mulle_utf_convenience.c; sourceTree = "<group>"; };
+		418C4C7A1CFC9911009FA8A6 /* mulle_utf_convenience.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mulle_utf_convenience.h; sourceTree = "<group>"; };
 		41A2252C1CC2566E002DCD85 /* isalphanumeric-utf16-inv.inc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.pascal; path = "isalphanumeric-utf16-inv.inc"; sourceTree = "<group>"; };
 		41A2252D1CC2566E002DCD85 /* isalphanumeric-utf32-inv.inc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.pascal; path = "isalphanumeric-utf32-inv.inc"; sourceTree = "<group>"; };
 		41A2252E1CC2566E002DCD85 /* iscapitalized-utf16.inc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.pascal; path = "iscapitalized-utf16.inc"; sourceTree = "<group>"; };
@@ -199,6 +207,10 @@
 		41A225531CC26223002DCD85 /* mulle_utf_toupper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mulle_utf_toupper.h; sourceTree = "<group>"; };
 		41A225561CC26877002DCD85 /* mulle_utf_tolower.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mulle_utf_tolower.c; sourceTree = "<group>"; };
 		41A225571CC26877002DCD85 /* mulle_utf_tolower.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mulle_utf_tolower.h; sourceTree = "<group>"; };
+		41A403E11CFC69CA00997CCE /* mulle_utf16_string.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mulle_utf16_string.h; sourceTree = "<group>"; };
+		41A403E21CFC69CA00997CCE /* mulle_utf16_string.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mulle_utf16_string.c; sourceTree = "<group>"; };
+		41A403E31CFC69CA00997CCE /* mulle_utf32_string.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mulle_utf32_string.h; sourceTree = "<group>"; };
+		41A403E41CFC69CA00997CCE /* mulle_utf32_string.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mulle_utf32_string.c; sourceTree = "<group>"; };
 		41B878DA1C9C97A6009F113F /* libmulle_utf.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libmulle_utf.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		41BECA8E1CEA122F00559ACB /* mulle_utf_is_validurlscheme.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mulle_utf_is_validurlscheme.c; sourceTree = "<group>"; };
 		41BECA8F1CEA122F00559ACB /* mulle_utf_is_validurlscheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mulle_utf_is_validurlscheme.h; sourceTree = "<group>"; };
@@ -337,6 +349,12 @@
 				4146E0281C9C984C00209E86 /* mulle_utf16.c */,
 				4146E0261C9C984C00209E86 /* mulle_utf32.h */,
 				41E85B4C1C9D746400C81E18 /* mulle_utf32.c */,
+				41A403E11CFC69CA00997CCE /* mulle_utf16_string.h */,
+				41A403E21CFC69CA00997CCE /* mulle_utf16_string.c */,
+				41A403E31CFC69CA00997CCE /* mulle_utf32_string.h */,
+				41A403E41CFC69CA00997CCE /* mulle_utf32_string.c */,
+				418C4C7A1CFC9911009FA8A6 /* mulle_utf_convenience.h */,
+				418C4C791CFC9911009FA8A6 /* mulle_utf_convenience.c */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -520,6 +538,9 @@
 				41D06F0F1CC0E30C00010C4F /* mulle_utf_ctype.h in Headers */,
 				418638D11CCCF1DD00A1784E /* mulle_utf_is_nonpercentescape.h in Headers */,
 				4146E02E1C9C984C00209E86 /* mulle_utf8.h in Headers */,
+				41A403E71CFC69CA00997CCE /* mulle_utf32_string.h in Headers */,
+				41A403E51CFC69CA00997CCE /* mulle_utf16_string.h in Headers */,
+				418C4C7C1CFC9911009FA8A6 /* mulle_utf_convenience.h in Headers */,
 				4146E02C1C9C984C00209E86 /* mulle_utf16.h in Headers */,
 				41373CF01CD75D3B00984B3C /* mulle_char5.h in Headers */,
 				4146E02B1C9C984C00209E86 /* mulle_utf32.h in Headers */,
@@ -658,9 +679,11 @@
 				41BECA901CEA122F00559ACB /* mulle_utf_is_validurlscheme.c in Sources */,
 				41A225581CC26877002DCD85 /* mulle_utf_tolower.c in Sources */,
 				41C42F301CC13D2D000CBA00 /* mulle_utf_is_validurlquery.c in Sources */,
+				41A403E81CFC69CA00997CCE /* mulle_utf32_string.c in Sources */,
 				41C42F1C1CC13D2D000CBA00 /* mulle_utf_is_lowercase.c in Sources */,
 				41C42F101CC13D2D000CBA00 /* mulle_utf_is_alphanumeric.c in Sources */,
 				41C42F321CC13D2D000CBA00 /* mulle_utf_is_validurluser.c in Sources */,
+				418C4C7B1CFC9911009FA8A6 /* mulle_utf_convenience.c in Sources */,
 				41C42F121CC13D2D000CBA00 /* mulle_utf_is_capitalized.c in Sources */,
 				41C42F1E1CC13D2D000CBA00 /* mulle_utf_is_newline.c in Sources */,
 				41C42F1A1CC13D2D000CBA00 /* mulle_utf_is_letter.c in Sources */,
@@ -671,6 +694,7 @@
 				41C42CB11CC0F198000CBA00 /* mulle_utf_is_noncharacter.c in Sources */,
 				41C42F361CC13D2D000CBA00 /* mulle_utf_is_whitespaceornewline.c in Sources */,
 				41C42F181CC13D2D000CBA00 /* mulle_utf_is_decomposable.c in Sources */,
+				41A403E61CFC69CA00997CCE /* mulle_utf16_string.c in Sources */,
 				41C42F201CC13D2D000CBA00 /* mulle_utf_is_nonbase.c in Sources */,
 				4146E02D1C9C984C00209E86 /* mulle_utf16.c in Sources */,
 				41C42F141CC13D2D000CBA00 /* mulle_utf_is_control.c in Sources */,
@@ -819,7 +843,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4146E0161C9C980B00209E86 /* Debug.xcconfig */;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 0.4;
+				CURRENT_PROJECT_VERSION = 0.5;
+				GCC_C_LANGUAGE_STANDARD = c99;
 			};
 			name = Debug;
 		};
@@ -827,7 +852,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4146E01D1C9C980B00209E86 /* Release.xcconfig */;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 0.4;
+				CURRENT_PROJECT_VERSION = 0.5;
+				GCC_C_LANGUAGE_STANDARD = c99;
 			};
 			name = Release;
 		};

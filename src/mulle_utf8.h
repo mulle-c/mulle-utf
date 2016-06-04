@@ -53,14 +53,6 @@ struct mulle_bytebuffer;
 // These routines will strip off a leading BOM, but they will never add one.
 //
 
-//
-// -2  UTF8 string malformed
-// -1  dst buffer too small
-//  0  OK!
-//
-size_t  mulle_utf8_convert_to_utf16( mulle_utf16_t *dst, size_t dst_len, mulle_utf8_t *src, size_t len);
-
-
 // UTF16 must be valid
 // if len is -1, assume that *s is '\0' terminated
 //
@@ -132,16 +124,16 @@ mulle_utf32_t   _mulle_utf8_previous_utf32_char( mulle_utf8_t **s_p);
 // callback.
 // int == 0 : OK!
 // these routines do not skip BOM characters
-int  mulle_utf8_convert_to_utf16_bytebuffer( void *buffer,
-                                             void (*add)( void *, void *, size_t size),
-                                             mulle_utf8_t *src,
-                                             size_t len);
+int  mulle_utf8_convert_to_utf16_bytebuffer( mulle_utf8_t *src,
+                                             size_t len,
+                                             void *buffer,
+                                             void (*add)( void *, void *, size_t size));
 
 // as above, but for utf32
-int  mulle_utf8_convert_to_utf32_bytebuffer( void *buffer,
-                                             void (*add)( void *, void *, size_t size),
-                                             mulle_utf8_t *src,
-                                             size_t len);
+int  mulle_utf8_convert_to_utf32_bytebuffer( mulle_utf8_t *src,
+                                             size_t len,
+                                             void *buffer,
+                                             void (*add)( void *, void *, size_t size));
 
 
 #endif
