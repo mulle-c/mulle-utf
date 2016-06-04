@@ -41,7 +41,7 @@ mulle_utf16_t  *mulle_utf32_convert_to_utf16( mulle_utf32_t *src,
                                              struct mulle_allocator *allocator);
 
 #if MULLE_ALLOCATOR_VERSION  < ((1 << 20) | (5 << 8) | 0)
-# error "mulle_allocator is too old
+# error "mulle_allocator is too old"
 #endif
 
 #endif /* mulle_utf_convenience_h */
