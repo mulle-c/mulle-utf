@@ -79,37 +79,48 @@ static inline int  mulle_utf8_has_bom( mulle_utf8_t *src, size_t len)
 // returns pointer to character, that is invalid (first of compound chars)
 // TODO: find encoding where nothing needs to be composed
 
-int  mulle_utf8_information( mulle_utf8_t *src, size_t len, struct mulle_utf_information *info);
-int  mulle_utf8_is_ascii( mulle_utf8_t *src, size_t len);
+int  mulle_utf8_information( mulle_utf8_t *s, size_t len, struct mulle_utf_information *info);
+int  mulle_utf8_is_ascii( mulle_utf8_t *s, size_t len);
 
 
-static inline size_t  mulle_utf8_strlen( mulle_utf8_t *src)
+static inline size_t  mulle_utf8_strlen( mulle_utf8_t *s)
 {
-   return( strlen( (char *) src));
+   return( strlen( (char *) s));
 }
 
 
-static inline size_t  mulle_utf8_strnlen( mulle_utf8_t *src, size_t len)
+static inline size_t  mulle_utf8_strnlen( mulle_utf8_t *s, size_t len)
 {
-   return( strnlen( (char *) src, len));
+   mulle_utf8_t   *start;
+   mulle_utf8_t   *sentinel;
+   
+   start    = s;
+   s        = &s[ -1];
+   sentinel = &s[ len];
+   
+   while( s < sentinel)
+      if( ! *++s)
+         break;
+
+   return( (size_t) (s - start));
 }
 
 
 
 // use this to walk through a utf8 string
 
-static inline mulle_utf32_t   mulle_utf8_next_utf32_value( mulle_utf8_t **s)
+static inline mulle_utf32_t   mulle_utf8_next_utf32_value( mulle_utf8_t **s_p)
 {
-   extern mulle_utf32_t   _mulle_utf8_next_utf32_value( mulle_utf8_t **s);
+   extern mulle_utf32_t   _mulle_utf8_next_utf32_value( mulle_utf8_t **s_p);
 
-   if( **s <= 0x7F)
-      return( *(*s)++);
-   return( _mulle_utf8_next_utf32_value( s));
+   if( **s_p <= 0x7F)
+      return( *(*s_p)++);
+   return( _mulle_utf8_next_utf32_value( s_p));
 }
 
 
 
-int   mulle_utf8_are_valid_extra_chars( char *src, unsigned int len);
+int   mulle_utf8_are_valid_extra_chars( char *s, unsigned int len);
 
 
 // extremely primitive!
