@@ -95,13 +95,14 @@ static inline size_t  mulle_utf8_strnlen( mulle_utf8_t *s, size_t len)
    mulle_utf8_t   *sentinel;
    
    start    = s;
-   s        = &s[ -1];
    sentinel = &s[ len];
    
    while( s < sentinel)
-      if( ! *++s)
+   {
+      if( ! *s)
          break;
-
+      ++s;
+   }
    return( (size_t) (s - start));
 }
 
