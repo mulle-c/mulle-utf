@@ -99,7 +99,7 @@ int  mulle_utf16_is_valid_surrogatepair( mulle_utf16_t hi, mulle_utf16_t lo)
 int  mulle_utf16_convert_to_utf8_bytebuffer( mulle_utf16_t *src,
                                              size_t len,
                                              void *buffer,
-                                             void *(*addbytes)( void *buffer, void *bytes, size_t length))
+                                             void (*addbytes)( void *buffer, void *bytes, size_t length))
 {
    mulle_utf16_t   *sentinel;
    mulle_utf32_t   x;
@@ -170,7 +170,7 @@ int  mulle_utf16_convert_to_utf8_bytebuffer( mulle_utf16_t *src,
 int  mulle_utf16_convert_to_utf32_bytebuffer( mulle_utf16_t *src,
                                               size_t len,
                                               void *buffer,
-                                              void *(*addbytes)( void *buffer, void *bytes, size_t length))
+                                              void (*addbytes)( void *buffer, void *bytes, size_t length))
 {
    mulle_utf16_t   *sentinel;
    mulle_utf32_t   x;

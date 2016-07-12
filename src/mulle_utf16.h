@@ -163,11 +163,11 @@ mulle_utf32_t   _mulle_utf16_previous_utf32_char( mulle_utf16_t **s_p);
 int  mulle_utf16_convert_to_utf8_bytebuffer( mulle_utf16_t *src,
                                              size_t len,
                                              void *buffer,
-                                             void *(*addbytes)( void *buffer, void *bytes, size_t length));
+                                             void (*addbytes)( void *buffer, void *bytes, size_t length));
 
 int  mulle_utf16_convert_to_utf32_bytebuffer( mulle_utf16_t *src,
                                               size_t len,
                                               void *buffer,
-                                              void *(*addbytes)( void *buffer, void *bytes, size_t length));
+                                              void (*addbytes)( void *buffer, void *bytes, size_t length));
 
 #endif
