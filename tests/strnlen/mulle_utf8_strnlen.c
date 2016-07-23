@@ -1,4 +1,4 @@
-#include <mulle_standalone_utf/mulle_standalone_utf.h>
+#include <mulle_utf/mulle_utf.h>
 
 
 int  main()
@@ -11,7 +11,7 @@ int  main()
 
    if( mulle_utf8_strnlen( "ABC", 4) != 3)
      printf( "FAIL");
- 
+
    return( 0);
 }
 
