@@ -1,4 +1,4 @@
-#include <mulle_standalone_utf/mulle_standalone_utf.h>
+#include <mulle_utf/mulle_utf.h>
 
 #include <stdio.h>
 #include <stdlib.h>
