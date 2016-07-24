@@ -56,9 +56,6 @@ uint64_t   mulle_char5_encode64_ascii( char *src, size_t len);
 size_t   mulle_char5_decode32_ascii( uint32_t value, char *dst, size_t len);
 size_t   mulle_char5_decode64_ascii( uint64_t value, char *src, size_t len);
 
-size_t  mulle_char5_decode32_utf32( uint32_t value, mulle_utf32_t *dst, size_t len);
-size_t  mulle_char5_decode64_utf32( uint64_t value, mulle_utf32_t *dst, size_t len);
-
 char  mulle_char5_at64( uint64_t value, unsigned int index);
 char  mulle_char5_at32( uint32_t value, unsigned int index);
 
@@ -137,14 +134,6 @@ static inline size_t  mulle_char5_strlen_uintptr( uintptr_t value)
    if( sizeof( uintptr_t) == sizeof( uint32_t))
       return( mulle_char5_strlen32( (uint32_t) value));
    return( mulle_char5_strlen64( value));
-}
-
-
-static inline size_t  mulle_char5_decode_uintptr_utf32( uintptr_t value, mulle_utf32_t *dst, size_t len)
-{
-   if( sizeof( uintptr_t) == sizeof( uint32_t))
-      return( mulle_char5_decode32_utf32( (uint32_t) value, dst, len));
-   return( mulle_char5_decode64_utf32( value, dst, len));
 }
 
 
