@@ -1,0 +1,14 @@
+32bit:  (0): 0x0
+64bit:  (0): 0x0
+32bit: A (1): 0x41
+64bit: A (1): 0x41
+32bit: AA (2): 0x20c1
+64bit: AA (2): 0x20c1
+32bit: AAA (3): 0x1060c1
+64bit: AAA (3): 0x1060c1
+32bit: AAAA (4): 0x83060c1
+64bit: AAAA (4): 0x83060c1
+64bit: AAAAA (5): 0x4183060c1
+64bit: AAAAAA (6): 0x20c183060c1
+64bit: AAAAAAA (7): 0x1060c183060c1
+64bit: AAAAAAAA (8): 0x83060c183060c1

@@ -230,50 +230,6 @@ size_t  mulle_char5_decode64_ascii( uint64_t value, char *dst, size_t len)
 }
 
 
-size_t  mulle_char5_decode32_utf32( uint32_t value, mulle_utf32_t *dst, size_t len)
-{
-   mulle_utf32_t   *s;
-   mulle_utf32_t   *sentinel;
-   int             char5;
-   
-   s        = dst;
-   sentinel = &s[ len];
-   while( s < sentinel)
-   {
-      if( ! value)
-         break;
-      
-      char5 = value & 0x1F;
-      *s++  = (char) mulle_char5_decode( char5);
-
-      value >>= 5;
-   }
-   return( s - dst);
-}
-
-
-size_t  mulle_char5_decode64_utf32( uint64_t value, mulle_utf32_t *dst, size_t len)
-{
-   mulle_utf32_t   *s;
-   mulle_utf32_t   *sentinel;
-   int             char5;
-   
-   s        = dst;
-   sentinel = &s[ len];
-   while( s < sentinel)
-   {
-      if( ! value)
-         break;
-
-      char5 = value & 0x1F;
-      *s++  = (mulle_utf32_t) mulle_char5_decode( char5);
-      
-      value >>= 5;
-   }
-   return( s - dst);
-}
-
-
 char  mulle_char5_at64( uint64_t value, unsigned int index)
 {
    char   char5;

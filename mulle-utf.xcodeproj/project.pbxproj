@@ -96,6 +96,8 @@
 		41C42F371CC13D2D000CBA00 /* mulle_utf_is_whitespaceornewline.h in Headers */ = {isa = PBXBuildFile; fileRef = 41C42F0F1CC13D2C000CBA00 /* mulle_utf_is_whitespaceornewline.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		41C42F3A1CC14106000CBA00 /* mulle_utf_is_privatecharacter.c in Sources */ = {isa = PBXBuildFile; fileRef = 41C42F381CC14106000CBA00 /* mulle_utf_is_privatecharacter.c */; };
 		41C42F3B1CC14106000CBA00 /* mulle_utf_is_privatecharacter.h in Headers */ = {isa = PBXBuildFile; fileRef = 41C42F391CC14106000CBA00 /* mulle_utf_is_privatecharacter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		41CBD8D31D452FB400CC286C /* mulle_char7.c in Sources */ = {isa = PBXBuildFile; fileRef = 41CBD8D11D452FB400CC286C /* mulle_char7.c */; };
+		41CBD8D41D452FB400CC286C /* mulle_char7.h in Headers */ = {isa = PBXBuildFile; fileRef = 41CBD8D21D452FB400CC286C /* mulle_char7.h */; };
 		41D06F0F1CC0E30C00010C4F /* mulle_utf_ctype.h in Headers */ = {isa = PBXBuildFile; fileRef = 41D06F0D1CC0E30C00010C4F /* mulle_utf_ctype.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		41E85B4D1C9D746400C81E18 /* mulle_utf32.c in Sources */ = {isa = PBXBuildFile; fileRef = 41E85B4C1C9D746400C81E18 /* mulle_utf32.c */; };
 /* End PBXBuildFile section */
@@ -257,6 +259,8 @@
 		41C42F0F1CC13D2C000CBA00 /* mulle_utf_is_whitespaceornewline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mulle_utf_is_whitespaceornewline.h; sourceTree = "<group>"; };
 		41C42F381CC14106000CBA00 /* mulle_utf_is_privatecharacter.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mulle_utf_is_privatecharacter.c; sourceTree = "<group>"; };
 		41C42F391CC14106000CBA00 /* mulle_utf_is_privatecharacter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mulle_utf_is_privatecharacter.h; sourceTree = "<group>"; };
+		41CBD8D11D452FB400CC286C /* mulle_char7.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mulle_char7.c; sourceTree = "<group>"; };
+		41CBD8D21D452FB400CC286C /* mulle_char7.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mulle_char7.h; sourceTree = "<group>"; };
 		41D06F0D1CC0E30C00010C4F /* mulle_utf_ctype.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mulle_utf_ctype.h; sourceTree = "<group>"; };
 		41E85B4C1C9D746400C81E18 /* mulle_utf32.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mulle_utf32.c; sourceTree = "<group>"; };
 		41E9C6631CC50D5900ED4145 /* RELEASENOTES.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = RELEASENOTES.md; sourceTree = "<group>"; };
@@ -340,6 +344,8 @@
 				41A225511CC261DB002DCD85 /* toupper */,
 				41373CEE1CD75D3B00984B3C /* mulle_char5.h */,
 				41373CED1CD75D3B00984B3C /* mulle_char5.c */,
+				41CBD8D21D452FB400CC286C /* mulle_char7.h */,
+				41CBD8D11D452FB400CC286C /* mulle_char7.c */,
 				4146E0291C9C984C00209E86 /* mulle_utf8.h */,
 				4146E02A1C9C984C00209E86 /* mulle_utf8.c */,
 				4146E0271C9C984C00209E86 /* mulle_utf16.h */,
@@ -511,6 +517,7 @@
 				41C42F371CC13D2D000CBA00 /* mulle_utf_is_whitespaceornewline.h in Headers */,
 				41C42F171CC13D2D000CBA00 /* mulle_utf_is_decimaldigit.h in Headers */,
 				41C42F351CC13D2D000CBA00 /* mulle_utf_is_whitespace.h in Headers */,
+				41CBD8D41D452FB400CC286C /* mulle_char7.h in Headers */,
 				41C42F131CC13D2D000CBA00 /* mulle_utf_is_capitalized.h in Headers */,
 				41C42F331CC13D2D000CBA00 /* mulle_utf_is_validurluser.h in Headers */,
 				41C42F271CC13D2D000CBA00 /* mulle_utf_is_uppercase.h in Headers */,
@@ -675,6 +682,7 @@
 				41BECA901CEA122F00559ACB /* mulle_utf_is_validurlscheme.c in Sources */,
 				41A225581CC26877002DCD85 /* mulle_utf_tolower.c in Sources */,
 				41C42F301CC13D2D000CBA00 /* mulle_utf_is_validurlquery.c in Sources */,
+				41CBD8D31D452FB400CC286C /* mulle_char7.c in Sources */,
 				41A403E81CFC69CA00997CCE /* mulle_utf32_string.c in Sources */,
 				41C42F1C1CC13D2D000CBA00 /* mulle_utf_is_lowercase.c in Sources */,
 				41C42F101CC13D2D000CBA00 /* mulle_utf_is_alphanumeric.c in Sources */,
