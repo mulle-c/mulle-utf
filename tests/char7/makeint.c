@@ -65,17 +65,17 @@ int  main()
 
    test( "");
    test( "A");
-   test( "AA");
-   test( "AAA");
-   test( "AAAA");
-   test( "AAAAA");
-   test( "AAAAAA");
-   test( "AAAAAAA");
-   test( "AAAAAAAA");
-   test( "AAAAAAAAA");
-   test( "AAAAAAAAAA");
-   test( "AAAAAAAAAAA");
-   test( "AAAAAAAAAAAA");
-   test( "AAAAAAAAAAAAA");  // 13
+   test( "AB");
+   test( "ABC");
+   test( "ABCD");
+   test( "ABCDE");
+   test( "ABCDEF");
+   test( "ABCDEFG");
+   test( "ABCDEFGH");
+   test( "ABCDEFGHI");
+   test( "ABCDEFGHIJ");
+   test( "ABCDEFGHIJL");
+   test( "ABCDEFGHIJLM");
+   test( "ABCDEFGHIJLMN");  // 13
 }
 
