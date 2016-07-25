@@ -64,18 +64,18 @@ int  main()
    int  d;
 
    test( "");
-   test( "A");
-   test( "AA");
-   test( "AAA");
-   test( "AAAA");
-   test( "AAAAA");
-   test( "AAAAAA");
-   test( "AAAAAAA");
-   test( "AAAAAAAA");
-   test( "AAAAAAAAA");
-   test( "AAAAAAAAAA");
-   test( "AAAAAAAAAAA");
-   test( "AAAAAAAAAAAA");
-   test( "AAAAAAAAAAAAA");  // 13
+   test( "a");
+   test( "ab");
+   test( "abc");
+   test( "abcd");
+   test( "abcde");
+   test( "abcdea");
+   test( "abcdeab");
+   test( "abcdeabc");
+   test( "abcdeabcd");
+   test( "abcdeabcde");
+   test( "abcdeabcdea");
+   test( "abcdeabcdeab");
+   test( "abcdeabcdeabc");  // 13
 }
 
