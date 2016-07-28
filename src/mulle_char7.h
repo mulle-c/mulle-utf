@@ -77,6 +77,26 @@ static inline size_t  mulle_char7_strlen32( uint32_t value)
 }
 
 
+static inline uint64_t   mulle_char7_substring64( uint64_t value, unsigned int location, unsigned int length)
+{
+   assert( location + length <= mulle_char7_strlen64( value));
+   
+   value >>= location * 7;
+   value  &= ~((~(uint64_t) 0) << (length * 7));
+   return( value);
+}
+
+
+static inline uint32_t   mulle_char7_substring32( uint32_t value, unsigned int location, unsigned int length)
+{
+   assert( location + length <= mulle_char7_strlen32( value));
+   
+   value >>= location * 7;
+   value  &= ~((~(uint32_t) 0) << (length * 7));
+   return( value);
+}
+
+
 # pragma mark -
 # pragma mark uintptr_t interface
 
@@ -128,6 +148,15 @@ static inline size_t  mulle_char7_uintptr_max_length( void)
    if( sizeof( uintptr_t) == sizeof( uint32_t))
       return( mulle_char7_max_length32);
    return( mulle_char7_max_length64);
+}
+
+
+static inline uintptr_t  mulle_char7_uintptr_substring( uintptr_t value, unsigned int location, unsigned int length)
+
+{
+   if( sizeof( uintptr_t) == sizeof( uint32_t))
+      return( mulle_char7_substring32( (uint32_t) value, location, length));
+   return( mulle_char7_substring64( value, location, length));
 }
 
 #endif
