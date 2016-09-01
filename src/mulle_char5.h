@@ -120,48 +120,48 @@ static inline uint32_t   mulle_char5_substring32( uint32_t value, unsigned int l
 static inline int   mulle_char5_is_uintptr( char *src, size_t len)
 {
    if( sizeof( uintptr_t) == sizeof( uint32_t))
-      return(  mulle_char5_is32bit( src, len));
-   return(  mulle_char5_is64bit( src, len));
+      return( (uintptr_t) mulle_char5_is32bit( src, len));
+   return( (uintptr_t) mulle_char5_is64bit( src, len));
 }
 
 
 static inline uintptr_t   mulle_char5_encode_ascii( char *src, size_t len)
 {
    if( sizeof( uintptr_t) == sizeof( uint32_t))
-      return( mulle_char5_encode32_ascii( src, len));
-   return( mulle_char5_encode64_ascii( src, len));
+      return( (uintptr_t) mulle_char5_encode32_ascii( src, len));
+   return( (uintptr_t) mulle_char5_encode64_ascii( src, len));
 }
 
 
 static inline size_t   mulle_char5_decode_ascii( uintptr_t value, char *src, size_t len)
 {
    if( sizeof( uintptr_t) == sizeof( uint32_t))
-      return( mulle_char5_decode32_ascii( (uint32_t) value, src, len));
-   return( mulle_char5_decode64_ascii( value, src, len));
+      return( (uintptr_t) mulle_char5_decode32_ascii( (uint32_t) value, src, len));
+   return( (uintptr_t) mulle_char5_decode64_ascii( value, src, len));
 }
 
 
 static inline char   mulle_char5_at_uintptr( uintptr_t value, unsigned int index)
 {
    if( sizeof( uintptr_t) == sizeof( uint32_t))
-      return( mulle_char5_at32( (uint32_t) value, index));
-   return( mulle_char5_at64( value, index));
+      return( (uintptr_t) mulle_char5_at32( (uint32_t) value, index));
+   return( (uintptr_t) mulle_char5_at64( value, index));
 }
 
 
 static inline size_t  mulle_char5_strlen_uintptr( uintptr_t value)
 {
    if( sizeof( uintptr_t) == sizeof( uint32_t))
-      return( mulle_char5_strlen32( (uint32_t) value));
-   return( mulle_char5_strlen64( value));
+      return( (uintptr_t) mulle_char5_strlen32( (uint32_t) value));
+   return( (uintptr_t) mulle_char5_strlen64( value));
 }
 
 
 static inline size_t  mulle_char5_uintptr_max_length( void)
 {
    if( sizeof( uintptr_t) == sizeof( uint32_t))
-      return( mulle_char5_max_length32);
-   return( mulle_char5_max_length64);
+      return( (size_t) mulle_char5_max_length32);
+   return( (size_t) mulle_char5_max_length64);
 }
 
 
@@ -169,8 +169,8 @@ static inline uintptr_t  mulle_char5_uintptr_substring( uintptr_t value, unsigne
 
 {
    if( sizeof( uintptr_t) == sizeof( uint32_t))
-      return( mulle_char5_substring32( (uint32_t) value, location, length));
-   return( mulle_char5_substring64( value, location, length));
+      return( (uintptr_t) mulle_char5_substring32( (uint32_t) value, location, length));
+   return( (uintptr_t) mulle_char5_substring64( value, location, length));
 }
 
 #endif
