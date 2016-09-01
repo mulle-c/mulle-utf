@@ -106,16 +106,16 @@ static inline uint32_t   mulle_char7_substring32( uint32_t value, unsigned int l
 static inline int   mulle_char7_is_uintptr( char *src, size_t len)
 {
    if( sizeof( uintptr_t) == sizeof( uint32_t))
-      return(  mulle_char7_is32bit( src, len));
-   return(  mulle_char7_is64bit( src, len));
+      return( (uintptr_t) mulle_char7_is32bit( src, len));
+   return( (uintptr_t) mulle_char7_is64bit( src, len));
 }
 
 
 static inline uintptr_t   mulle_char7_encode_ascii( char *src, size_t len)
 {
    if( sizeof( uintptr_t) == sizeof( uint32_t))
-      return( mulle_char7_encode32_ascii( src, len));
-   return( mulle_char7_encode64_ascii( src, len));
+      return( (uintptr_t) mulle_char7_encode32_ascii( src, len));
+   return( (uintptr_t) mulle_char7_encode64_ascii( src, len));
 }
 
 
@@ -155,8 +155,8 @@ static inline uintptr_t  mulle_char7_uintptr_substring( uintptr_t value, unsigne
 
 {
    if( sizeof( uintptr_t) == sizeof( uint32_t))
-      return( mulle_char7_substring32( (uint32_t) value, location, length));
-   return( mulle_char7_substring64( value, location, length));
+      return( (uintptr_t) mulle_char7_substring32( (uint32_t) value, location, length));
+   return( (uintptr_t) mulle_char7_substring64( value, location, length));
 }
 
 #endif
