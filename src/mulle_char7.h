@@ -52,7 +52,7 @@ char  _mulle_char7_at32( uint32_t value, unsigned int index);
 static inline size_t   mulle_char7_strlen64( uint64_t value)
 {
    size_t   len;
-   
+
    len = 0;
    while( value)
    {
@@ -66,7 +66,7 @@ static inline size_t   mulle_char7_strlen64( uint64_t value)
 static inline size_t  mulle_char7_strlen32( uint32_t value)
 {
    size_t   len;
-   
+
    len = 0;
    while( value)
    {
@@ -80,7 +80,7 @@ static inline size_t  mulle_char7_strlen32( uint32_t value)
 static inline uint64_t   mulle_char7_substring64( uint64_t value, unsigned int location, unsigned int length)
 {
    assert( location + length <= mulle_char7_strlen64( value));
-   
+
    value >>= location * 7;
    value  &= ~((~(uint64_t) 0) << (length * 7));
    return( value);
@@ -90,7 +90,7 @@ static inline uint64_t   mulle_char7_substring64( uint64_t value, unsigned int l
 static inline uint32_t   mulle_char7_substring32( uint32_t value, unsigned int location, unsigned int length)
 {
    assert( location + length <= mulle_char7_strlen32( value));
-   
+
    value >>= location * 7;
    value  &= ~((~(uint32_t) 0) << (length * 7));
    return( value);
