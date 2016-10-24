@@ -151,15 +151,15 @@ mulle_utf16_t  *mulle_utf16_validate( mulle_utf16_t *src, size_t len);
 // hi and lo MUST be surrogates
 int  mulle_utf16_is_valid_surrogatepair( mulle_utf16_t hi, mulle_utf16_t lo);
 
-
+// step through string characters
 mulle_utf32_t   _mulle_utf16_next_utf32_char( mulle_utf16_t **s_p);
 mulle_utf32_t   _mulle_utf16_previous_utf32_char( mulle_utf16_t **s_p);
 
-// supply a "mulle_buffer" here as "buffer" and mulle_buffer_guarantee as the
-// callback.
+//
 // This will not stop on a zero. It will not by itself append a zero.
-// int == 0 : OK!
+// return value = 0  means OK!
 // these routines do not skip BOM characters
+//
 int  mulle_utf16_convert_to_utf8_bytebuffer( mulle_utf16_t *src,
                                              size_t len,
                                              void *buffer,

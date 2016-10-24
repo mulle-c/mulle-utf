@@ -49,12 +49,11 @@ struct mulle_bytebuffer;
 //    then remember it as validated and don't change it (NSString :))
 //    If this is the case, you can run all the other routines "quickly" without
 //    having to validate again.
-//
-// These routines will strip off a leading BOM, but they will never add one.
-//
 
-// UTF16 must be valid
+//
 // if len is -1, assume that *s is '\0' terminated
+// function is not ware of UTF8 BOM
+// returned length does not include BOM
 //
 size_t  mulle_utf8_length_as_utf16( mulle_utf8_t *src, size_t len);
 
@@ -91,21 +90,8 @@ static inline size_t  mulle_utf8_strlen( mulle_utf8_t *s)
 
 static inline size_t  mulle_utf8_strnlen( mulle_utf8_t *s, size_t len)
 {
-   mulle_utf8_t   *start;
-   mulle_utf8_t   *sentinel;
-   
-   start    = s;
-   sentinel = &s[ len];
-   
-   while( s < sentinel)
-   {
-      if( ! *s)
-         break;
-      ++s;
-   }
-   return( (size_t) (s - start));
+   return( strnlen( (char *) s, len));
 }
-
 
 
 // use this to walk through a utf8 string
@@ -118,7 +104,6 @@ static inline mulle_utf32_t   mulle_utf8_next_utf32_value( mulle_utf8_t **s_p)
       return( *(*s_p)++);
    return( _mulle_utf8_next_utf32_value( s_p));
 }
-
 
 
 int   mulle_utf8_are_valid_extra_chars( char *s, unsigned int len);
@@ -139,14 +124,12 @@ mulle_utf32_t   _mulle_utf8_previous_utf32_char( mulle_utf8_t **s_p);
 int  mulle_utf8_convert_to_utf16_bytebuffer( mulle_utf8_t *src,
                                              size_t len,
                                              void *buffer,
-                                             void (*add)( void *, void *, size_t size));
+                                             void (*add)( void *buffer, void *bytes, size_t size));
 
 // as above, but for utf32
 int  mulle_utf8_convert_to_utf32_bytebuffer( mulle_utf8_t *src,
                                              size_t len,
                                              void *buffer,
-                                             void (*add)( void *, void *, size_t size));
-
+                                             void (*add)( void *buffer, void *bytes, size_t size));
 
 #endif
-
