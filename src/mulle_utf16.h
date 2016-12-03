@@ -123,21 +123,21 @@ static inline mulle_utf32_t   mulle_utf16_pull_surrogatepair( mulle_utf16_t c, m
 }
 
 
-static inline mulle_utf16_t  mulle_utf16_get_bom_char( void)
+static inline mulle_utf16_t  mulle_utf16_get_bom_character( void)
 {
    return( 0xFEFF);  // only native encoding so far...
 }
 
 
-static inline int  mulle_utf16_is_bom_char( mulle_utf16_t c)
+static inline int  mulle_utf16_is_bom_character( mulle_utf16_t c)
 {
-   return( c == mulle_utf16_get_bom_char());  // only native encoding so far...
+   return( c == mulle_utf16_get_bom_character());  // only native encoding so far...
 }
 
 
 int     mulle_utf16_information( mulle_utf16_t *src, size_t len, struct mulle_utf_information *info);
 
-size_t  mulle_utf16_length_as_utf8( mulle_utf16_t *src, size_t len);
+size_t  mulle_utf16_utf8length( mulle_utf16_t *src, size_t len);
 size_t  mulle_utf16_length( mulle_utf16_t *src, size_t len);
 int     mulle_utf16_is_ascii( mulle_utf16_t *src, size_t len);
 
@@ -152,20 +152,20 @@ mulle_utf16_t  *mulle_utf16_validate( mulle_utf16_t *src, size_t len);
 int  mulle_utf16_is_valid_surrogatepair( mulle_utf16_t hi, mulle_utf16_t lo);
 
 // step through string characters
-mulle_utf32_t   _mulle_utf16_next_utf32_char( mulle_utf16_t **s_p);
-mulle_utf32_t   _mulle_utf16_previous_utf32_char( mulle_utf16_t **s_p);
+mulle_utf32_t   _mulle_utf16_next_utf32character( mulle_utf16_t **s_p);
+mulle_utf32_t   _mulle_utf16_previous_utf32character( mulle_utf16_t **s_p);
 
 //
 // This will not stop on a zero. It will not by itself append a zero.
 // return value = 0  means OK!
 // these routines do not skip BOM characters
 //
-int  mulle_utf16_convert_to_utf8_bytebuffer( mulle_utf16_t *src,
+int  mulle_utf16_bufferconvert_to_utf8( mulle_utf16_t *src,
                                              size_t len,
                                              void *buffer,
                                              void (*addbytes)( void *buffer, void *bytes, size_t length));
 
-int  mulle_utf16_convert_to_utf32_bytebuffer( mulle_utf16_t *src,
+int  mulle_utf16_bufferconvert_to_utf32( mulle_utf16_t *src,
                                               size_t len,
                                               void *buffer,
                                               void (*addbytes)( void *buffer, void *bytes, size_t length));

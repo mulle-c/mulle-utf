@@ -16,7 +16,7 @@ static mulle_utf32_t   random_char( mulle_utf32_t mask)
       if( ! c)
          continue;
    }
-   while( mulle_utf32_is_bom_char( c) || mulle_utf32_is_noncharacter( c) || mulle_utf32_is_privatecharacter( c));
+   while( mulle_utf32_is_bom_character( c) || mulle_utf32_is_noncharacter( c) || mulle_utf32_is_privatecharacter( c));
 
    return( c);
 }
@@ -66,8 +66,8 @@ static void   test( mulle_utf32_t text[ 4])
    memset( &buffer16, 0, sizeof( buffer16));
    memset( &buffer8, 0, sizeof( buffer8));
 
-   mulle_utf32_convert_to_utf8_bytebuffer( text, 4, &buffer8, (void *) buffer_add);
-   mulle_utf32_convert_to_utf16_bytebuffer( text, 4, &buffer16, (void *) buffer_add);
+   mulle_utf32_bufferconvert_to_utf8( text, 4, &buffer8, (void *) buffer_add);
+   mulle_utf32_bufferconvert_to_utf16( text, 4, &buffer16, (void *) buffer_add);
 
    utf8  = buffer8.text._8;
    utf16 = buffer16.text._16;
@@ -75,24 +75,24 @@ static void   test( mulle_utf32_t text[ 4])
 
    for( i = 0; i < 4; i++)
    {
-      c = _mulle_utf32_next_utf32_char( &utf32);
+      c = _mulle_utf32_next_utf32character( &utf32);
       if( text[ i] != c)
       {
-         printf( "32f: %u failed (%ld)\n", i, c);
+         printf( "32f: %u failed (%d)\n", i, (int) c);
          abort();
       }
 
-      c = _mulle_utf16_next_utf32_char( &utf16);
+      c = _mulle_utf16_next_utf32character( &utf16);
       if( text[ i] != c)
       {
-         printf( "16f: %u failed (%ld)\n", i, c);
+         printf( "16f: %u failed (%d)\n", i, (int) c);
          abort();
       }
 
-      c  = _mulle_utf8_next_utf32_char( &utf8);
+      c  = _mulle_utf8_next_utf32character( &utf8);
       if( text[ i] != c)
       {
-         printf( "8f: %u failed (%ld)\n", i, c);
+         printf( "8f: %u failed (%d)\n", i, (int) c);
          abort();
       }
    }
@@ -100,24 +100,24 @@ static void   test( mulle_utf32_t text[ 4])
    for( i = 4; i;)
    {
       --i;
-      c = _mulle_utf32_previous_utf32_char( &utf32);
+      c = _mulle_utf32_previous_utf32character( &utf32);
       if( text[ i] != c)
       {
-         printf( "32b: %u failed (%ld)\n", i, c);
+         printf( "32b: %u failed (%d)\n", i, (int) c);
          abort();
       }
 
-      c = _mulle_utf16_previous_utf32_char( &utf16);
+      c = _mulle_utf16_previous_utf32character( &utf16);
       if( text[ i] != c)
       {
-         printf( "16b: %u failed (%ld)\n", i, c);
+         printf( "16b: %u failed (%d)\n", i, (int) c);
          abort();
       }
 
-      c  = _mulle_utf8_previous_utf32_char( &utf8);
+      c  = _mulle_utf8_previous_utf32character( &utf8);
       if( text[ i] != c)
       {
-         printf( "8b: %u failed (%ld)\n", i, c);
+         printf( "8b: %u failed (%d)\n", i, (int) c);
          abort();
       }
    }

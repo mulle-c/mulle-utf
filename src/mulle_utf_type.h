@@ -3,7 +3,9 @@
 //  mulle-utf
 //
 //  Created by Nat! on 18.03.16.
-//  Copyright © 2016 Mulle kybernetiK. All rights reserved.
+//  Copyright © 2016 Mulle kybernetiK.
+//  Copyright (c) 2016 Codeon GmbH.
+//  All rights reserved.
 //
 //  Redistribution and use in source and binary forms, with or without
 //  modification, are permitted provided that the following conditions are met:
@@ -38,7 +40,9 @@
 #include <stddef.h>
 
 
-typedef void       mulle_char5_t;  // doesn't really exist on its own
+typedef uintptr_t  mulle_char5_t;
+typedef uintptr_t  mulle_char7_t;
+
 typedef uint8_t    mulle_utf8_t;
 typedef uint16_t   mulle_utf16_t;
 typedef int32_t    mulle_utf32_t;  //  0 - 0x10FFFF.

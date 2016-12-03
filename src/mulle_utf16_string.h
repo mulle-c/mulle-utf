@@ -19,6 +19,7 @@ static inline size_t   mulle_utf16_strlen( mulle_utf16_t *s)
 {
    mulle_utf16_t   *p;
 
+   assert( s);
    /* this produced the nicest looking i386 code :P */
    for( p = s - 1; *++p;);
 

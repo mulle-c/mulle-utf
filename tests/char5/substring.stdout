@@ -1,519 +1,519 @@
 .( 0, 0) -> 
 .( 0, 1) -> .
-.0( 0, 0) -> 
-.0( 0, 1) -> .
-.0( 0, 2) -> .0
-.0( 1, 0) -> 
-.0( 1, 1) -> 0
-.01( 0, 0) -> 
-.01( 0, 1) -> .
-.01( 0, 2) -> .0
-.01( 0, 3) -> .01
-.01( 1, 0) -> 
-.01( 1, 1) -> 0
-.01( 1, 2) -> 01
-.01( 2, 0) -> 
-.01( 2, 1) -> 1
-.012( 0, 0) -> 
-.012( 0, 1) -> .
-.012( 0, 2) -> .0
-.012( 0, 3) -> .01
-.012( 0, 4) -> .012
-.012( 1, 0) -> 
-.012( 1, 1) -> 0
-.012( 1, 2) -> 01
-.012( 1, 3) -> 012
-.012( 2, 0) -> 
-.012( 2, 1) -> 1
-.012( 2, 2) -> 12
-.012( 3, 0) -> 
-.012( 3, 1) -> 2
-.012A( 0, 0) -> 
-.012A( 0, 1) -> .
-.012A( 0, 2) -> .0
-.012A( 0, 3) -> .01
-.012A( 0, 4) -> .012
-.012A( 0, 5) -> .012A
-.012A( 1, 0) -> 
-.012A( 1, 1) -> 0
-.012A( 1, 2) -> 01
-.012A( 1, 3) -> 012
-.012A( 1, 4) -> 012A
-.012A( 2, 0) -> 
-.012A( 2, 1) -> 1
-.012A( 2, 2) -> 12
-.012A( 2, 3) -> 12A
-.012A( 3, 0) -> 
-.012A( 3, 1) -> 2
-.012A( 3, 2) -> 2A
-.012A( 4, 0) -> 
-.012A( 4, 1) -> A
-.012AC( 0, 0) -> 
-.012AC( 0, 1) -> .
-.012AC( 0, 2) -> .0
-.012AC( 0, 3) -> .01
-.012AC( 0, 4) -> .012
-.012AC( 0, 5) -> .012A
-.012AC( 0, 6) -> .012AC
-.012AC( 1, 0) -> 
-.012AC( 1, 1) -> 0
-.012AC( 1, 2) -> 01
-.012AC( 1, 3) -> 012
-.012AC( 1, 4) -> 012A
-.012AC( 1, 5) -> 012AC
-.012AC( 2, 0) -> 
-.012AC( 2, 1) -> 1
-.012AC( 2, 2) -> 12
-.012AC( 2, 3) -> 12A
-.012AC( 2, 4) -> 12AC
-.012AC( 3, 0) -> 
-.012AC( 3, 1) -> 2
-.012AC( 3, 2) -> 2A
-.012AC( 3, 3) -> 2AC
-.012AC( 4, 0) -> 
-.012AC( 4, 1) -> A
-.012AC( 4, 2) -> AC
-.012AC( 5, 0) -> 
-.012AC( 5, 1) -> C
+.A( 0, 0) -> 
+.A( 0, 1) -> .
+.A( 0, 2) -> .A
+.A( 1, 0) -> 
+.A( 1, 1) -> A
+.AC( 0, 0) -> 
+.AC( 0, 1) -> .
+.AC( 0, 2) -> .A
+.AC( 0, 3) -> .AC
+.AC( 1, 0) -> 
+.AC( 1, 1) -> A
+.AC( 1, 2) -> AC
+.AC( 2, 0) -> 
+.AC( 2, 1) -> C
+.ACD( 0, 0) -> 
+.ACD( 0, 1) -> .
+.ACD( 0, 2) -> .A
+.ACD( 0, 3) -> .AC
+.ACD( 0, 4) -> .ACD
+.ACD( 1, 0) -> 
+.ACD( 1, 1) -> A
+.ACD( 1, 2) -> AC
+.ACD( 1, 3) -> ACD
+.ACD( 2, 0) -> 
+.ACD( 2, 1) -> C
+.ACD( 2, 2) -> CD
+.ACD( 3, 0) -> 
+.ACD( 3, 1) -> D
+.ACDE( 0, 0) -> 
+.ACDE( 0, 1) -> .
+.ACDE( 0, 2) -> .A
+.ACDE( 0, 3) -> .AC
+.ACDE( 0, 4) -> .ACD
+.ACDE( 0, 5) -> .ACDE
+.ACDE( 1, 0) -> 
+.ACDE( 1, 1) -> A
+.ACDE( 1, 2) -> AC
+.ACDE( 1, 3) -> ACD
+.ACDE( 1, 4) -> ACDE
+.ACDE( 2, 0) -> 
+.ACDE( 2, 1) -> C
+.ACDE( 2, 2) -> CD
+.ACDE( 2, 3) -> CDE
+.ACDE( 3, 0) -> 
+.ACDE( 3, 1) -> D
+.ACDE( 3, 2) -> DE
+.ACDE( 4, 0) -> 
+.ACDE( 4, 1) -> E
+.ACDEI( 0, 0) -> 
+.ACDEI( 0, 1) -> .
+.ACDEI( 0, 2) -> .A
+.ACDEI( 0, 3) -> .AC
+.ACDEI( 0, 4) -> .ACD
+.ACDEI( 0, 5) -> .ACDE
+.ACDEI( 0, 6) -> .ACDEI
+.ACDEI( 1, 0) -> 
+.ACDEI( 1, 1) -> A
+.ACDEI( 1, 2) -> AC
+.ACDEI( 1, 3) -> ACD
+.ACDEI( 1, 4) -> ACDE
+.ACDEI( 1, 5) -> ACDEI
+.ACDEI( 2, 0) -> 
+.ACDEI( 2, 1) -> C
+.ACDEI( 2, 2) -> CD
+.ACDEI( 2, 3) -> CDE
+.ACDEI( 2, 4) -> CDEI
+.ACDEI( 3, 0) -> 
+.ACDEI( 3, 1) -> D
+.ACDEI( 3, 2) -> DE
+.ACDEI( 3, 3) -> DEI
+.ACDEI( 4, 0) -> 
+.ACDEI( 4, 1) -> E
+.ACDEI( 4, 2) -> EI
+.ACDEI( 5, 0) -> 
+.ACDEI( 5, 1) -> I
 .( 0, 0) -> 
 .( 0, 1) -> .
-.0( 0, 0) -> 
-.0( 0, 1) -> .
-.0( 0, 2) -> .0
-.0( 1, 0) -> 
-.0( 1, 1) -> 0
-.01( 0, 0) -> 
-.01( 0, 1) -> .
-.01( 0, 2) -> .0
-.01( 0, 3) -> .01
-.01( 1, 0) -> 
-.01( 1, 1) -> 0
-.01( 1, 2) -> 01
-.01( 2, 0) -> 
-.01( 2, 1) -> 1
-.012( 0, 0) -> 
-.012( 0, 1) -> .
-.012( 0, 2) -> .0
-.012( 0, 3) -> .01
-.012( 0, 4) -> .012
-.012( 1, 0) -> 
-.012( 1, 1) -> 0
-.012( 1, 2) -> 01
-.012( 1, 3) -> 012
-.012( 2, 0) -> 
-.012( 2, 1) -> 1
-.012( 2, 2) -> 12
-.012( 3, 0) -> 
-.012( 3, 1) -> 2
-.012A( 0, 0) -> 
-.012A( 0, 1) -> .
-.012A( 0, 2) -> .0
-.012A( 0, 3) -> .01
-.012A( 0, 4) -> .012
-.012A( 0, 5) -> .012A
-.012A( 1, 0) -> 
-.012A( 1, 1) -> 0
-.012A( 1, 2) -> 01
-.012A( 1, 3) -> 012
-.012A( 1, 4) -> 012A
-.012A( 2, 0) -> 
-.012A( 2, 1) -> 1
-.012A( 2, 2) -> 12
-.012A( 2, 3) -> 12A
-.012A( 3, 0) -> 
-.012A( 3, 1) -> 2
-.012A( 3, 2) -> 2A
-.012A( 4, 0) -> 
-.012A( 4, 1) -> A
-.012AC( 0, 0) -> 
-.012AC( 0, 1) -> .
-.012AC( 0, 2) -> .0
-.012AC( 0, 3) -> .01
-.012AC( 0, 4) -> .012
-.012AC( 0, 5) -> .012A
-.012AC( 0, 6) -> .012AC
-.012AC( 1, 0) -> 
-.012AC( 1, 1) -> 0
-.012AC( 1, 2) -> 01
-.012AC( 1, 3) -> 012
-.012AC( 1, 4) -> 012A
-.012AC( 1, 5) -> 012AC
-.012AC( 2, 0) -> 
-.012AC( 2, 1) -> 1
-.012AC( 2, 2) -> 12
-.012AC( 2, 3) -> 12A
-.012AC( 2, 4) -> 12AC
-.012AC( 3, 0) -> 
-.012AC( 3, 1) -> 2
-.012AC( 3, 2) -> 2A
-.012AC( 3, 3) -> 2AC
-.012AC( 4, 0) -> 
-.012AC( 4, 1) -> A
-.012AC( 4, 2) -> AC
-.012AC( 5, 0) -> 
-.012AC( 5, 1) -> C
-.012ACE( 0, 0) -> 
-.012ACE( 0, 1) -> .
-.012ACE( 0, 2) -> .0
-.012ACE( 0, 3) -> .01
-.012ACE( 0, 4) -> .012
-.012ACE( 0, 5) -> .012A
-.012ACE( 0, 6) -> .012AC
-.012ACE( 0, 7) -> .012ACE
-.012ACE( 1, 0) -> 
-.012ACE( 1, 1) -> 0
-.012ACE( 1, 2) -> 01
-.012ACE( 1, 3) -> 012
-.012ACE( 1, 4) -> 012A
-.012ACE( 1, 5) -> 012AC
-.012ACE( 1, 6) -> 012ACE
-.012ACE( 2, 0) -> 
-.012ACE( 2, 1) -> 1
-.012ACE( 2, 2) -> 12
-.012ACE( 2, 3) -> 12A
-.012ACE( 2, 4) -> 12AC
-.012ACE( 2, 5) -> 12ACE
-.012ACE( 3, 0) -> 
-.012ACE( 3, 1) -> 2
-.012ACE( 3, 2) -> 2A
-.012ACE( 3, 3) -> 2AC
-.012ACE( 3, 4) -> 2ACE
-.012ACE( 4, 0) -> 
-.012ACE( 4, 1) -> A
-.012ACE( 4, 2) -> AC
-.012ACE( 4, 3) -> ACE
-.012ACE( 5, 0) -> 
-.012ACE( 5, 1) -> C
-.012ACE( 5, 2) -> CE
-.012ACE( 6, 0) -> 
-.012ACE( 6, 1) -> E
-.012ACEI( 0, 0) -> 
-.012ACEI( 0, 1) -> .
-.012ACEI( 0, 2) -> .0
-.012ACEI( 0, 3) -> .01
-.012ACEI( 0, 4) -> .012
-.012ACEI( 0, 5) -> .012A
-.012ACEI( 0, 6) -> .012AC
-.012ACEI( 0, 7) -> .012ACE
-.012ACEI( 0, 8) -> .012ACEI
-.012ACEI( 1, 0) -> 
-.012ACEI( 1, 1) -> 0
-.012ACEI( 1, 2) -> 01
-.012ACEI( 1, 3) -> 012
-.012ACEI( 1, 4) -> 012A
-.012ACEI( 1, 5) -> 012AC
-.012ACEI( 1, 6) -> 012ACE
-.012ACEI( 1, 7) -> 012ACEI
-.012ACEI( 2, 0) -> 
-.012ACEI( 2, 1) -> 1
-.012ACEI( 2, 2) -> 12
-.012ACEI( 2, 3) -> 12A
-.012ACEI( 2, 4) -> 12AC
-.012ACEI( 2, 5) -> 12ACE
-.012ACEI( 2, 6) -> 12ACEI
-.012ACEI( 3, 0) -> 
-.012ACEI( 3, 1) -> 2
-.012ACEI( 3, 2) -> 2A
-.012ACEI( 3, 3) -> 2AC
-.012ACEI( 3, 4) -> 2ACE
-.012ACEI( 3, 5) -> 2ACEI
-.012ACEI( 4, 0) -> 
-.012ACEI( 4, 1) -> A
-.012ACEI( 4, 2) -> AC
-.012ACEI( 4, 3) -> ACE
-.012ACEI( 4, 4) -> ACEI
-.012ACEI( 5, 0) -> 
-.012ACEI( 5, 1) -> C
-.012ACEI( 5, 2) -> CE
-.012ACEI( 5, 3) -> CEI
-.012ACEI( 6, 0) -> 
-.012ACEI( 6, 1) -> E
-.012ACEI( 6, 2) -> EI
-.012ACEI( 7, 0) -> 
-.012ACEI( 7, 1) -> I
-.012ACEIL( 0, 0) -> 
-.012ACEIL( 0, 1) -> .
-.012ACEIL( 0, 2) -> .0
-.012ACEIL( 0, 3) -> .01
-.012ACEIL( 0, 4) -> .012
-.012ACEIL( 0, 5) -> .012A
-.012ACEIL( 0, 6) -> .012AC
-.012ACEIL( 0, 7) -> .012ACE
-.012ACEIL( 0, 8) -> .012ACEI
-.012ACEIL( 0, 9) -> .012ACEIL
-.012ACEIL( 1, 0) -> 
-.012ACEIL( 1, 1) -> 0
-.012ACEIL( 1, 2) -> 01
-.012ACEIL( 1, 3) -> 012
-.012ACEIL( 1, 4) -> 012A
-.012ACEIL( 1, 5) -> 012AC
-.012ACEIL( 1, 6) -> 012ACE
-.012ACEIL( 1, 7) -> 012ACEI
-.012ACEIL( 1, 8) -> 012ACEIL
-.012ACEIL( 2, 0) -> 
-.012ACEIL( 2, 1) -> 1
-.012ACEIL( 2, 2) -> 12
-.012ACEIL( 2, 3) -> 12A
-.012ACEIL( 2, 4) -> 12AC
-.012ACEIL( 2, 5) -> 12ACE
-.012ACEIL( 2, 6) -> 12ACEI
-.012ACEIL( 2, 7) -> 12ACEIL
-.012ACEIL( 3, 0) -> 
-.012ACEIL( 3, 1) -> 2
-.012ACEIL( 3, 2) -> 2A
-.012ACEIL( 3, 3) -> 2AC
-.012ACEIL( 3, 4) -> 2ACE
-.012ACEIL( 3, 5) -> 2ACEI
-.012ACEIL( 3, 6) -> 2ACEIL
-.012ACEIL( 4, 0) -> 
-.012ACEIL( 4, 1) -> A
-.012ACEIL( 4, 2) -> AC
-.012ACEIL( 4, 3) -> ACE
-.012ACEIL( 4, 4) -> ACEI
-.012ACEIL( 4, 5) -> ACEIL
-.012ACEIL( 5, 0) -> 
-.012ACEIL( 5, 1) -> C
-.012ACEIL( 5, 2) -> CE
-.012ACEIL( 5, 3) -> CEI
-.012ACEIL( 5, 4) -> CEIL
-.012ACEIL( 6, 0) -> 
-.012ACEIL( 6, 1) -> E
-.012ACEIL( 6, 2) -> EI
-.012ACEIL( 6, 3) -> EIL
-.012ACEIL( 7, 0) -> 
-.012ACEIL( 7, 1) -> I
-.012ACEIL( 7, 2) -> IL
-.012ACEIL( 8, 0) -> 
-.012ACEIL( 8, 1) -> L
-.012ACEILM( 0, 0) -> 
-.012ACEILM( 0, 1) -> .
-.012ACEILM( 0, 2) -> .0
-.012ACEILM( 0, 3) -> .01
-.012ACEILM( 0, 4) -> .012
-.012ACEILM( 0, 5) -> .012A
-.012ACEILM( 0, 6) -> .012AC
-.012ACEILM( 0, 7) -> .012ACE
-.012ACEILM( 0, 8) -> .012ACEI
-.012ACEILM( 0, 9) -> .012ACEIL
-.012ACEILM( 0, 10) -> .012ACEILM
-.012ACEILM( 1, 0) -> 
-.012ACEILM( 1, 1) -> 0
-.012ACEILM( 1, 2) -> 01
-.012ACEILM( 1, 3) -> 012
-.012ACEILM( 1, 4) -> 012A
-.012ACEILM( 1, 5) -> 012AC
-.012ACEILM( 1, 6) -> 012ACE
-.012ACEILM( 1, 7) -> 012ACEI
-.012ACEILM( 1, 8) -> 012ACEIL
-.012ACEILM( 1, 9) -> 012ACEILM
-.012ACEILM( 2, 0) -> 
-.012ACEILM( 2, 1) -> 1
-.012ACEILM( 2, 2) -> 12
-.012ACEILM( 2, 3) -> 12A
-.012ACEILM( 2, 4) -> 12AC
-.012ACEILM( 2, 5) -> 12ACE
-.012ACEILM( 2, 6) -> 12ACEI
-.012ACEILM( 2, 7) -> 12ACEIL
-.012ACEILM( 2, 8) -> 12ACEILM
-.012ACEILM( 3, 0) -> 
-.012ACEILM( 3, 1) -> 2
-.012ACEILM( 3, 2) -> 2A
-.012ACEILM( 3, 3) -> 2AC
-.012ACEILM( 3, 4) -> 2ACE
-.012ACEILM( 3, 5) -> 2ACEI
-.012ACEILM( 3, 6) -> 2ACEIL
-.012ACEILM( 3, 7) -> 2ACEILM
-.012ACEILM( 4, 0) -> 
-.012ACEILM( 4, 1) -> A
-.012ACEILM( 4, 2) -> AC
-.012ACEILM( 4, 3) -> ACE
-.012ACEILM( 4, 4) -> ACEI
-.012ACEILM( 4, 5) -> ACEIL
-.012ACEILM( 4, 6) -> ACEILM
-.012ACEILM( 5, 0) -> 
-.012ACEILM( 5, 1) -> C
-.012ACEILM( 5, 2) -> CE
-.012ACEILM( 5, 3) -> CEI
-.012ACEILM( 5, 4) -> CEIL
-.012ACEILM( 5, 5) -> CEILM
-.012ACEILM( 6, 0) -> 
-.012ACEILM( 6, 1) -> E
-.012ACEILM( 6, 2) -> EI
-.012ACEILM( 6, 3) -> EIL
-.012ACEILM( 6, 4) -> EILM
-.012ACEILM( 7, 0) -> 
-.012ACEILM( 7, 1) -> I
-.012ACEILM( 7, 2) -> IL
-.012ACEILM( 7, 3) -> ILM
-.012ACEILM( 8, 0) -> 
-.012ACEILM( 8, 1) -> L
-.012ACEILM( 8, 2) -> LM
-.012ACEILM( 9, 0) -> 
-.012ACEILM( 9, 1) -> M
-.012ACEILMP( 0, 0) -> 
-.012ACEILMP( 0, 1) -> .
-.012ACEILMP( 0, 2) -> .0
-.012ACEILMP( 0, 3) -> .01
-.012ACEILMP( 0, 4) -> .012
-.012ACEILMP( 0, 5) -> .012A
-.012ACEILMP( 0, 6) -> .012AC
-.012ACEILMP( 0, 7) -> .012ACE
-.012ACEILMP( 0, 8) -> .012ACEI
-.012ACEILMP( 0, 9) -> .012ACEIL
-.012ACEILMP( 0, 10) -> .012ACEILM
-.012ACEILMP( 0, 11) -> .012ACEILMP
-.012ACEILMP( 1, 0) -> 
-.012ACEILMP( 1, 1) -> 0
-.012ACEILMP( 1, 2) -> 01
-.012ACEILMP( 1, 3) -> 012
-.012ACEILMP( 1, 4) -> 012A
-.012ACEILMP( 1, 5) -> 012AC
-.012ACEILMP( 1, 6) -> 012ACE
-.012ACEILMP( 1, 7) -> 012ACEI
-.012ACEILMP( 1, 8) -> 012ACEIL
-.012ACEILMP( 1, 9) -> 012ACEILM
-.012ACEILMP( 1, 10) -> 012ACEILMP
-.012ACEILMP( 2, 0) -> 
-.012ACEILMP( 2, 1) -> 1
-.012ACEILMP( 2, 2) -> 12
-.012ACEILMP( 2, 3) -> 12A
-.012ACEILMP( 2, 4) -> 12AC
-.012ACEILMP( 2, 5) -> 12ACE
-.012ACEILMP( 2, 6) -> 12ACEI
-.012ACEILMP( 2, 7) -> 12ACEIL
-.012ACEILMP( 2, 8) -> 12ACEILM
-.012ACEILMP( 2, 9) -> 12ACEILMP
-.012ACEILMP( 3, 0) -> 
-.012ACEILMP( 3, 1) -> 2
-.012ACEILMP( 3, 2) -> 2A
-.012ACEILMP( 3, 3) -> 2AC
-.012ACEILMP( 3, 4) -> 2ACE
-.012ACEILMP( 3, 5) -> 2ACEI
-.012ACEILMP( 3, 6) -> 2ACEIL
-.012ACEILMP( 3, 7) -> 2ACEILM
-.012ACEILMP( 3, 8) -> 2ACEILMP
-.012ACEILMP( 4, 0) -> 
-.012ACEILMP( 4, 1) -> A
-.012ACEILMP( 4, 2) -> AC
-.012ACEILMP( 4, 3) -> ACE
-.012ACEILMP( 4, 4) -> ACEI
-.012ACEILMP( 4, 5) -> ACEIL
-.012ACEILMP( 4, 6) -> ACEILM
-.012ACEILMP( 4, 7) -> ACEILMP
-.012ACEILMP( 5, 0) -> 
-.012ACEILMP( 5, 1) -> C
-.012ACEILMP( 5, 2) -> CE
-.012ACEILMP( 5, 3) -> CEI
-.012ACEILMP( 5, 4) -> CEIL
-.012ACEILMP( 5, 5) -> CEILM
-.012ACEILMP( 5, 6) -> CEILMP
-.012ACEILMP( 6, 0) -> 
-.012ACEILMP( 6, 1) -> E
-.012ACEILMP( 6, 2) -> EI
-.012ACEILMP( 6, 3) -> EIL
-.012ACEILMP( 6, 4) -> EILM
-.012ACEILMP( 6, 5) -> EILMP
-.012ACEILMP( 7, 0) -> 
-.012ACEILMP( 7, 1) -> I
-.012ACEILMP( 7, 2) -> IL
-.012ACEILMP( 7, 3) -> ILM
-.012ACEILMP( 7, 4) -> ILMP
-.012ACEILMP( 8, 0) -> 
-.012ACEILMP( 8, 1) -> L
-.012ACEILMP( 8, 2) -> LM
-.012ACEILMP( 8, 3) -> LMP
-.012ACEILMP( 9, 0) -> 
-.012ACEILMP( 9, 1) -> M
-.012ACEILMP( 9, 2) -> MP
-.012ACEILMP( 10, 0) -> 
-.012ACEILMP( 10, 1) -> P
-.012ACEILMPR( 0, 0) -> 
-.012ACEILMPR( 0, 1) -> .
-.012ACEILMPR( 0, 2) -> .0
-.012ACEILMPR( 0, 3) -> .01
-.012ACEILMPR( 0, 4) -> .012
-.012ACEILMPR( 0, 5) -> .012A
-.012ACEILMPR( 0, 6) -> .012AC
-.012ACEILMPR( 0, 7) -> .012ACE
-.012ACEILMPR( 0, 8) -> .012ACEI
-.012ACEILMPR( 0, 9) -> .012ACEIL
-.012ACEILMPR( 0, 10) -> .012ACEILM
-.012ACEILMPR( 0, 11) -> .012ACEILMP
-.012ACEILMPR( 0, 12) -> .012ACEILMPR
-.012ACEILMPR( 1, 0) -> 
-.012ACEILMPR( 1, 1) -> 0
-.012ACEILMPR( 1, 2) -> 01
-.012ACEILMPR( 1, 3) -> 012
-.012ACEILMPR( 1, 4) -> 012A
-.012ACEILMPR( 1, 5) -> 012AC
-.012ACEILMPR( 1, 6) -> 012ACE
-.012ACEILMPR( 1, 7) -> 012ACEI
-.012ACEILMPR( 1, 8) -> 012ACEIL
-.012ACEILMPR( 1, 9) -> 012ACEILM
-.012ACEILMPR( 1, 10) -> 012ACEILMP
-.012ACEILMPR( 1, 11) -> 012ACEILMPR
-.012ACEILMPR( 2, 0) -> 
-.012ACEILMPR( 2, 1) -> 1
-.012ACEILMPR( 2, 2) -> 12
-.012ACEILMPR( 2, 3) -> 12A
-.012ACEILMPR( 2, 4) -> 12AC
-.012ACEILMPR( 2, 5) -> 12ACE
-.012ACEILMPR( 2, 6) -> 12ACEI
-.012ACEILMPR( 2, 7) -> 12ACEIL
-.012ACEILMPR( 2, 8) -> 12ACEILM
-.012ACEILMPR( 2, 9) -> 12ACEILMP
-.012ACEILMPR( 2, 10) -> 12ACEILMPR
-.012ACEILMPR( 3, 0) -> 
-.012ACEILMPR( 3, 1) -> 2
-.012ACEILMPR( 3, 2) -> 2A
-.012ACEILMPR( 3, 3) -> 2AC
-.012ACEILMPR( 3, 4) -> 2ACE
-.012ACEILMPR( 3, 5) -> 2ACEI
-.012ACEILMPR( 3, 6) -> 2ACEIL
-.012ACEILMPR( 3, 7) -> 2ACEILM
-.012ACEILMPR( 3, 8) -> 2ACEILMP
-.012ACEILMPR( 3, 9) -> 2ACEILMPR
-.012ACEILMPR( 4, 0) -> 
-.012ACEILMPR( 4, 1) -> A
-.012ACEILMPR( 4, 2) -> AC
-.012ACEILMPR( 4, 3) -> ACE
-.012ACEILMPR( 4, 4) -> ACEI
-.012ACEILMPR( 4, 5) -> ACEIL
-.012ACEILMPR( 4, 6) -> ACEILM
-.012ACEILMPR( 4, 7) -> ACEILMP
-.012ACEILMPR( 4, 8) -> ACEILMPR
-.012ACEILMPR( 5, 0) -> 
-.012ACEILMPR( 5, 1) -> C
-.012ACEILMPR( 5, 2) -> CE
-.012ACEILMPR( 5, 3) -> CEI
-.012ACEILMPR( 5, 4) -> CEIL
-.012ACEILMPR( 5, 5) -> CEILM
-.012ACEILMPR( 5, 6) -> CEILMP
-.012ACEILMPR( 5, 7) -> CEILMPR
-.012ACEILMPR( 6, 0) -> 
-.012ACEILMPR( 6, 1) -> E
-.012ACEILMPR( 6, 2) -> EI
-.012ACEILMPR( 6, 3) -> EIL
-.012ACEILMPR( 6, 4) -> EILM
-.012ACEILMPR( 6, 5) -> EILMP
-.012ACEILMPR( 6, 6) -> EILMPR
-.012ACEILMPR( 7, 0) -> 
-.012ACEILMPR( 7, 1) -> I
-.012ACEILMPR( 7, 2) -> IL
-.012ACEILMPR( 7, 3) -> ILM
-.012ACEILMPR( 7, 4) -> ILMP
-.012ACEILMPR( 7, 5) -> ILMPR
-.012ACEILMPR( 8, 0) -> 
-.012ACEILMPR( 8, 1) -> L
-.012ACEILMPR( 8, 2) -> LM
-.012ACEILMPR( 8, 3) -> LMP
-.012ACEILMPR( 8, 4) -> LMPR
-.012ACEILMPR( 9, 0) -> 
-.012ACEILMPR( 9, 1) -> M
-.012ACEILMPR( 9, 2) -> MP
-.012ACEILMPR( 9, 3) -> MPR
-.012ACEILMPR( 10, 0) -> 
-.012ACEILMPR( 10, 1) -> P
-.012ACEILMPR( 10, 2) -> PR
-.012ACEILMPR( 11, 0) -> 
-.012ACEILMPR( 11, 1) -> R
+.A( 0, 0) -> 
+.A( 0, 1) -> .
+.A( 0, 2) -> .A
+.A( 1, 0) -> 
+.A( 1, 1) -> A
+.AC( 0, 0) -> 
+.AC( 0, 1) -> .
+.AC( 0, 2) -> .A
+.AC( 0, 3) -> .AC
+.AC( 1, 0) -> 
+.AC( 1, 1) -> A
+.AC( 1, 2) -> AC
+.AC( 2, 0) -> 
+.AC( 2, 1) -> C
+.ACD( 0, 0) -> 
+.ACD( 0, 1) -> .
+.ACD( 0, 2) -> .A
+.ACD( 0, 3) -> .AC
+.ACD( 0, 4) -> .ACD
+.ACD( 1, 0) -> 
+.ACD( 1, 1) -> A
+.ACD( 1, 2) -> AC
+.ACD( 1, 3) -> ACD
+.ACD( 2, 0) -> 
+.ACD( 2, 1) -> C
+.ACD( 2, 2) -> CD
+.ACD( 3, 0) -> 
+.ACD( 3, 1) -> D
+.ACDE( 0, 0) -> 
+.ACDE( 0, 1) -> .
+.ACDE( 0, 2) -> .A
+.ACDE( 0, 3) -> .AC
+.ACDE( 0, 4) -> .ACD
+.ACDE( 0, 5) -> .ACDE
+.ACDE( 1, 0) -> 
+.ACDE( 1, 1) -> A
+.ACDE( 1, 2) -> AC
+.ACDE( 1, 3) -> ACD
+.ACDE( 1, 4) -> ACDE
+.ACDE( 2, 0) -> 
+.ACDE( 2, 1) -> C
+.ACDE( 2, 2) -> CD
+.ACDE( 2, 3) -> CDE
+.ACDE( 3, 0) -> 
+.ACDE( 3, 1) -> D
+.ACDE( 3, 2) -> DE
+.ACDE( 4, 0) -> 
+.ACDE( 4, 1) -> E
+.ACDEI( 0, 0) -> 
+.ACDEI( 0, 1) -> .
+.ACDEI( 0, 2) -> .A
+.ACDEI( 0, 3) -> .AC
+.ACDEI( 0, 4) -> .ACD
+.ACDEI( 0, 5) -> .ACDE
+.ACDEI( 0, 6) -> .ACDEI
+.ACDEI( 1, 0) -> 
+.ACDEI( 1, 1) -> A
+.ACDEI( 1, 2) -> AC
+.ACDEI( 1, 3) -> ACD
+.ACDEI( 1, 4) -> ACDE
+.ACDEI( 1, 5) -> ACDEI
+.ACDEI( 2, 0) -> 
+.ACDEI( 2, 1) -> C
+.ACDEI( 2, 2) -> CD
+.ACDEI( 2, 3) -> CDE
+.ACDEI( 2, 4) -> CDEI
+.ACDEI( 3, 0) -> 
+.ACDEI( 3, 1) -> D
+.ACDEI( 3, 2) -> DE
+.ACDEI( 3, 3) -> DEI
+.ACDEI( 4, 0) -> 
+.ACDEI( 4, 1) -> E
+.ACDEI( 4, 2) -> EI
+.ACDEI( 5, 0) -> 
+.ACDEI( 5, 1) -> I
+.ACDEIN( 0, 0) -> 
+.ACDEIN( 0, 1) -> .
+.ACDEIN( 0, 2) -> .A
+.ACDEIN( 0, 3) -> .AC
+.ACDEIN( 0, 4) -> .ACD
+.ACDEIN( 0, 5) -> .ACDE
+.ACDEIN( 0, 6) -> .ACDEI
+.ACDEIN( 0, 7) -> .ACDEIN
+.ACDEIN( 1, 0) -> 
+.ACDEIN( 1, 1) -> A
+.ACDEIN( 1, 2) -> AC
+.ACDEIN( 1, 3) -> ACD
+.ACDEIN( 1, 4) -> ACDE
+.ACDEIN( 1, 5) -> ACDEI
+.ACDEIN( 1, 6) -> ACDEIN
+.ACDEIN( 2, 0) -> 
+.ACDEIN( 2, 1) -> C
+.ACDEIN( 2, 2) -> CD
+.ACDEIN( 2, 3) -> CDE
+.ACDEIN( 2, 4) -> CDEI
+.ACDEIN( 2, 5) -> CDEIN
+.ACDEIN( 3, 0) -> 
+.ACDEIN( 3, 1) -> D
+.ACDEIN( 3, 2) -> DE
+.ACDEIN( 3, 3) -> DEI
+.ACDEIN( 3, 4) -> DEIN
+.ACDEIN( 4, 0) -> 
+.ACDEIN( 4, 1) -> E
+.ACDEIN( 4, 2) -> EI
+.ACDEIN( 4, 3) -> EIN
+.ACDEIN( 5, 0) -> 
+.ACDEIN( 5, 1) -> I
+.ACDEIN( 5, 2) -> IN
+.ACDEIN( 6, 0) -> 
+.ACDEIN( 6, 1) -> N
+.ACDEINO( 0, 0) -> 
+.ACDEINO( 0, 1) -> .
+.ACDEINO( 0, 2) -> .A
+.ACDEINO( 0, 3) -> .AC
+.ACDEINO( 0, 4) -> .ACD
+.ACDEINO( 0, 5) -> .ACDE
+.ACDEINO( 0, 6) -> .ACDEI
+.ACDEINO( 0, 7) -> .ACDEIN
+.ACDEINO( 0, 8) -> .ACDEINO
+.ACDEINO( 1, 0) -> 
+.ACDEINO( 1, 1) -> A
+.ACDEINO( 1, 2) -> AC
+.ACDEINO( 1, 3) -> ACD
+.ACDEINO( 1, 4) -> ACDE
+.ACDEINO( 1, 5) -> ACDEI
+.ACDEINO( 1, 6) -> ACDEIN
+.ACDEINO( 1, 7) -> ACDEINO
+.ACDEINO( 2, 0) -> 
+.ACDEINO( 2, 1) -> C
+.ACDEINO( 2, 2) -> CD
+.ACDEINO( 2, 3) -> CDE
+.ACDEINO( 2, 4) -> CDEI
+.ACDEINO( 2, 5) -> CDEIN
+.ACDEINO( 2, 6) -> CDEINO
+.ACDEINO( 3, 0) -> 
+.ACDEINO( 3, 1) -> D
+.ACDEINO( 3, 2) -> DE
+.ACDEINO( 3, 3) -> DEI
+.ACDEINO( 3, 4) -> DEIN
+.ACDEINO( 3, 5) -> DEINO
+.ACDEINO( 4, 0) -> 
+.ACDEINO( 4, 1) -> E
+.ACDEINO( 4, 2) -> EI
+.ACDEINO( 4, 3) -> EIN
+.ACDEINO( 4, 4) -> EINO
+.ACDEINO( 5, 0) -> 
+.ACDEINO( 5, 1) -> I
+.ACDEINO( 5, 2) -> IN
+.ACDEINO( 5, 3) -> INO
+.ACDEINO( 6, 0) -> 
+.ACDEINO( 6, 1) -> N
+.ACDEINO( 6, 2) -> NO
+.ACDEINO( 7, 0) -> 
+.ACDEINO( 7, 1) -> O
+.ACDEINOP( 0, 0) -> 
+.ACDEINOP( 0, 1) -> .
+.ACDEINOP( 0, 2) -> .A
+.ACDEINOP( 0, 3) -> .AC
+.ACDEINOP( 0, 4) -> .ACD
+.ACDEINOP( 0, 5) -> .ACDE
+.ACDEINOP( 0, 6) -> .ACDEI
+.ACDEINOP( 0, 7) -> .ACDEIN
+.ACDEINOP( 0, 8) -> .ACDEINO
+.ACDEINOP( 0, 9) -> .ACDEINOP
+.ACDEINOP( 1, 0) -> 
+.ACDEINOP( 1, 1) -> A
+.ACDEINOP( 1, 2) -> AC
+.ACDEINOP( 1, 3) -> ACD
+.ACDEINOP( 1, 4) -> ACDE
+.ACDEINOP( 1, 5) -> ACDEI
+.ACDEINOP( 1, 6) -> ACDEIN
+.ACDEINOP( 1, 7) -> ACDEINO
+.ACDEINOP( 1, 8) -> ACDEINOP
+.ACDEINOP( 2, 0) -> 
+.ACDEINOP( 2, 1) -> C
+.ACDEINOP( 2, 2) -> CD
+.ACDEINOP( 2, 3) -> CDE
+.ACDEINOP( 2, 4) -> CDEI
+.ACDEINOP( 2, 5) -> CDEIN
+.ACDEINOP( 2, 6) -> CDEINO
+.ACDEINOP( 2, 7) -> CDEINOP
+.ACDEINOP( 3, 0) -> 
+.ACDEINOP( 3, 1) -> D
+.ACDEINOP( 3, 2) -> DE
+.ACDEINOP( 3, 3) -> DEI
+.ACDEINOP( 3, 4) -> DEIN
+.ACDEINOP( 3, 5) -> DEINO
+.ACDEINOP( 3, 6) -> DEINOP
+.ACDEINOP( 4, 0) -> 
+.ACDEINOP( 4, 1) -> E
+.ACDEINOP( 4, 2) -> EI
+.ACDEINOP( 4, 3) -> EIN
+.ACDEINOP( 4, 4) -> EINO
+.ACDEINOP( 4, 5) -> EINOP
+.ACDEINOP( 5, 0) -> 
+.ACDEINOP( 5, 1) -> I
+.ACDEINOP( 5, 2) -> IN
+.ACDEINOP( 5, 3) -> INO
+.ACDEINOP( 5, 4) -> INOP
+.ACDEINOP( 6, 0) -> 
+.ACDEINOP( 6, 1) -> N
+.ACDEINOP( 6, 2) -> NO
+.ACDEINOP( 6, 3) -> NOP
+.ACDEINOP( 7, 0) -> 
+.ACDEINOP( 7, 1) -> O
+.ACDEINOP( 7, 2) -> OP
+.ACDEINOP( 8, 0) -> 
+.ACDEINOP( 8, 1) -> P
+.ACDEINOPS( 0, 0) -> 
+.ACDEINOPS( 0, 1) -> .
+.ACDEINOPS( 0, 2) -> .A
+.ACDEINOPS( 0, 3) -> .AC
+.ACDEINOPS( 0, 4) -> .ACD
+.ACDEINOPS( 0, 5) -> .ACDE
+.ACDEINOPS( 0, 6) -> .ACDEI
+.ACDEINOPS( 0, 7) -> .ACDEIN
+.ACDEINOPS( 0, 8) -> .ACDEINO
+.ACDEINOPS( 0, 9) -> .ACDEINOP
+.ACDEINOPS( 0, 10) -> .ACDEINOPS
+.ACDEINOPS( 1, 0) -> 
+.ACDEINOPS( 1, 1) -> A
+.ACDEINOPS( 1, 2) -> AC
+.ACDEINOPS( 1, 3) -> ACD
+.ACDEINOPS( 1, 4) -> ACDE
+.ACDEINOPS( 1, 5) -> ACDEI
+.ACDEINOPS( 1, 6) -> ACDEIN
+.ACDEINOPS( 1, 7) -> ACDEINO
+.ACDEINOPS( 1, 8) -> ACDEINOP
+.ACDEINOPS( 1, 9) -> ACDEINOPS
+.ACDEINOPS( 2, 0) -> 
+.ACDEINOPS( 2, 1) -> C
+.ACDEINOPS( 2, 2) -> CD
+.ACDEINOPS( 2, 3) -> CDE
+.ACDEINOPS( 2, 4) -> CDEI
+.ACDEINOPS( 2, 5) -> CDEIN
+.ACDEINOPS( 2, 6) -> CDEINO
+.ACDEINOPS( 2, 7) -> CDEINOP
+.ACDEINOPS( 2, 8) -> CDEINOPS
+.ACDEINOPS( 3, 0) -> 
+.ACDEINOPS( 3, 1) -> D
+.ACDEINOPS( 3, 2) -> DE
+.ACDEINOPS( 3, 3) -> DEI
+.ACDEINOPS( 3, 4) -> DEIN
+.ACDEINOPS( 3, 5) -> DEINO
+.ACDEINOPS( 3, 6) -> DEINOP
+.ACDEINOPS( 3, 7) -> DEINOPS
+.ACDEINOPS( 4, 0) -> 
+.ACDEINOPS( 4, 1) -> E
+.ACDEINOPS( 4, 2) -> EI
+.ACDEINOPS( 4, 3) -> EIN
+.ACDEINOPS( 4, 4) -> EINO
+.ACDEINOPS( 4, 5) -> EINOP
+.ACDEINOPS( 4, 6) -> EINOPS
+.ACDEINOPS( 5, 0) -> 
+.ACDEINOPS( 5, 1) -> I
+.ACDEINOPS( 5, 2) -> IN
+.ACDEINOPS( 5, 3) -> INO
+.ACDEINOPS( 5, 4) -> INOP
+.ACDEINOPS( 5, 5) -> INOPS
+.ACDEINOPS( 6, 0) -> 
+.ACDEINOPS( 6, 1) -> N
+.ACDEINOPS( 6, 2) -> NO
+.ACDEINOPS( 6, 3) -> NOP
+.ACDEINOPS( 6, 4) -> NOPS
+.ACDEINOPS( 7, 0) -> 
+.ACDEINOPS( 7, 1) -> O
+.ACDEINOPS( 7, 2) -> OP
+.ACDEINOPS( 7, 3) -> OPS
+.ACDEINOPS( 8, 0) -> 
+.ACDEINOPS( 8, 1) -> P
+.ACDEINOPS( 8, 2) -> PS
+.ACDEINOPS( 9, 0) -> 
+.ACDEINOPS( 9, 1) -> S
+.ACDEINOPST( 0, 0) -> 
+.ACDEINOPST( 0, 1) -> .
+.ACDEINOPST( 0, 2) -> .A
+.ACDEINOPST( 0, 3) -> .AC
+.ACDEINOPST( 0, 4) -> .ACD
+.ACDEINOPST( 0, 5) -> .ACDE
+.ACDEINOPST( 0, 6) -> .ACDEI
+.ACDEINOPST( 0, 7) -> .ACDEIN
+.ACDEINOPST( 0, 8) -> .ACDEINO
+.ACDEINOPST( 0, 9) -> .ACDEINOP
+.ACDEINOPST( 0, 10) -> .ACDEINOPS
+.ACDEINOPST( 0, 11) -> .ACDEINOPST
+.ACDEINOPST( 1, 0) -> 
+.ACDEINOPST( 1, 1) -> A
+.ACDEINOPST( 1, 2) -> AC
+.ACDEINOPST( 1, 3) -> ACD
+.ACDEINOPST( 1, 4) -> ACDE
+.ACDEINOPST( 1, 5) -> ACDEI
+.ACDEINOPST( 1, 6) -> ACDEIN
+.ACDEINOPST( 1, 7) -> ACDEINO
+.ACDEINOPST( 1, 8) -> ACDEINOP
+.ACDEINOPST( 1, 9) -> ACDEINOPS
+.ACDEINOPST( 1, 10) -> ACDEINOPST
+.ACDEINOPST( 2, 0) -> 
+.ACDEINOPST( 2, 1) -> C
+.ACDEINOPST( 2, 2) -> CD
+.ACDEINOPST( 2, 3) -> CDE
+.ACDEINOPST( 2, 4) -> CDEI
+.ACDEINOPST( 2, 5) -> CDEIN
+.ACDEINOPST( 2, 6) -> CDEINO
+.ACDEINOPST( 2, 7) -> CDEINOP
+.ACDEINOPST( 2, 8) -> CDEINOPS
+.ACDEINOPST( 2, 9) -> CDEINOPST
+.ACDEINOPST( 3, 0) -> 
+.ACDEINOPST( 3, 1) -> D
+.ACDEINOPST( 3, 2) -> DE
+.ACDEINOPST( 3, 3) -> DEI
+.ACDEINOPST( 3, 4) -> DEIN
+.ACDEINOPST( 3, 5) -> DEINO
+.ACDEINOPST( 3, 6) -> DEINOP
+.ACDEINOPST( 3, 7) -> DEINOPS
+.ACDEINOPST( 3, 8) -> DEINOPST
+.ACDEINOPST( 4, 0) -> 
+.ACDEINOPST( 4, 1) -> E
+.ACDEINOPST( 4, 2) -> EI
+.ACDEINOPST( 4, 3) -> EIN
+.ACDEINOPST( 4, 4) -> EINO
+.ACDEINOPST( 4, 5) -> EINOP
+.ACDEINOPST( 4, 6) -> EINOPS
+.ACDEINOPST( 4, 7) -> EINOPST
+.ACDEINOPST( 5, 0) -> 
+.ACDEINOPST( 5, 1) -> I
+.ACDEINOPST( 5, 2) -> IN
+.ACDEINOPST( 5, 3) -> INO
+.ACDEINOPST( 5, 4) -> INOP
+.ACDEINOPST( 5, 5) -> INOPS
+.ACDEINOPST( 5, 6) -> INOPST
+.ACDEINOPST( 6, 0) -> 
+.ACDEINOPST( 6, 1) -> N
+.ACDEINOPST( 6, 2) -> NO
+.ACDEINOPST( 6, 3) -> NOP
+.ACDEINOPST( 6, 4) -> NOPS
+.ACDEINOPST( 6, 5) -> NOPST
+.ACDEINOPST( 7, 0) -> 
+.ACDEINOPST( 7, 1) -> O
+.ACDEINOPST( 7, 2) -> OP
+.ACDEINOPST( 7, 3) -> OPS
+.ACDEINOPST( 7, 4) -> OPST
+.ACDEINOPST( 8, 0) -> 
+.ACDEINOPST( 8, 1) -> P
+.ACDEINOPST( 8, 2) -> PS
+.ACDEINOPST( 8, 3) -> PST
+.ACDEINOPST( 9, 0) -> 
+.ACDEINOPST( 9, 1) -> S
+.ACDEINOPST( 9, 2) -> ST
+.ACDEINOPST( 10, 0) -> 
+.ACDEINOPST( 10, 1) -> T
+.ACDEINOPST_( 0, 0) -> 
+.ACDEINOPST_( 0, 1) -> .
+.ACDEINOPST_( 0, 2) -> .A
+.ACDEINOPST_( 0, 3) -> .AC
+.ACDEINOPST_( 0, 4) -> .ACD
+.ACDEINOPST_( 0, 5) -> .ACDE
+.ACDEINOPST_( 0, 6) -> .ACDEI
+.ACDEINOPST_( 0, 7) -> .ACDEIN
+.ACDEINOPST_( 0, 8) -> .ACDEINO
+.ACDEINOPST_( 0, 9) -> .ACDEINOP
+.ACDEINOPST_( 0, 10) -> .ACDEINOPS
+.ACDEINOPST_( 0, 11) -> .ACDEINOPST
+.ACDEINOPST_( 0, 12) -> .ACDEINOPST_
+.ACDEINOPST_( 1, 0) -> 
+.ACDEINOPST_( 1, 1) -> A
+.ACDEINOPST_( 1, 2) -> AC
+.ACDEINOPST_( 1, 3) -> ACD
+.ACDEINOPST_( 1, 4) -> ACDE
+.ACDEINOPST_( 1, 5) -> ACDEI
+.ACDEINOPST_( 1, 6) -> ACDEIN
+.ACDEINOPST_( 1, 7) -> ACDEINO
+.ACDEINOPST_( 1, 8) -> ACDEINOP
+.ACDEINOPST_( 1, 9) -> ACDEINOPS
+.ACDEINOPST_( 1, 10) -> ACDEINOPST
+.ACDEINOPST_( 1, 11) -> ACDEINOPST_
+.ACDEINOPST_( 2, 0) -> 
+.ACDEINOPST_( 2, 1) -> C
+.ACDEINOPST_( 2, 2) -> CD
+.ACDEINOPST_( 2, 3) -> CDE
+.ACDEINOPST_( 2, 4) -> CDEI
+.ACDEINOPST_( 2, 5) -> CDEIN
+.ACDEINOPST_( 2, 6) -> CDEINO
+.ACDEINOPST_( 2, 7) -> CDEINOP
+.ACDEINOPST_( 2, 8) -> CDEINOPS
+.ACDEINOPST_( 2, 9) -> CDEINOPST
+.ACDEINOPST_( 2, 10) -> CDEINOPST_
+.ACDEINOPST_( 3, 0) -> 
+.ACDEINOPST_( 3, 1) -> D
+.ACDEINOPST_( 3, 2) -> DE
+.ACDEINOPST_( 3, 3) -> DEI
+.ACDEINOPST_( 3, 4) -> DEIN
+.ACDEINOPST_( 3, 5) -> DEINO
+.ACDEINOPST_( 3, 6) -> DEINOP
+.ACDEINOPST_( 3, 7) -> DEINOPS
+.ACDEINOPST_( 3, 8) -> DEINOPST
+.ACDEINOPST_( 3, 9) -> DEINOPST_
+.ACDEINOPST_( 4, 0) -> 
+.ACDEINOPST_( 4, 1) -> E
+.ACDEINOPST_( 4, 2) -> EI
+.ACDEINOPST_( 4, 3) -> EIN
+.ACDEINOPST_( 4, 4) -> EINO
+.ACDEINOPST_( 4, 5) -> EINOP
+.ACDEINOPST_( 4, 6) -> EINOPS
+.ACDEINOPST_( 4, 7) -> EINOPST
+.ACDEINOPST_( 4, 8) -> EINOPST_
+.ACDEINOPST_( 5, 0) -> 
+.ACDEINOPST_( 5, 1) -> I
+.ACDEINOPST_( 5, 2) -> IN
+.ACDEINOPST_( 5, 3) -> INO
+.ACDEINOPST_( 5, 4) -> INOP
+.ACDEINOPST_( 5, 5) -> INOPS
+.ACDEINOPST_( 5, 6) -> INOPST
+.ACDEINOPST_( 5, 7) -> INOPST_
+.ACDEINOPST_( 6, 0) -> 
+.ACDEINOPST_( 6, 1) -> N
+.ACDEINOPST_( 6, 2) -> NO
+.ACDEINOPST_( 6, 3) -> NOP
+.ACDEINOPST_( 6, 4) -> NOPS
+.ACDEINOPST_( 6, 5) -> NOPST
+.ACDEINOPST_( 6, 6) -> NOPST_
+.ACDEINOPST_( 7, 0) -> 
+.ACDEINOPST_( 7, 1) -> O
+.ACDEINOPST_( 7, 2) -> OP
+.ACDEINOPST_( 7, 3) -> OPS
+.ACDEINOPST_( 7, 4) -> OPST
+.ACDEINOPST_( 7, 5) -> OPST_
+.ACDEINOPST_( 8, 0) -> 
+.ACDEINOPST_( 8, 1) -> P
+.ACDEINOPST_( 8, 2) -> PS
+.ACDEINOPST_( 8, 3) -> PST
+.ACDEINOPST_( 8, 4) -> PST_
+.ACDEINOPST_( 9, 0) -> 
+.ACDEINOPST_( 9, 1) -> S
+.ACDEINOPST_( 9, 2) -> ST
+.ACDEINOPST_( 9, 3) -> ST_
+.ACDEINOPST_( 10, 0) -> 
+.ACDEINOPST_( 10, 1) -> T
+.ACDEINOPST_( 10, 2) -> T_
+.ACDEINOPST_( 11, 0) -> 
+.ACDEINOPST_( 11, 1) -> _

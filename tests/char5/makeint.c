@@ -4,8 +4,6 @@
 #include <stdlib.h>
 
 
-
-
 static void   bit32( char *s)
 {
    uint32_t   encoded;
@@ -14,18 +12,18 @@ static void   bit32( char *s)
    size_t     decoded_len;
 
    len = strlen( s);
-   if( ! mulle_char5_is32bit( s, len))
+   if( ! mulle_char5_is_char5string32( s, len))
       return;
 
-   encoded     = mulle_char5_encode32_ascii( s, len);
-   decoded_len = mulle_char5_decode32_ascii( encoded, decoded, sizeof( decoded));
+   encoded     = mulle_char5_encode32( s, len);
+   decoded_len = mulle_char5_decode32( encoded, decoded, sizeof( decoded));
 
    if( decoded_len != len || strncmp( decoded, s, decoded_len))
    {
       printf( "%s failed\n", s);
       abort();
    }
-   printf( "32bit: %.*s (%d): 0x%x\n", decoded_len, decoded, decoded_len, encoded);
+   printf( "32bit: %.*s (%d): 0x%x\n", (int) decoded_len, decoded, decoded_len, encoded);
 }
 
 
@@ -37,17 +35,17 @@ static void   bit64( char *s)
    size_t     decoded_len;
 
    len = strlen( s);
-   if( ! mulle_char5_is64bit( s, len))
+   if( ! mulle_char5_is_char5string64( s, len))
       return;
 
-   encoded     = mulle_char5_encode64_ascii( s, len);
-   decoded_len = mulle_char5_decode64_ascii( encoded, decoded, sizeof( decoded));
+   encoded     = mulle_char5_encode64( s, len);
+   decoded_len = mulle_char5_decode64( encoded, decoded, sizeof( decoded));
    if( decoded_len != len || strncmp( decoded, s, decoded_len))
    {
       printf( "%s failed\n", s);
       abort();
    }
-   printf( "64bit: %.*s (%d): 0x%lx\n", decoded_len, decoded, decoded_len, encoded);
+   printf( "64bit: %.*s (%d): 0x%lx\n", (int) decoded_len, decoded, decoded_len, encoded);
 }
 
 static void  test( char *s)

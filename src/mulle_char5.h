@@ -3,7 +3,9 @@
 //  mulle-utf
 //
 //  Created by Nat! on 02.05.16.
-//  Copyright © 2016 Mulle kybernetiK. All rights reserved.
+//  Copyright © 2016 Mulle kybernetiK.
+//  Copyright (c) 2016 Codeon GmbH.
+// All rights reserved.
 //
 
 #ifndef mulle_char5_h__
@@ -11,8 +13,8 @@
 
 #include "mulle_utf_type.h"
 
-#include <stddef.h>
 #include <assert.h>
+
 
 //
 // char5 is a compression scheme that places small strings
@@ -22,45 +24,48 @@
 // 32 bit can hold up to 6 chars  with 2 bits left over
 // 64 bit can hold up to 12 chars with 4 bits left over
 //
-int   mulle_char5_encode( int c);
+int   mulle_char5_encode_character( int c);
 
 enum
 {
-   mulle_char5_max_length32 = 6,
-   mulle_char5_max_length64 = 12
+   mulle_char5_maxlength32 = 6,
+   mulle_char5_maxlength64 = 12
 };
 
 
-static inline int   mulle_char5_decode( int c)
+static inline char   *mulle_char5_get_charset( void)
+{
+   static const char  table[] =
+   {
+       0,  '.', 'A', 'C',  'D', 'E', 'I', 'N',
+      'O', 'P', 'S', 'T',  '_', 'a', 'b', 'c',
+      'd', 'e', 'f', 'g',  'h', 'i', 'l', 'm',
+      'n', 'o', 'p', 'r',  's', 't', 'u', 'y',
+      0  // bonus zero for tests :)
+   };
+   return( (char *) table);
+}
+
+
+static inline int   mulle_char5_decode_character( int c)
 {
    assert( c >= 0 && c < 32);
    
-   static char  table[] =
-   {
-      0,
-      '.', '0', '1', '2', 'A', 'C', 'E', 'I',
-      'L', 'M', 'P', 'R', 'S', 'T', '_', 'a',
-      'b', 'c', 'd', 'e', 'g', 'i', 'l', 'm',
-      'n', 'o', 'p', 'r', 's', 't', 'u'
-   };
-   
-   return( table[ c]);
+   return( mulle_char5_get_charset()[ c]);
 }
 
-int   mulle_char5_is32bit( char *src, size_t len);
-int   mulle_char5_is64bit( char *src, size_t len);
 
-uint32_t   mulle_char5_encode32_ascii( char *src, size_t len);
-uint64_t   mulle_char5_encode64_ascii( char *src, size_t len);
+int   mulle_char5_is_char5string32( char *src, size_t len);
+int   mulle_char5_is_char5string64( char *src, size_t len);
 
-size_t   mulle_char5_decode32_ascii( uint32_t value, char *dst, size_t len);
-size_t   mulle_char5_decode64_ascii( uint64_t value, char *src, size_t len);
+uint32_t   mulle_char5_encode32( char *src, size_t len);
+uint64_t   mulle_char5_encode64( char *src, size_t len);
 
-char  mulle_char5_at64( uint64_t value, unsigned int index);
-char  mulle_char5_at32( uint32_t value, unsigned int index);
+size_t   mulle_char5_decode32( uint32_t value, char *dst, size_t len);
+size_t   mulle_char5_decode64( uint64_t value, char *src, size_t len);
 
-char  _mulle_char5_at64( uint64_t value, unsigned int index);
-char  _mulle_char5_at32( uint32_t value, unsigned int index);
+int   mulle_char5_get64( uint64_t value, unsigned int index);
+int   mulle_char5_get32( uint32_t value, unsigned int index);
 
 
 static inline size_t   mulle_char5_strlen64( uint64_t value)
@@ -117,60 +122,61 @@ static inline uint32_t   mulle_char5_substring32( uint32_t value, unsigned int l
 // the naming... the naming...
 // i will rename all this eventually
 //
-static inline int   mulle_char5_is_uintptr( char *src, size_t len)
+static inline int   mulle_char5_is_char5string( char *src, size_t len)
 {
-   if( sizeof( uintptr_t) == sizeof( uint32_t))
-      return( (uintptr_t) mulle_char5_is32bit( src, len));
-   return( (uintptr_t) mulle_char5_is64bit( src, len));
+   if( sizeof( mulle_char5_t) == sizeof( uint32_t))
+      return( mulle_char5_is_char5string32( src, len));
+   return( mulle_char5_is_char5string64( src, len));
 }
 
 
-static inline uintptr_t   mulle_char5_encode_ascii( char *src, size_t len)
+static inline mulle_char5_t   mulle_char5_encode( char *src, size_t len)
 {
-   if( sizeof( uintptr_t) == sizeof( uint32_t))
-      return( (uintptr_t) mulle_char5_encode32_ascii( src, len));
-   return( (uintptr_t) mulle_char5_encode64_ascii( src, len));
+   if( sizeof( mulle_char5_t) == sizeof( uint32_t))
+      return( (mulle_char5_t) mulle_char5_encode32( src, len));
+   return( (mulle_char5_t) mulle_char5_encode64( src, len));
 }
 
 
-static inline size_t   mulle_char5_decode_ascii( uintptr_t value, char *src, size_t len)
+static inline size_t   mulle_char5_decode( mulle_char5_t value, char *src, size_t len)
 {
-   if( sizeof( uintptr_t) == sizeof( uint32_t))
-      return( (uintptr_t) mulle_char5_decode32_ascii( (uint32_t) value, src, len));
-   return( (uintptr_t) mulle_char5_decode64_ascii( value, src, len));
+   if( sizeof( mulle_char5_t) == sizeof( uint32_t))
+      return( (uintptr_t) mulle_char5_decode32( (uint32_t) value, src, len));
+   return( (uintptr_t) mulle_char5_decode64( value, src, len));
 }
 
 
-static inline char   mulle_char5_at_uintptr( uintptr_t value, unsigned int index)
+static inline int   mulle_char5_get( mulle_char5_t value, unsigned int index)
 {
-   if( sizeof( uintptr_t) == sizeof( uint32_t))
-      return( (uintptr_t) mulle_char5_at32( (uint32_t) value, index));
-   return( (uintptr_t) mulle_char5_at64( value, index));
+   if( sizeof( mulle_char5_t) == sizeof( uint32_t))
+      return( mulle_char5_get32( (uint32_t) value, index));
+   return( mulle_char5_get64( value, index));
 }
 
 
-static inline size_t  mulle_char5_strlen_uintptr( uintptr_t value)
+static inline size_t   mulle_char5_strlen( mulle_char5_t value)
 {
-   if( sizeof( uintptr_t) == sizeof( uint32_t))
-      return( (uintptr_t) mulle_char5_strlen32( (uint32_t) value));
-   return( (uintptr_t) mulle_char5_strlen64( value));
+   if( sizeof( mulle_char5_t) == sizeof( uint32_t))
+      return( mulle_char5_strlen32( (uint32_t) value));
+   return( mulle_char5_strlen64( value));
 }
 
 
-static inline size_t  mulle_char5_uintptr_max_length( void)
+static inline size_t  mulle_char5_get_maxlength( void)
 {
-   if( sizeof( uintptr_t) == sizeof( uint32_t))
-      return( (size_t) mulle_char5_max_length32);
-   return( (size_t) mulle_char5_max_length64);
+   if( sizeof( mulle_char5_t) == sizeof( uint32_t))
+      return( mulle_char5_maxlength32);
+   return( mulle_char5_maxlength64);
 }
 
 
-static inline uintptr_t  mulle_char5_uintptr_substring( uintptr_t value, unsigned int location, unsigned int length)
-
+static inline mulle_char5_t  mulle_char5_substring( mulle_char5_t value,
+                                                    unsigned int location,
+                                                    unsigned int length)
 {
-   if( sizeof( uintptr_t) == sizeof( uint32_t))
-      return( (uintptr_t) mulle_char5_substring32( (uint32_t) value, location, length));
-   return( (uintptr_t) mulle_char5_substring64( value, location, length));
+   if( sizeof( mulle_char5_t) == sizeof( uint32_t))
+      return( (mulle_char5_t) mulle_char5_substring32( (uint32_t) value, location, length));
+   return( (mulle_char5_t) mulle_char5_substring64( value, location, length));
 }
 
 #endif

@@ -55,10 +55,10 @@ struct mulle_bytebuffer;
 // function is not ware of UTF8 BOM
 // returned length does not include BOM
 //
-size_t  mulle_utf8_length_as_utf16( mulle_utf8_t *src, size_t len);
+size_t  mulle_utf8_utf16length( mulle_utf8_t *src, size_t len);
 
 
-static inline size_t  mulle_utf8_max_length_as_utf16( size_t len)
+static inline size_t  mulle_utf8_utf16maxlength( size_t len)
 {
    return( len * 4);
 }
@@ -70,6 +70,8 @@ static inline int  mulle_utf8_has_bom( mulle_utf8_t *src, size_t len)
    
    return( src[ 0] == 0xEF && src[ 1] == 0xBB && src[ 2] == 0xBF);
 }
+
+int   mulle_utf8_are_valid_extra_characters( char *s, unsigned int len);
 
 //
 // if len is -1, assume that *s is '\0' terminated
@@ -94,40 +96,35 @@ static inline size_t  mulle_utf8_strnlen( mulle_utf8_t *s, size_t len)
 }
 
 
-// use this to walk through a utf8 string
-
-static inline mulle_utf32_t   mulle_utf8_next_utf32_value( mulle_utf8_t **s_p)
-{
-   extern mulle_utf32_t   _mulle_utf8_next_utf32_value( mulle_utf8_t **s_p);
-
-   if( **s_p <= 0x7F)
-      return( *(*s_p)++);
-   return( _mulle_utf8_next_utf32_value( s_p));
-}
-
-
-int   mulle_utf8_are_valid_extra_chars( char *s, unsigned int len);
-
-
 // extremely primitive!
 // iterate back and forth over a  buffer. the utf8 must be valid, and
 // this doesn't check for zero or buffer overflow
 //
-mulle_utf32_t   _mulle_utf8_next_utf32_char( mulle_utf8_t **s_p);
-mulle_utf32_t   _mulle_utf8_previous_utf32_char( mulle_utf8_t **s_p);
+mulle_utf32_t   _mulle_utf8_next_utf32character( mulle_utf8_t **s_p);
+mulle_utf32_t   _mulle_utf8_previous_utf32character( mulle_utf8_t **s_p);
+
+
+// use this to walk through a utf8 string
+static inline mulle_utf32_t   mulle_utf8_next_utf32character( mulle_utf8_t **s_p)
+{
+   if( **s_p <= 0x7F)
+      return( *(*s_p)++);
+   return( _mulle_utf8_next_utf32character( s_p));
+}
+
 
 
 // supply a "mulle_buffer" here as "buffer" and mulle_buffer_add_bytes as the
 // callback.
 // int == 0 : OK!
 // these routines do not skip BOM characters
-int  mulle_utf8_convert_to_utf16_bytebuffer( mulle_utf8_t *src,
+int  mulle_utf8_convert_to_utf16bytebuffer( mulle_utf8_t *src,
                                              size_t len,
                                              void *buffer,
                                              void (*add)( void *buffer, void *bytes, size_t size));
 
 // as above, but for utf32
-int  mulle_utf8_convert_to_utf32_bytebuffer( mulle_utf8_t *src,
+int  mulle_utf8_convert_to_utf32bytebuffer( mulle_utf8_t *src,
                                              size_t len,
                                              void *buffer,
                                              void (*add)( void *buffer, void *bytes, size_t size));

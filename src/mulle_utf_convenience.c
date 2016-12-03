@@ -3,7 +3,9 @@
 //  mulle-utf
 //
 //  Created by Nat! on 30.05.16.
-//  Copyright © 2016 Mulle kybernetiK. All rights reserved.
+//  Copyright © 2016 Mulle kybernetiK.
+//  Copyright (c) 2016 Codeon GmbH.
+//  All rights reserved.
 //
 
 #include "mulle_utf_convenience.h"
@@ -56,7 +58,7 @@ mulle_utf16_t  *mulle_utf8_convert_to_utf16( mulle_utf8_t *src,
    tmp.s = memo;
    tmp.n = 0;
    
-   if( mulle_utf8_convert_to_utf16_bytebuffer( info.start, info.utf8len, &tmp, (void *) buffer_add))
+   if( mulle_utf8_convert_to_utf16bytebuffer( info.start, info.utf8len, &tmp, (void *) buffer_add))
    {
       mulle_allocator_free( allocator, memo);
       errno = EINVAL;
@@ -91,7 +93,7 @@ mulle_utf32_t  *mulle_utf8_convert_to_utf32( mulle_utf8_t *src,
    tmp.s = memo;
    tmp.n = 0;
    
-   if( mulle_utf8_convert_to_utf32_bytebuffer( info.start, info.utf8len, &tmp, (void *) buffer_add))
+   if( mulle_utf8_convert_to_utf32bytebuffer( info.start, info.utf8len, &tmp, (void *) buffer_add))
    {
       mulle_allocator_free( allocator, memo);
       errno = EINVAL;
@@ -131,7 +133,7 @@ mulle_utf8_t  *mulle_utf16_convert_to_utf8( mulle_utf16_t *src,
    tmp.s = memo;
    tmp.n = 0;
    
-   if( mulle_utf16_convert_to_utf8_bytebuffer( info.start, info.utf16len, &tmp, (void *) buffer_add))
+   if( mulle_utf16_bufferconvert_to_utf8( info.start, info.utf16len, &tmp, (void *) buffer_add))
    {
       mulle_allocator_free( allocator, memo);
       errno = EINVAL;
@@ -165,7 +167,7 @@ mulle_utf32_t  *mulle_utf16_convert_to_utf32( mulle_utf16_t *src,
    tmp.s = memo;
    tmp.n = 0;
    
-   if( mulle_utf16_convert_to_utf32_bytebuffer( info.start, info.utf16len, &tmp, (void *) buffer_add))
+   if( mulle_utf16_bufferconvert_to_utf32( info.start, info.utf16len, &tmp, (void *) buffer_add))
    {
       mulle_allocator_free( allocator, memo);
       errno = EINVAL;
@@ -205,7 +207,7 @@ mulle_utf8_t  *mulle_utf32_convert_to_utf8( mulle_utf32_t *src,
    tmp.s = memo;
    tmp.n = 0;
    
-   if( mulle_utf32_convert_to_utf8_bytebuffer( info.start, info.utf32len, &tmp, (void *) buffer_add))
+   if( mulle_utf32_bufferconvert_to_utf8( info.start, info.utf32len, &tmp, (void *) buffer_add))
    {
       mulle_allocator_free( allocator, memo);
       errno = EINVAL;
@@ -240,7 +242,7 @@ mulle_utf16_t  *mulle_utf32_convert_to_utf16( mulle_utf32_t *src,
    tmp.s = memo;
    tmp.n = 0;
    
-   if( mulle_utf32_convert_to_utf16_bytebuffer( info.start, info.utf32len, &tmp, (void *) buffer_add))
+   if( mulle_utf32_bufferconvert_to_utf16( info.start, info.utf32len, &tmp, (void *) buffer_add))
    {
       mulle_allocator_free( allocator, memo);
       errno = EINVAL;

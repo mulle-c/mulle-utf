@@ -15,7 +15,7 @@ static mulle_utf32_t   random_char( mulle_utf32_t mask)
       if( ! c)
          continue;
    }
-   while( mulle_utf32_is_bom_char( c) || mulle_utf32_is_noncharacter( c) || mulle_utf32_is_privatecharacter( c));
+   while( mulle_utf32_is_bom_character( c) || mulle_utf32_is_noncharacter( c) || mulle_utf32_is_privatecharacter( c));
 
    return( c);
 }
@@ -62,7 +62,7 @@ static void   test_prediction( mulle_utf32_t text[ 4])
    mulle_utf32_information( text,4, &info);
 
    memset( &buffer8, 0, sizeof( buffer8));
-   mulle_utf32_convert_to_utf8_bytebuffer( info.start, info.utf32len, &buffer8, (void *) buffer_add);
+   mulle_utf32_bufferconvert_to_utf8( info.start, info.utf32len, &buffer8, (void *) buffer_add);
    if( buffer8.n != info.utf8len)
    {
       printf( "failed with %ls\n", text);
@@ -70,7 +70,7 @@ static void   test_prediction( mulle_utf32_t text[ 4])
    }
 
    memset( &buffer32, 0, sizeof( buffer32));
-   mulle_utf8_convert_to_utf32_bytebuffer( buffer8.text._8, buffer8.n, &buffer32, (void *) buffer_add);
+   mulle_utf8_convert_to_utf32bytebuffer( buffer8.text._8, buffer8.n, &buffer32, (void *) buffer_add);
    if( buffer32.n / sizeof( mulle_utf32_t) != info.utf32len)
    {
       printf( "failed with %ls\n", text);
@@ -80,7 +80,7 @@ static void   test_prediction( mulle_utf32_t text[ 4])
 
    // UTF32 <-> UTF16
    memset( &buffer16, 0, sizeof( buffer16));
-   mulle_utf32_convert_to_utf16_bytebuffer( info.start, info.utf32len, &buffer16, (void *) buffer_add);
+   mulle_utf32_bufferconvert_to_utf16( info.start, info.utf32len, &buffer16, (void *) buffer_add);
    if( buffer16.n / sizeof( mulle_utf16_t) != info.utf16len)
    {
       printf( "failed with %ls\n", text);
@@ -88,7 +88,7 @@ static void   test_prediction( mulle_utf32_t text[ 4])
    }
 
    memset( &buffer32, 0, sizeof( buffer32));
-   mulle_utf16_convert_to_utf32_bytebuffer( buffer16.text._16, buffer16.n / sizeof( mulle_utf16_t), &buffer32, (void *) buffer_add);
+   mulle_utf16_bufferconvert_to_utf32( buffer16.text._16, buffer16.n / sizeof( mulle_utf16_t), &buffer32, (void *) buffer_add);
    if( buffer32.n / sizeof( mulle_utf32_t) != info.utf32len)
    {
       printf( "failed with %ls\n", text);
@@ -97,7 +97,7 @@ static void   test_prediction( mulle_utf32_t text[ 4])
 
    // UTF16 <-> UTF8
    memset( &buffer8, 0, sizeof( buffer8));
-   mulle_utf16_convert_to_utf8_bytebuffer( buffer16.text._16, buffer16.n / sizeof( mulle_utf16_t), &buffer8, (void *) buffer_add);
+   mulle_utf16_bufferconvert_to_utf8( buffer16.text._16, buffer16.n / sizeof( mulle_utf16_t), &buffer8, (void *) buffer_add);
    if( buffer8.n != info.utf8len)
    {
       printf( "failed with %ls\n", text);
@@ -105,7 +105,7 @@ static void   test_prediction( mulle_utf32_t text[ 4])
    }
 
    memset( &buffer16, 0, sizeof( buffer16));
-   mulle_utf8_convert_to_utf16_bytebuffer( buffer8.text._8, buffer8.n, &buffer16, (void *) buffer_add);
+   mulle_utf8_convert_to_utf16bytebuffer( buffer8.text._8, buffer8.n, &buffer16, (void *) buffer_add);
    if( buffer16.n / sizeof( mulle_utf16_t) != info.utf16len)
    {
       printf( "failed with %ls\n", text);
@@ -125,8 +125,8 @@ static void   test_conversion( mulle_utf32_t text[ 4])
    memset( &buffer32, 0, sizeof( buffer32));
    memset( &buffer8, 0, sizeof( buffer8));
 
-   mulle_utf32_convert_to_utf8_bytebuffer( text, 4, &buffer8, (void *) buffer_add);
-   mulle_utf8_convert_to_utf32_bytebuffer( buffer8.text._8, buffer8.n, &buffer32, (void *) buffer_add);
+   mulle_utf32_bufferconvert_to_utf8( text, 4, &buffer8, (void *) buffer_add);
+   mulle_utf8_convert_to_utf32bytebuffer( buffer8.text._8, buffer8.n, &buffer32, (void *) buffer_add);
 
 
    // buffer.n is bytes!
@@ -139,8 +139,8 @@ static void   test_conversion( mulle_utf32_t text[ 4])
    memset( &buffer32, 0, sizeof( buffer32));
    memset( &buffer16, 0, sizeof( buffer16));
 
-   mulle_utf32_convert_to_utf16_bytebuffer( text, 4, &buffer16, (void *) buffer_add);
-   mulle_utf16_convert_to_utf32_bytebuffer( buffer16.text._16, buffer16.n / sizeof( mulle_utf16_t), &buffer32, (void *) buffer_add);
+   mulle_utf32_bufferconvert_to_utf16( text, 4, &buffer16, (void *) buffer_add);
+   mulle_utf16_bufferconvert_to_utf32( buffer16.text._16, buffer16.n / sizeof( mulle_utf16_t), &buffer32, (void *) buffer_add);
 
    // buffer.n is bytes!
    if( buffer32.n != 16 || memcmp( text, buffer32.text._32, 4))
@@ -153,12 +153,12 @@ static void   test_conversion( mulle_utf32_t text[ 4])
    memset( &buffer16, 0, sizeof( buffer16));
    memset( &buffer8, 0, sizeof( buffer8));
 
-   mulle_utf32_convert_to_utf16_bytebuffer( text, 4, &buffer16, (void *) buffer_add);
-   mulle_utf16_convert_to_utf8_bytebuffer( buffer16.text._16, buffer16.n / sizeof( mulle_utf16_t), &buffer8, (void *) buffer_add);
+   mulle_utf32_bufferconvert_to_utf16( text, 4, &buffer16, (void *) buffer_add);
+   mulle_utf16_bufferconvert_to_utf8( buffer16.text._16, buffer16.n / sizeof( mulle_utf16_t), &buffer8, (void *) buffer_add);
 
    memset( &buffer16, 0, sizeof( buffer16));
-   mulle_utf8_convert_to_utf16_bytebuffer( buffer8.text._8, buffer8.n, &buffer16, (void *) buffer_add);
-   mulle_utf16_convert_to_utf32_bytebuffer( buffer16.text._16, buffer16.n / sizeof( mulle_utf16_t), &buffer32, (void *) buffer_add);
+   mulle_utf8_convert_to_utf16bytebuffer( buffer8.text._8, buffer8.n, &buffer16, (void *) buffer_add);
+   mulle_utf16_bufferconvert_to_utf32( buffer16.text._16, buffer16.n / sizeof( mulle_utf16_t), &buffer32, (void *) buffer_add);
 
    // buffer.n is bytes!
    if( buffer32.n != 16 || memcmp( text, buffer32.text._32, 4))
