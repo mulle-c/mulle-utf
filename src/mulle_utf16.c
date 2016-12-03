@@ -45,15 +45,15 @@
 #define FORBID_NON_CHARACTERS  1
 
 
-static inline int   mulle_utf16_is_ascii_char( mulle_utf16_t c)
+static inline int   mulle_utf16_is_asciicharacter( mulle_utf16_t c)
 {
    return( c < 0x80);
 }
 
 
-static inline int   mulle_utf16_is_char5_char( mulle_utf16_t c)
+static inline int   mulle_utf16_is_char5character( mulle_utf16_t c)
 {
-   return( mulle_char5_encode( c) >= 0);
+   return( mulle_char5_encode_character( c) >= 0);
 }
 
 
@@ -96,7 +96,7 @@ int  mulle_utf16_is_valid_surrogatepair( mulle_utf16_t hi, mulle_utf16_t lo)
 //
 
 // must be proper UTF16 code!
-int  mulle_utf16_convert_to_utf8_bytebuffer( mulle_utf16_t *src,
+int  mulle_utf16_bufferconvert_to_utf8( mulle_utf16_t *src,
                                              size_t len,
                                              void *buffer,
                                              void (*addbytes)( void *buffer, void *bytes, size_t length))
@@ -167,7 +167,7 @@ int  mulle_utf16_convert_to_utf8_bytebuffer( mulle_utf16_t *src,
 }
 
 
-int  mulle_utf16_convert_to_utf32_bytebuffer( mulle_utf16_t *src,
+int  mulle_utf16_bufferconvert_to_utf32( mulle_utf16_t *src,
                                               size_t len,
                                               void *buffer,
                                               void (*addbytes)( void *buffer, void *bytes, size_t length))
@@ -253,7 +253,7 @@ mulle_utf16_t  *mulle_utf16_validate( mulle_utf16_t *src, size_t len)
 //
 // this routine does not validate...
 //
-size_t  mulle_utf16_length_as_utf8( mulle_utf16_t *src, size_t len)
+size_t  mulle_utf16_utf8length( mulle_utf16_t *src, size_t len)
 {
    mulle_utf16_t   c;
    mulle_utf16_t   *sentinel;
@@ -332,7 +332,7 @@ size_t  mulle_utf16_length( mulle_utf16_t *src, size_t len)
 }
 
 
-mulle_utf32_t   _mulle_utf16_next_utf32_char( mulle_utf16_t **s_p)
+mulle_utf32_t   _mulle_utf16_next_utf32character( mulle_utf16_t **s_p)
 {
    mulle_utf16_t   *s;
    mulle_utf32_t   value;
@@ -348,7 +348,7 @@ mulle_utf32_t   _mulle_utf16_next_utf32_char( mulle_utf16_t **s_p)
 
 
 // sorta undoes _mulle_utf8_next_utf32_value
-mulle_utf32_t   _mulle_utf16_previous_utf32_char( mulle_utf16_t **s_p)
+mulle_utf32_t   _mulle_utf16_previous_utf32character( mulle_utf16_t **s_p)
 {
    mulle_utf16_t   *s;
    mulle_utf32_t   value;
@@ -400,7 +400,7 @@ int  mulle_utf16_information( mulle_utf16_t *src, size_t len, struct mulle_utf_i
    //
    // remove leading BOM
    //
-   info->has_bom = mulle_utf16_is_bom_char( *src);
+   info->has_bom = mulle_utf16_is_bom_character( *src);
    if( info->has_bom)
    {
       src += 1;
@@ -419,9 +419,9 @@ int  mulle_utf16_information( mulle_utf16_t *src, size_t len, struct mulle_utf_i
          break;
       }
       
-      if( mulle_utf16_is_ascii_char( _c))
+      if( mulle_utf16_is_asciicharacter( _c))
       {
-         if( info->is_char5 && ! mulle_utf16_is_char5_char( _c))
+         if( info->is_char5 && ! mulle_utf16_is_char5character( _c))
             info->is_char5 = 0;
          continue;
       }

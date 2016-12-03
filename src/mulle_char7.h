@@ -3,7 +3,9 @@
 //  mulle-utf
 //
 //  Created by Nat! on 24.07.16.
-//  Copyright © 2016 Mulle kybernetiK. All rights reserved.
+//  Copyright © 2016 Mulle kybernetiK.
+//  Copyright (c) 2016 Codeon GmbH.
+//  All rights reserved.
 //
 
 #ifndef mulle_char7_h__
@@ -11,7 +13,6 @@
 
 #include "mulle_utf_type.h"
 
-#include <stddef.h>
 #include <assert.h>
 
 //
@@ -21,32 +22,24 @@
 // 32 bit can hold up to 4 chars with 4 bits left over
 // 64 bit can hold up to 8 chars with 8 bits left over
 //
-int   mulle_char7_encode( int c);
-
 enum
 {
-   mulle_char7_max_length32 = 4,
-   mulle_char7_max_length64 = 8
+   mulle_char7_maxlength32 = 4,
+   mulle_char7_maxlength64 = 8
 };
 
 
-int   mulle_char7_is32bit( char *src, size_t len);
-int   mulle_char7_is64bit( char *src, size_t len);
+int   mulle_char7_is_char7string32( char *src, size_t len);
+int   mulle_char7_is_char7string64( char *src, size_t len);
 
-uint32_t   mulle_char7_encode32_ascii( char *src, size_t len);
-uint64_t   mulle_char7_encode64_ascii( char *src, size_t len);
+uint32_t   mulle_char7_encode32( char *src, size_t len);
+uint64_t   mulle_char7_encode64( char *src, size_t len);
 
-size_t   mulle_char7_decode32_ascii( uint32_t value, char *dst, size_t len);
-size_t   mulle_char7_decode64_ascii( uint64_t value, char *src, size_t len);
+size_t   mulle_char7_decode32( uint32_t value, char *dst, size_t len);
+size_t   mulle_char7_decode64( uint64_t value, char *src, size_t len);
 
-size_t  mulle_char7_decode32_utf32( uint32_t value, mulle_utf32_t *dst, size_t len);
-size_t  mulle_char7_decode64_utf32( uint64_t value, mulle_utf32_t *dst, size_t len);
-
-char  mulle_char7_at64( uint64_t value, unsigned int index);
-char  mulle_char7_at32( uint32_t value, unsigned int index);
-
-char  _mulle_char7_at64( uint64_t value, unsigned int index);
-char  _mulle_char7_at32( uint32_t value, unsigned int index);
+int   mulle_char7_get64( uint64_t value, unsigned int index);
+int   mulle_char7_get32( uint32_t value, unsigned int index);
 
 
 static inline size_t   mulle_char7_strlen64( uint64_t value)
@@ -103,60 +96,61 @@ static inline uint32_t   mulle_char7_substring32( uint32_t value, unsigned int l
 // the naming... the naming...
 // i will rename all this eventually
 //
-static inline int   mulle_char7_is_uintptr( char *src, size_t len)
+static inline int   mulle_char7_is_char7string( char *src, size_t len)
 {
    if( sizeof( uintptr_t) == sizeof( uint32_t))
-      return( (uintptr_t) mulle_char7_is32bit( src, len));
-   return( (uintptr_t) mulle_char7_is64bit( src, len));
+      return( mulle_char7_is_char7string32( src, len));
+   return( mulle_char7_is_char7string64( src, len));
 }
 
 
-static inline uintptr_t   mulle_char7_encode_ascii( char *src, size_t len)
+static inline mulle_char7_t   mulle_char7_encode( char *src, size_t len)
 {
-   if( sizeof( uintptr_t) == sizeof( uint32_t))
-      return( (uintptr_t) mulle_char7_encode32_ascii( src, len));
-   return( (uintptr_t) mulle_char7_encode64_ascii( src, len));
+   if( sizeof( mulle_char7_t) == sizeof( uint32_t))
+      return( (mulle_char7_t) mulle_char7_encode32( src, len));
+   return( (mulle_char7_t) mulle_char7_encode64( src, len));
 }
 
 
-static inline size_t   mulle_char7_decode_ascii( uintptr_t value, char *src, size_t len)
+static inline size_t   mulle_char7_decode( mulle_char7_t value, char *src, size_t len)
 {
-   if( sizeof( uintptr_t) == sizeof( uint32_t))
-      return( mulle_char7_decode32_ascii( (uint32_t) value, src, len));
-   return( mulle_char7_decode64_ascii( value, src, len));
+   if( sizeof( mulle_char7_t) == sizeof( uint32_t))
+      return( mulle_char7_decode32( (uint32_t) value, src, len));
+   return( mulle_char7_decode64( value, src, len));
 }
 
 
-static inline char   mulle_char7_at_uintptr( uintptr_t value, unsigned int index)
+static inline int   mulle_char7_get( mulle_char7_t value, unsigned int index)
 {
-   if( sizeof( uintptr_t) == sizeof( uint32_t))
-      return( mulle_char7_at32( (uint32_t) value, index));
-   return( mulle_char7_at64( value, index));
+   if( sizeof( mulle_char7_t) == sizeof( uint32_t))
+      return( mulle_char7_get32( (uint32_t) value, index));
+   return( mulle_char7_get64( value, index));
 }
 
 
-static inline size_t  mulle_char7_strlen_uintptr( uintptr_t value)
+static inline size_t  mulle_char7_strlen( mulle_char7_t value)
 {
-   if( sizeof( uintptr_t) == sizeof( uint32_t))
+   if( sizeof( mulle_char7_t) == sizeof( uint32_t))
       return( mulle_char7_strlen32( (uint32_t) value));
    return( mulle_char7_strlen64( value));
 }
 
 
-static inline size_t  mulle_char7_uintptr_max_length( void)
+static inline size_t  mulle_char7_get_maxlength( void)
 {
-   if( sizeof( uintptr_t) == sizeof( uint32_t))
-      return( mulle_char7_max_length32);
-   return( mulle_char7_max_length64);
+   if( sizeof( mulle_char7_t) == sizeof( uint32_t))
+      return( mulle_char7_maxlength32);
+   return( mulle_char7_maxlength64);
 }
 
 
-static inline uintptr_t  mulle_char7_uintptr_substring( uintptr_t value, unsigned int location, unsigned int length)
-
+static inline mulle_char7_t  mulle_char7_substring( mulle_char7_t value,
+                                                    unsigned int location,
+                                                    unsigned int length)
 {
-   if( sizeof( uintptr_t) == sizeof( uint32_t))
-      return( (uintptr_t) mulle_char7_substring32( (uint32_t) value, location, length));
-   return( (uintptr_t) mulle_char7_substring64( value, location, length));
+   if( sizeof( mulle_char7_t) == sizeof( uint32_t))
+      return( (mulle_char7_t) mulle_char7_substring32( (uint32_t) value, location, length));
+   return( (mulle_char7_t) mulle_char7_substring64( value, location, length));
 }
 
 #endif

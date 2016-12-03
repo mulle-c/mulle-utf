@@ -54,8 +54,8 @@ static void   test( mulle_utf32_t text[ 4], int is_ascii, int is_utf15, int is_c
    memset( &buffer16, 0, sizeof( buffer16));
    memset( &buffer8, 0, sizeof( buffer8));
 
-   mulle_utf32_convert_to_utf8_bytebuffer( text, 4, &buffer8, (void *) buffer_add);
-   mulle_utf32_convert_to_utf16_bytebuffer( text, 4, &buffer16, (void *) buffer_add);
+   mulle_utf32_bufferconvert_to_utf8( text, 4, &buffer8, (void *) buffer_add);
+   mulle_utf32_bufferconvert_to_utf16( text, 4, &buffer16, (void *) buffer_add);
 
    mulle_utf8_information( buffer8.text._8, buffer8.n, &info8);
    mulle_utf16_information( buffer16.text._16, buffer16.n, &info16);
@@ -96,10 +96,9 @@ static void   test( mulle_utf32_t text[ 4], int is_ascii, int is_utf15, int is_c
 }
 
 
-
 int  main()
 {
-   test( (mulle_utf32_t [ 4]) { 's', 'e', 't', '0' }, 1, 1, 1);
+   test( (mulle_utf32_t [ 4]) { 's', 'e', 't', '_' }, 1, 1, 1);
    test( (mulle_utf32_t [ 4]) { 'V', 'f', 'L', 0 }, 1, 1, 0);
    test( (mulle_utf32_t [ 4]) { 29938, 0 }, 0, 1, 0);
    test( (mulle_utf32_t [ 4]) { 49938, 0 }, 0, 0, 0);

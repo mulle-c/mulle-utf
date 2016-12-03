@@ -42,15 +42,15 @@
 #include <stddef.h>
 
 
-static inline mulle_utf32_t  mulle_utf32_get_bom_char( void)
+static inline mulle_utf32_t  mulle_utf32_get_bom_character( void)
 {
    return( 0xFEFF);  // only native encoding so far...
 }
 
 
-static inline int  mulle_utf32_is_bom_char( mulle_utf32_t c)
+static inline int  mulle_utf32_is_bom_character( mulle_utf32_t c)
 {
-   return( c == mulle_utf32_get_bom_char());  // only native encoding so far...
+   return( c == mulle_utf32_get_bom_character());  // only native encoding so far...
 }
 
 
@@ -60,21 +60,28 @@ static inline int   mulle_utf32_is_surrogate_char( mulle_utf32_t c)
 }
 
 
+static inline int   mulle_utf32_is_asciicharacter( mulle_utf32_t c)
+{
+   return( c < 0x80);
+}
+
+
 // complete ? doubtful
-static inline int   mulle_utf32_is_non_char( mulle_utf32_t c)
+static inline int   mulle_utf32_is_non_character( mulle_utf32_t c)
 {
    return( (c >= 0xFFFE && c <= 0xFFFF) || (c >= 0xFDD0 && c <= 0xFDEF));
 }
 
 
 // somewhat arbitrary
-static inline int   mulle_utf32_is_invalid_char( mulle_utf32_t c)
+static inline int   mulle_utf32_is_invalid_character( mulle_utf32_t c)
 {
-   return( mulle_utf32_is_surrogate_char( c) || mulle_utf32_is_non_char( c));   // utf-16 surrogate pair
+   return( mulle_utf32_is_surrogate_char( c) || mulle_utf32_is_non_character( c));   // utf-16 surrogate pair
 }
 
 
-size_t   mulle_utf32_length_as_utf8( mulle_utf32_t *src,
+
+size_t   mulle_utf32_utf8length( mulle_utf32_t *src,
                                      size_t len);
 
 int   mulle_utf32_information( mulle_utf32_t *src,
@@ -84,33 +91,33 @@ int   mulle_utf32_information( mulle_utf32_t *src,
 //
 // these two are just here for completeness
 //
-static inline mulle_utf32_t   _mulle_utf32_next_utf32_char( mulle_utf32_t **s_p)
+static inline mulle_utf32_t   _mulle_utf32_next_utf32character( mulle_utf32_t **s_p)
 {
    return( *(*s_p)++);
 }
 
 
-static inline mulle_utf32_t   _mulle_utf32_previous_utf32_char( mulle_utf32_t **s_p)
+static inline mulle_utf32_t   _mulle_utf32_previous_utf32character( mulle_utf32_t **s_p)
 {
    return( *--(*s_p));
 }
 
 
 
-void  mulle_utf32_encode_as_surrogatepair_into_utf16_bytebuffer(
+void  mulle_utf32_bufferconvert_to_utf16_as_surrogatepair(
                        void *buffer,
                        void (*addbytes)( void *buffer, void *bytes, size_t size),
                        mulle_utf32_t x);
 
 // these routines do not skip BOM characters
-int  mulle_utf32_convert_to_utf8_bytebuffer( mulle_utf32_t *src,
-                                             size_t len,
-                                             void *buffer,
-                                             void (*addbytes)( void *buffer, void *bytes, size_t size));
+int  mulle_utf32_bufferconvert_to_utf8( mulle_utf32_t *src,
+                                        size_t len,
+                                        void *buffer,
+                                        void (*addbytes)( void *buffer, void *bytes, size_t size));
 
-int  mulle_utf32_convert_to_utf16_bytebuffer( mulle_utf32_t *src,
-                                              size_t len,
-                                              void *buffer,
-                                              void (*addbytes)( void *buffer, void *bytes, size_t size));
+int  mulle_utf32_bufferconvert_to_utf16( mulle_utf32_t *src,
+                                         size_t len,
+                                         void *buffer,
+                                         void (*addbytes)( void *buffer, void *bytes, size_t size));
 #endif
 

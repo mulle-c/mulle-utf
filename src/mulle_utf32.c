@@ -3,7 +3,9 @@
 //  mulle-utf
 //
 //  Created by Nat! on 19.03.16.
-//  Copyright © 2016 Mulle kybernetiK. All rights reserved.
+//  Copyright © 2016 Mulle kybernetiK.
+//  Copyright (c) 2016 Codeon GmbH.
+//  All rights reserved.
 //
 
 #include "mulle_utf32.h"
@@ -17,20 +19,13 @@
 
 #define FORBID_NON_CHARACTERS  1
 
-
-static inline int   mulle_utf32_is_char5_char( mulle_utf32_t c)
+static inline int   mulle_utf32_is_char5character( mulle_utf32_t c)
 {
-   return( mulle_char5_encode( c) >= 0);
+   return( mulle_char5_encode_character( c) >= 0);
 }
 
 
-static inline int   mulle_utf32_is_ascii_char( mulle_utf32_t c)
-{
-   return( c < 0x80);
-}
-
-
-void  mulle_utf32_encode_as_surrogatepair_into_utf16_bytebuffer(
+void  mulle_utf32_bufferconvert_to_utf16_as_surrogatepair(
             void *buffer,
             void (*addbytes)( void *buffer, void *bytes, size_t size),
             mulle_utf32_t x)
@@ -63,7 +58,7 @@ void  mulle_utf32_encode_as_surrogatepair_into_utf16_bytebuffer(
 
 
 // must be proper UTF32 code!
-size_t   mulle_utf32_length_as_utf8( mulle_utf32_t *src,
+size_t   mulle_utf32_utf8length( mulle_utf32_t *src,
                                      size_t len)
 {
    mulle_utf32_t       *sentinel;
@@ -137,7 +132,7 @@ int   mulle_utf32_information( mulle_utf32_t *src, size_t len, struct mulle_utf_
    //
    // remove leading BOM
    //
-   info->has_bom = mulle_utf32_is_bom_char( *src);
+   info->has_bom = mulle_utf32_is_bom_character( *src);
    if( info->has_bom)
    {
       src += 1;
@@ -156,9 +151,9 @@ int   mulle_utf32_information( mulle_utf32_t *src, size_t len, struct mulle_utf_
          break;
       }
       
-      if( mulle_utf32_is_ascii_char( _c))
+      if( mulle_utf32_is_asciicharacter( _c))
       {
-         if( info->is_char5 && ! mulle_utf32_is_char5_char( _c))
+         if( info->is_char5 && ! mulle_utf32_is_char5character( _c))
             info->is_char5 = 0;
          continue;
       }
@@ -171,7 +166,7 @@ int   mulle_utf32_information( mulle_utf32_t *src, size_t len, struct mulle_utf_
 
       
 #if FORBID_NON_CHARACTERS
-      if( mulle_utf32_is_invalid_char( _c))
+      if( mulle_utf32_is_invalid_character( _c))
          goto fail;
 #endif
 
@@ -200,7 +195,7 @@ fail:
 
 
 // must be proper UTF32 code!
-int  mulle_utf32_convert_to_utf8_bytebuffer( mulle_utf32_t *src,
+int  mulle_utf32_bufferconvert_to_utf8( mulle_utf32_t *src,
                                              size_t len,
                                              void *buffer,
                                              void (*addbytes)( void *, void *, size_t size))
@@ -263,7 +258,7 @@ int  mulle_utf32_convert_to_utf8_bytebuffer( mulle_utf32_t *src,
 
 
 
-int  mulle_utf32_convert_to_utf16_bytebuffer( mulle_utf32_t *src,
+int  mulle_utf32_bufferconvert_to_utf16( mulle_utf32_t *src,
                                               size_t len,
                                               void *buffer,
                                               void (*addbytes)( void *, void *, size_t size))
@@ -293,7 +288,7 @@ int  mulle_utf32_convert_to_utf16_bytebuffer( mulle_utf32_t *src,
          (*addbytes)( buffer, &_w, sizeof( _w));
          continue;
       }
-      mulle_utf32_encode_as_surrogatepair_into_utf16_bytebuffer( buffer, addbytes, x);
+      mulle_utf32_bufferconvert_to_utf16_as_surrogatepair( buffer, addbytes, x);
    }
    return( 0);
 }
