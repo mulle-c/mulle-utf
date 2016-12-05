@@ -4,6 +4,7 @@ This is a scheme that encodes strings contsisting only of 7 bit ASCII
 characters into integers. The string "VfL 1848" will be transformed into a
 64 bit integer like this:
 
+```
    ('8' << (7 * 7)) |
    ('4' << (6 * 7)) |
    ('8' << (5 * 7)) |
@@ -12,6 +13,7 @@ characters into integers. The string "VfL 1848" will be transformed into a
    ('L' << (2 * 7)) |
    ('f' << (1 * 7)) |
    ('V' << (0 * 7))
+```
 
 On 32 bit systems the maximum encodable string length is 4 on 64 bit systems
 it is 8.
@@ -19,10 +21,10 @@ it is 8.
 
 ## Functions
 
-## mulle_char7_at
+## mulle_char7_get
 
 ```
-char  mulle_char7_at( mulle_char7_t value, unsigned int index);
+char  mulle_char7_get( mulle_char7_t value, unsigned int index);
 ```
 
 Get character at `index`. If the index is out of range, the returned value is

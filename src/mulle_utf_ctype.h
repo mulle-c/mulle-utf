@@ -46,9 +46,21 @@ static inline mulle_utf32_t  mulle_utf32_get_bomcharacter( void)
 }
 
 
+static inline mulle_utf16_t  mulle_utf16_get_bomcharacter( void)
+{
+   return( 0xFEFF);  // only native encoding so far...
+}
+
+
 static inline int  mulle_utf32_is_bomcharacter( mulle_utf32_t c)
 {
    return( c == mulle_utf32_get_bomcharacter());  // only native encoding so far...
+}
+
+
+static inline int  mulle_utf16_is_bomcharacter( mulle_utf16_t c)
+{
+   return( c == mulle_utf16_get_bomcharacter());  // only native encoding so far...
 }
 
 

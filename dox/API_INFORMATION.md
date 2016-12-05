@@ -35,7 +35,7 @@ has_terminating_zero | If the string is zero terminated
 
 # Functions
 
-The information functions always skips the BOM.  If you use
+The information functions always skip the BOM.  If you use
 `mulle_utf32_information` and friends to figure out the lengths of
 strings in various decodings its easy to make this error:
 
