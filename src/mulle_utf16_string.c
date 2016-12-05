@@ -3,12 +3,15 @@
  *  MulleRegularExpressions
  *
  *  Created by Nat! on 09.11.11.
- *  Copyright 2011 Mulle kybernetiK. All rights reserved.
+//  Copyright (C) 2011 Nat!, Mulle kybernetiK.
+//  Copyright (c) 2011 Codeon GmbH.
+//  All rights reserved.
  *
  */
 
 #include "mulle_utf16_string.h"
 
+#include "mulle_utf_ctype.h"
 #include "mulle_utf16.h"
 #include <assert.h>
 #include <ctype.h>
@@ -195,6 +198,26 @@ static int   _compare_mulle_utf32_t( mulle_utf32_t *a, mulle_utf32_t *b)
 }
 
 #define compare_mulle_utf32_t   ((int (*)( const void *, const void *)) _compare_mulle_utf32_t)
+
+
+static inline mulle_utf32_t   mulle_utf16_pull_surrogatepair( mulle_utf16_t c, mulle_utf16_t **s)
+{
+   mulle_utf16_t   d;
+   
+   if( c < 0xD800 || c >= 0xDC00)
+      return( c);
+
+   d = *++*s;
+   if( d < 0xDC00 || d >= 0xE000)
+   {
+      --*s;
+      return( c);
+   }
+
+   /* always HI followed by LO */
+   return( mulle_utf16_decode_surrogatepair( c, d));
+}
+
 
 /* careful: a pattern of 0xD8xx, 0xDCxx will match incoming characters in that
             order. It will not match 0xDCxx, 0xD8xx. It can match a single

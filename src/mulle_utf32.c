@@ -10,6 +10,7 @@
 
 #include "mulle_utf32.h"
 
+#include "mulle_utf_ctype.h"
 #include "mulle_utf32_string.h"
 #include "mulle_utf16.h"
 #include "mulle_char5.h"
@@ -91,7 +92,7 @@ size_t   mulle_utf32_utf8length( mulle_utf32_t *src,
 
       if( x < 0x10000)
       {
-         assert( ! mulle_utf_is_surrogate( x));
+         assert( ! mulle_utf32_is_surrogatecharacter( x));
          len += 2;
          continue;
       }
@@ -132,7 +133,7 @@ int   mulle_utf32_information( mulle_utf32_t *src, size_t len, struct mulle_utf_
    //
    // remove leading BOM
    //
-   info->has_bom = mulle_utf32_is_bom_character( *src);
+   info->has_bom = mulle_utf32_is_bomcharacter( *src);
    if( info->has_bom)
    {
       src += 1;
@@ -166,7 +167,7 @@ int   mulle_utf32_information( mulle_utf32_t *src, size_t len, struct mulle_utf_
 
       
 #if FORBID_NON_CHARACTERS
-      if( mulle_utf32_is_invalid_character( _c))
+      if( mulle_utf32_is_invalidcharacter( _c))
          goto fail;
 #endif
 
@@ -235,7 +236,7 @@ int  mulle_utf32_bufferconvert_to_utf8( mulle_utf32_t *src,
       {
          if( x < 0x10000)
          {
-            assert( ! mulle_utf_is_surrogate( x));
+            assert( ! mulle_utf32_is_surrogatecharacter( x));
 
             s[ 0] = 0xE0 | (mulle_utf8_t) (x >> 12);
             s[ 1] = 0x80 | ((x >> 6) & 0x3F);
@@ -282,7 +283,7 @@ int  mulle_utf32_bufferconvert_to_utf16( mulle_utf32_t *src,
       
       if( x < 0x10000)
       {
-         assert( ! mulle_utf_is_surrogate( x));
+         assert( ! mulle_utf32_is_surrogatecharacter( x));
          
          _w = (uint16_t) x;
          (*addbytes)( buffer, &_w, sizeof( _w));

@@ -3,6 +3,7 @@
 //  mulle-utf
 //
 //  Copyright (C) 2011 Nat!, Mulle kybernetiK.
+//  Copyright (c) 2011 Codeon GmbH.
 //  All rights reserved.
 //
 //  Coded by Nat!
@@ -63,7 +64,7 @@ static inline size_t  mulle_utf8_utf16maxlength( size_t len)
    return( len * 4);
 }
 
-static inline int  mulle_utf8_has_bom( mulle_utf8_t *src, size_t len)
+static inline int  mulle_utf8_has_leading_bomcharacter( mulle_utf8_t *src, size_t len)
 {
    if( len < 3)
       return( 0);
@@ -71,7 +72,7 @@ static inline int  mulle_utf8_has_bom( mulle_utf8_t *src, size_t len)
    return( src[ 0] == 0xEF && src[ 1] == 0xBB && src[ 2] == 0xBF);
 }
 
-int   mulle_utf8_are_valid_extra_characters( char *s, unsigned int len);
+int   mulle_utf8_are_valid_extracharacters( char *s, unsigned int len);
 
 //
 // if len is -1, assume that *s is '\0' terminated
@@ -118,13 +119,13 @@ static inline mulle_utf32_t   mulle_utf8_next_utf32character( mulle_utf8_t **s_p
 // callback.
 // int == 0 : OK!
 // these routines do not skip BOM characters
-int  mulle_utf8_convert_to_utf16bytebuffer( mulle_utf8_t *src,
+int  mulle_utf8_bufferconvert_to_utf16( mulle_utf8_t *src,
                                              size_t len,
                                              void *buffer,
                                              void (*add)( void *buffer, void *bytes, size_t size));
 
 // as above, but for utf32
-int  mulle_utf8_convert_to_utf32bytebuffer( mulle_utf8_t *src,
+int  mulle_utf8_bufferconvert_to_utf32( mulle_utf8_t *src,
                                              size_t len,
                                              void *buffer,
                                              void (*add)( void *buffer, void *bytes, size_t size));

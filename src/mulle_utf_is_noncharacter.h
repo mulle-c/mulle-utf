@@ -11,11 +11,11 @@
 #ifndef mulle_utf_is_noncharacter_h__
 #define mulle_utf_is_noncharacter_h__
 
-#include "mulle_utf.h"
+#include "mulle_utf_type.h"
+
 
 int   mulle_utf16_is_noncharacter( mulle_utf16_t c);
 int   mulle_utf32_is_noncharacter( mulle_utf32_t c);
 int   mulle_utf_is_noncharacterplane( unsigned int plane);
-
 
 #endif /* mulle_utf_is_alphanumeric_h */

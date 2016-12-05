@@ -3,6 +3,7 @@
 //  mulle-utf
 //
 //  Copyright (C) 2011 Nat!, Mulle kybernetiK.
+//  Copyright (c) 2011 Codeon GmbH.
 //  All rights reserved.
 //
 //  Coded by Nat!
@@ -37,7 +38,9 @@
 #include "mulle_utf16.h"
 
 #include "mulle_utf16_string.h"
+#include "mulle_utf_ctype.h"
 #include "mulle_char5.h"
+#include "mulle_utf_ctype.h"
 #include <errno.h>
 #include <string.h>
 
@@ -115,7 +118,7 @@ int  mulle_utf16_bufferconvert_to_utf8( mulle_utf16_t *src,
    while( src < sentinel)
    {
       x = *src++;
-      if( mulle_utf_is_hi_surrogate( x))  // hi surrogate
+      if( mulle_utf32_is_highsurrogatecharacter( x))  // hi surrogate
       {
          // decode surrogate
          if( src >= sentinel)
@@ -145,7 +148,7 @@ int  mulle_utf16_bufferconvert_to_utf8( mulle_utf16_t *src,
       {
          if( x < 0x10000)
          {
-            assert( ! mulle_utf_is_lo_surrogate( x));
+            assert( ! mulle_utf32_is_lowsurrogatecharacter( x));
          
             tmp[ 0] = 0xE0 | (mulle_utf8_t) (x >> 12);
             tmp[ 1] = 0x80 | ((x >> 6) & 0x3F);
@@ -185,7 +188,7 @@ int  mulle_utf16_bufferconvert_to_utf32( mulle_utf16_t *src,
    while( src < sentinel)
    {
       x = *src++;
-      if( mulle_utf_is_hi_surrogate( x))  // hi surrogate
+      if( mulle_utf32_is_highsurrogatecharacter( x))  // hi surrogate
       {
          // decode surrogate
          if( src >= sentinel)
@@ -231,17 +234,17 @@ mulle_utf16_t  *mulle_utf16_validate( mulle_utf16_t *src, size_t len)
       if( mulle_utf16_is_invalid_char( c))
          return( src);
 #endif      
-      if( ! mulle_utf_is_surrogate( c))
+      if( ! mulle_utf32_is_surrogatecharacter( c))
          continue;
       
-      if( mulle_utf_is_lo_surrogate( c))
+      if( mulle_utf32_is_lowsurrogatecharacter( c))
          return( src);
 
       if( src >= sentinel)
          return( src);
       
       d = *++src;
-      if( ! mulle_utf_is_lo_surrogate( d))
+      if( ! mulle_utf32_is_lowsurrogatecharacter( d))
          return( src);
 
       if( ! mulle_utf16_is_valid_surrogatepair( c, d))
@@ -279,7 +282,7 @@ size_t  mulle_utf16_utf8length( mulle_utf16_t *src, size_t len)
       }
 
       // not a surrogate pair ?
-      if( ! mulle_utf_is_surrogate( c))
+      if( ! mulle_utf32_is_surrogatecharacter( c))
       {
          len += 2;
          continue;
@@ -316,7 +319,7 @@ size_t  mulle_utf16_length( mulle_utf16_t *src, size_t len)
          continue;
 
       // not a surrogate pair ?
-      if( ! mulle_utf_is_surrogate( c))
+      if( ! mulle_utf32_is_surrogatecharacter( c))
       {
          dst_len--;
          continue;
@@ -339,7 +342,7 @@ mulle_utf32_t   _mulle_utf16_next_utf32character( mulle_utf16_t **s_p)
    
    s     = *s_p;
    value = *s++;
-   if( mulle_utf_is_surrogate( value))
+   if( mulle_utf32_is_surrogatecharacter( value))
       value = mulle_utf16_decode_surrogatepair( (mulle_utf16_t) value, *s++);
    *s_p  = s;
 
@@ -356,7 +359,7 @@ mulle_utf32_t   _mulle_utf16_previous_utf32character( mulle_utf16_t **s_p)
    s     = *s_p;
    value = *--s;
 
-   if( mulle_utf_is_surrogate( value))
+   if( mulle_utf32_is_surrogatecharacter( value))
       value = mulle_utf16_decode_surrogatepair( *--s, (mulle_utf16_t) value);
 
    *s_p  = s;
@@ -400,7 +403,7 @@ int  mulle_utf16_information( mulle_utf16_t *src, size_t len, struct mulle_utf_i
    //
    // remove leading BOM
    //
-   info->has_bom = mulle_utf16_is_bom_character( *src);
+   info->has_bom = mulle_utf32_is_bomcharacter( *src);
    if( info->has_bom)
    {
       src += 1;
@@ -438,7 +441,7 @@ int  mulle_utf16_information( mulle_utf16_t *src, size_t len, struct mulle_utf_i
       // surrogate pair
       if( _c >= 0xD800 && _c <= 0xE000)
       {
-         if( ! mulle_utf_is_hi_surrogate( _c))
+         if( ! mulle_utf32_is_highsurrogatecharacter( _c))
             goto fail;
          
          info->utf8len++;
@@ -448,7 +451,7 @@ int  mulle_utf16_information( mulle_utf16_t *src, size_t len, struct mulle_utf_i
             goto fail;
          
          _c = *src;
-         if( ! mulle_utf_is_lo_surrogate( _c))
+         if( ! mulle_utf32_is_lowsurrogatecharacter( _c))
             goto fail;
       }
       

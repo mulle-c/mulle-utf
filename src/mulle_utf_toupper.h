@@ -11,7 +11,7 @@
 #ifndef mulle_utf_toupper_h__
 #define mulle_utf_toupper_h__
 
-#include "mulle_utf.h"
+#include "mulle_utf_type.h"
 
 
 mulle_utf16_t   mulle_utf16_toupper( mulle_utf16_t c);

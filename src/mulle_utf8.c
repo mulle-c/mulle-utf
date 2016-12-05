@@ -3,6 +3,7 @@
 //  mulle-utf
 //
 //  Copyright (C) 2011 Nat!, Mulle kybernetiK.
+//  Copyright (c) 2011 Codeon GmbH.
 //  All rights reserved.
 //
 //  Coded by Nat!
@@ -35,6 +36,7 @@
 //
 #include "mulle_utf8.h"
 
+#include "mulle_utf_ctype.h"
 #include "mulle_char5.h"
 #include "mulle_utf16.h"
 #include "mulle_utf32.h"
@@ -229,7 +231,7 @@ mulle_utf32_t   _mulle_utf8_previous_utf32character( mulle_utf8_t **s_p)
 //
 // the slower non-crashing code ...
 //
-int   mulle_utf8_are_valid_extra_characters( char *src, unsigned int len)
+int   mulle_utf8_are_valid_extracharacters( char *src, unsigned int len)
 {
    mulle_utf8_t    _c;
    mulle_utf32_t   x;
@@ -269,7 +271,7 @@ int   mulle_utf8_are_valid_extra_characters( char *src, unsigned int len)
       if( x < 0x800)
          return( 0);
 #if FORBID_NON_CHARACTERS         
-      if( mulle_utf32_is_invalid_character( x))
+      if( mulle_utf32_is_invalidcharacter( x))
          return( 0);
 #endif         
       break;
@@ -306,7 +308,7 @@ int   mulle_utf8_are_valid_extra_characters( char *src, unsigned int len)
 //  0  OK!
 //
 
-int  mulle_utf8_convert_to_utf16bytebuffer( mulle_utf8_t *src,
+int  mulle_utf8_bufferconvert_to_utf16( mulle_utf8_t *src,
                                              size_t len,
                                              void *buffer,
                                              void (*addbytes)( void *, void *, size_t size))
@@ -367,7 +369,7 @@ int  mulle_utf8_convert_to_utf16bytebuffer( mulle_utf8_t *src,
 //  0  OK!
 //
 
-int   mulle_utf8_convert_to_utf32bytebuffer( mulle_utf8_t *src,
+int   mulle_utf8_bufferconvert_to_utf32( mulle_utf8_t *src,
                                               size_t len,
                                               void *buffer,
                                               void (*addbytes)( void *, void *, size_t size))
@@ -452,7 +454,7 @@ int  mulle_utf8_information( mulle_utf8_t *src, size_t len, struct mulle_utf_inf
    // remove leading BOM
    //
    
-   info->has_bom = mulle_utf8_has_bom( src, len);
+   info->has_bom = mulle_utf8_has_leading_bomcharacter( src, len);
    if( info->has_bom)
    {
       src += 3;
