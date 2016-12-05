@@ -3,7 +3,9 @@
  *  MulleRegularExpressions
  *
  *  Created by Nat! on 09.11.11.
- *  Copyright 2011 Mulle kybernetiK. All rights reserved.
+//  Copyright (C) 2011 Nat!, Mulle kybernetiK.
+//  Copyright (c) 2011 Codeon GmbH.
+//  All rights reserved.
  *
  */
 #ifndef mulle_utf32_string_h__

@@ -11,7 +11,7 @@
 #ifndef mulle_utf_is_whitespaceornewline_h__
 #define mulle_utf_is_whitespaceornewline_h__
 
-#include "mulle_utf.h"
+#include "mulle_utf_type.h"
 
 
 int   mulle_utf16_is_whitespaceornewline( mulle_utf16_t c);

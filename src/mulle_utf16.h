@@ -3,6 +3,7 @@
 //  mulle-utf
 //
 //  Copyright (C) 2011 Nat!, Mulle kybernetiK.
+//  Copyright (c) 2011 Codeon GmbH.
 //  All rights reserved.
 //
 //  Coded by Nat!
@@ -43,105 +44,13 @@
 #include <stddef.h>
 
 
-static inline int   mulle_utf_is_hi_surrogate( unsigned int x)
-{
-   return( x >= 0xD800 && x < 0xDC00);
-}
-
-
-static inline int   mulle_utf_is_lo_surrogate( unsigned int x)
-{
-   return( x >= 0xDC00 && x < 0xE000);
-}
-
-
-static inline int   mulle_utf_is_surrogate( unsigned int x)
-{
-   return( x >= 0xD800 && x < 0xE000);
-}
-
-
-//
-// The mulle_utf16_t endianness is machine specific.
-//
-
-static inline void  mulle_utf16_encode_surrogatepair( mulle_utf32_t x, mulle_utf16_t *hi, mulle_utf16_t *lo)
-{
-   mulle_utf16_t  top;
-   mulle_utf16_t  bottom;
-   
-   assert( x >= 0x10000 && x <= 0x10FFFF);
-   
-   x -= 0x10000;
-   
-   assert( (x >> 10) <= 0x3FF);
-   
-   top    = (mulle_utf16_t) (x >> 10);
-   bottom = (mulle_utf16_t) (x & 0x3FF);
-   
-   *hi = 0xD800 + top;
-   *lo = 0xDC00 + bottom;
-   
-   assert( *hi >= 0xD800 && *hi < 0xDC00);
-   assert( *lo >= 0xDC00 && *lo < 0xE000);
-}
-
-
-
-static inline mulle_utf32_t  mulle_utf16_decode_surrogatepair( mulle_utf16_t hi, mulle_utf16_t lo)
-{
-   mulle_utf32_t   top;
-   mulle_utf32_t   bottom;
-   
-   assert( mulle_utf_is_hi_surrogate( hi));
-   assert( mulle_utf_is_lo_surrogate( lo));
-   
-   top    = (mulle_utf32_t) (hi - 0xD800);
-   bottom = (mulle_utf32_t) (lo - 0xDC00);
-   
-   return( 0x10000 + (top << 10) + bottom);
-}
-
-
-
-static inline mulle_utf32_t   mulle_utf16_pull_surrogatepair( mulle_utf16_t c, mulle_utf16_t **s)
-{
-   mulle_utf16_t   d;
-   
-   if( c < 0xD800 || c >= 0xDC00)
-      return( c);
-
-   d = *++*s;
-   if( d < 0xDC00 || d >= 0xE000)
-   {
-      --*s;
-      return( c);
-   }
-
-   /* always HI followed by LO */
-   return( mulle_utf16_decode_surrogatepair( c, d));
-}
-
-
-static inline mulle_utf16_t  mulle_utf16_get_bom_character( void)
-{
-   return( 0xFEFF);  // only native encoding so far...
-}
-
-
-static inline int  mulle_utf16_is_bom_character( mulle_utf16_t c)
-{
-   return( c == mulle_utf16_get_bom_character());  // only native encoding so far...
-}
-
-
 int     mulle_utf16_information( mulle_utf16_t *src, size_t len, struct mulle_utf_information *info);
 
 size_t  mulle_utf16_utf8length( mulle_utf16_t *src, size_t len);
 size_t  mulle_utf16_length( mulle_utf16_t *src, size_t len);
 int     mulle_utf16_is_ascii( mulle_utf16_t *src, size_t len);
 
-static inline size_t  mulle_utf16_max_length_as_utf8( size_t len)
+static inline size_t  mulle_utf16_utf8maxlength( size_t len)
 {
    return( len * 4);
 }

@@ -3,6 +3,7 @@
 //  mulle-utf
 //
 //  Copyright (C) 2011 Nat!, Mulle kybernetiK.
+//  Copyright (c) 2011 Codeon GmbH.
 //  All rights reserved.
 //
 //  Coded by Nat!
@@ -38,47 +39,7 @@
 
 #include "mulle_utf_type.h"
 
-
 #include <stddef.h>
-
-
-static inline mulle_utf32_t  mulle_utf32_get_bom_character( void)
-{
-   return( 0xFEFF);  // only native encoding so far...
-}
-
-
-static inline int  mulle_utf32_is_bom_character( mulle_utf32_t c)
-{
-   return( c == mulle_utf32_get_bom_character());  // only native encoding so far...
-}
-
-
-static inline int   mulle_utf32_is_surrogate_char( mulle_utf32_t c)
-{
-   return( c >= 0xD800 && c <= 0xE000);
-}
-
-
-static inline int   mulle_utf32_is_asciicharacter( mulle_utf32_t c)
-{
-   return( c < 0x80);
-}
-
-
-// complete ? doubtful
-static inline int   mulle_utf32_is_non_character( mulle_utf32_t c)
-{
-   return( (c >= 0xFFFE && c <= 0xFFFF) || (c >= 0xFDD0 && c <= 0xFDEF));
-}
-
-
-// somewhat arbitrary
-static inline int   mulle_utf32_is_invalid_character( mulle_utf32_t c)
-{
-   return( mulle_utf32_is_surrogate_char( c) || mulle_utf32_is_non_character( c));   // utf-16 surrogate pair
-}
-
 
 
 size_t   mulle_utf32_utf8length( mulle_utf32_t *src,

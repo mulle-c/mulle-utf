@@ -58,7 +58,7 @@ mulle_utf16_t  *mulle_utf8_convert_to_utf16( mulle_utf8_t *src,
    tmp.s = memo;
    tmp.n = 0;
    
-   if( mulle_utf8_convert_to_utf16bytebuffer( info.start, info.utf8len, &tmp, (void *) buffer_add))
+   if( mulle_utf8_bufferconvert_to_utf16( info.start, info.utf8len, &tmp, (void *) buffer_add))
    {
       mulle_allocator_free( allocator, memo);
       errno = EINVAL;
@@ -93,7 +93,7 @@ mulle_utf32_t  *mulle_utf8_convert_to_utf32( mulle_utf8_t *src,
    tmp.s = memo;
    tmp.n = 0;
    
-   if( mulle_utf8_convert_to_utf32bytebuffer( info.start, info.utf8len, &tmp, (void *) buffer_add))
+   if( mulle_utf8_bufferconvert_to_utf32( info.start, info.utf8len, &tmp, (void *) buffer_add))
    {
       mulle_allocator_free( allocator, memo);
       errno = EINVAL;
