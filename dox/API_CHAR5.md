@@ -1,6 +1,7 @@
 # mulle_char5_t
 
-This is a encoding scheme that stashes strings that only consist of a subset of ASCII characters into integers.
+This is a encoding scheme that stashes strings that only consist of a subset
+of ASCII characters into integers.
 The actual subset is:
 
 ```
@@ -8,7 +9,7 @@ The actual subset is:
 ```
 
 The values have been determined by analyzing 54674 identifiers that
-would not fit into `mulle_char7_t` and and tabulating the most
+would not fit into 64 bit `mulle_char7_t` and tabulating the most
 popular characters.
 
 The string "a.reason" would be transformed into a 64 bit integer like this:
@@ -61,7 +62,9 @@ Retrieve the maximum string length for `mulle_char5_t` on your system.
 ### `mulle_char5_substring`
 
 ```
-mulle_char5_t  mulle_char5_substring( mulle_char5_t value, unsigned int location, unsigned int length)
+mulle_char5_t  mulle_char5_substring( mulle_char5_t value,
+                                      unsigned int location,
+                                      unsigned int length)
 ```
 
 Retrieve substring of `length` characters of `value` starting at `location`.

@@ -1,5 +1,5 @@
 //
-//  mulle_utf8.h 
+//  mulle_utf8.h
 //  mulle-utf
 //
 //  Copyright (C) 2011 Nat!, Mulle kybernetiK.
@@ -68,7 +68,7 @@ static inline int  mulle_utf8_has_leading_bomcharacter( mulle_utf8_t *src, size_
 {
    if( len < 3)
       return( 0);
-   
+
    return( src[ 0] == 0xEF && src[ 1] == 0xBB && src[ 2] == 0xBF);
 }
 
@@ -120,14 +120,14 @@ static inline mulle_utf32_t   mulle_utf8_next_utf32character( mulle_utf8_t **s_p
 // int == 0 : OK!
 // these routines do not skip BOM characters
 int  mulle_utf8_bufferconvert_to_utf16( mulle_utf8_t *src,
-                                             size_t len,
-                                             void *buffer,
-                                             void (*add)( void *buffer, void *bytes, size_t size));
+                                        size_t len,
+                                        void *buffer,
+                                        void (*add)( void *buffer, void *bytes, size_t size));
 
 // as above, but for utf32
 int  mulle_utf8_bufferconvert_to_utf32( mulle_utf8_t *src,
-                                             size_t len,
-                                             void *buffer,
-                                             void (*add)( void *buffer, void *bytes, size_t size));
+                                        size_t len,
+                                        void *buffer,
+                                        void (*add)( void *buffer, void *bytes, size_t size));
 
 #endif

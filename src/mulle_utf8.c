@@ -309,9 +309,9 @@ int   mulle_utf8_are_valid_extracharacters( char *src, unsigned int len)
 //
 
 int  mulle_utf8_bufferconvert_to_utf16( mulle_utf8_t *src,
-                                             size_t len,
-                                             void *buffer,
-                                             void (*addbytes)( void *, void *, size_t size))
+                                        size_t len,
+                                        void *buffer,
+                                        void (*addbytes)( void *, void *, size_t size))
 {
    mulle_utf16_t   _w;
    mulle_utf8_t    *next;
@@ -342,7 +342,7 @@ int  mulle_utf8_bufferconvert_to_utf16( mulle_utf8_t *src,
       next      = &src[ extra_len];
       if( next > sentinel)
       {
-         errno = EFAULT;
+         errno = EINVAL;
          return( -1);
       }   
             
@@ -370,9 +370,9 @@ int  mulle_utf8_bufferconvert_to_utf16( mulle_utf8_t *src,
 //
 
 int   mulle_utf8_bufferconvert_to_utf32( mulle_utf8_t *src,
-                                              size_t len,
-                                              void *buffer,
-                                              void (*addbytes)( void *, void *, size_t size))
+                                         size_t len,
+                                         void *buffer,
+                                         void (*addbytes)( void *, void *, size_t size))
 {
    mulle_utf8_t   *next;
    mulle_utf8_t   *sentinel;
@@ -402,7 +402,7 @@ int   mulle_utf8_bufferconvert_to_utf32( mulle_utf8_t *src,
       next      = &src[ extra_len];
       if( next > sentinel)
       {
-         errno = EFAULT;
+         errno = EINVAL;
          return( -1);
       }   
             

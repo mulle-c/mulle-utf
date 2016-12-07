@@ -100,9 +100,9 @@ int  mulle_utf16_is_valid_surrogatepair( mulle_utf16_t hi, mulle_utf16_t lo)
 
 // must be proper UTF16 code!
 int  mulle_utf16_bufferconvert_to_utf8( mulle_utf16_t *src,
-                                             size_t len,
-                                             void *buffer,
-                                             void (*addbytes)( void *buffer, void *bytes, size_t length))
+                                        size_t len,
+                                        void *buffer,
+                                        void (*addbytes)( void *buffer, void *bytes, size_t length))
 {
    mulle_utf16_t   *sentinel;
    mulle_utf32_t   x;
@@ -123,7 +123,7 @@ int  mulle_utf16_bufferconvert_to_utf8( mulle_utf16_t *src,
          // decode surrogate
          if( src >= sentinel)
          {
-            errno = EFAULT;
+            errno = EINVAL;
             return( -1);
          }
          x = mulle_utf16_decode_surrogatepair( (mulle_utf16_t) x, *src++);
@@ -171,9 +171,9 @@ int  mulle_utf16_bufferconvert_to_utf8( mulle_utf16_t *src,
 
 
 int  mulle_utf16_bufferconvert_to_utf32( mulle_utf16_t *src,
-                                              size_t len,
-                                              void *buffer,
-                                              void (*addbytes)( void *buffer, void *bytes, size_t length))
+                                         size_t len,
+                                         void *buffer,
+                                         void (*addbytes)( void *buffer, void *bytes, size_t length))
 {
    mulle_utf16_t   *sentinel;
    mulle_utf32_t   x;
@@ -193,7 +193,7 @@ int  mulle_utf16_bufferconvert_to_utf32( mulle_utf16_t *src,
          // decode surrogate
          if( src >= sentinel)
          {
-            errno = EFAULT;
+            errno = EINVAL;
             return( -1);
          }
          x = mulle_utf16_decode_surrogatepair( (mulle_utf16_t) x, *src++);

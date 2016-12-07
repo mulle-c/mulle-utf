@@ -70,13 +70,13 @@ mulle_utf32_t   _mulle_utf16_previous_utf32character( mulle_utf16_t **s_p);
 // these routines do not skip BOM characters
 //
 int  mulle_utf16_bufferconvert_to_utf8( mulle_utf16_t *src,
-                                             size_t len,
-                                             void *buffer,
-                                             void (*addbytes)( void *buffer, void *bytes, size_t length));
+                                        size_t len,
+                                        void *buffer,
+                                        void (*addbytes)( void *buffer, void *bytes, size_t length));
 
 int  mulle_utf16_bufferconvert_to_utf32( mulle_utf16_t *src,
-                                              size_t len,
-                                              void *buffer,
-                                              void (*addbytes)( void *buffer, void *bytes, size_t length));
+                                         size_t len,
+                                         void *buffer,
+                                         void (*addbytes)( void *buffer, void *bytes, size_t length));
 
 #endif

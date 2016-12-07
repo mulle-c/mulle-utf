@@ -197,9 +197,9 @@ fail:
 
 // must be proper UTF32 code!
 int  mulle_utf32_bufferconvert_to_utf8( mulle_utf32_t *src,
-                                             size_t len,
-                                             void *buffer,
-                                             void (*addbytes)( void *, void *, size_t size))
+                                        size_t len,
+                                        void *buffer,
+                                        void (*addbytes)( void *, void *, size_t size))
 {
    mulle_utf32_t   *sentinel;
    mulle_utf32_t   x;
@@ -260,9 +260,9 @@ int  mulle_utf32_bufferconvert_to_utf8( mulle_utf32_t *src,
 
 
 int  mulle_utf32_bufferconvert_to_utf16( mulle_utf32_t *src,
-                                              size_t len,
-                                              void *buffer,
-                                              void (*addbytes)( void *, void *, size_t size))
+                                         size_t len,
+                                         void *buffer,
+                                         void (*addbytes)( void *, void *, size_t size))
 {
    mulle_utf32_t   *sentinel;
    mulle_utf32_t   x;
