@@ -52,10 +52,12 @@ strings in various decodings its easy to make this error:
 It must be coded as:
 
 ```
-   mulle_utf32_convert_to_utf16_bytebuffer( info.start,
-                                            info.utf32len
-                                            &buffer,
-                                            (void *) mulle_buffer_add_bytes);
+   mulle_utf32_information( s, len, &info);
+   ...
+   mulle_utf32_bufferconvert_to_utf16( info.start, // !!!
+                                       info.utf32len
+                                       &buffer,
+                                       (void *) mulle_buffer_add_bytes);
 ```
 
 ## `mulle_utf8_information` et al.

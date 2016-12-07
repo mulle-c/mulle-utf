@@ -65,6 +65,7 @@ mulle_utf16_t  *mulle_utf8_convert_to_utf16( mulle_utf8_t *src,
       return( NULL);
    }
 
+   // add trailing zero
    tmp.s[ tmp.n]     = 0;
    tmp.s[ tmp.n + 1] = 0;
 
@@ -100,6 +101,7 @@ mulle_utf32_t  *mulle_utf8_convert_to_utf32( mulle_utf8_t *src,
       return( NULL);
    }
 
+   // add trailing zero
    tmp.s[ tmp.n]     = 0;
    tmp.s[ tmp.n + 1] = 0;
    tmp.s[ tmp.n + 2] = 0;
@@ -140,6 +142,7 @@ mulle_utf8_t  *mulle_utf16_convert_to_utf8( mulle_utf16_t *src,
       return( NULL);
    }
 
+   // add trailing zero
    tmp.s[ tmp.n] = 0;
 
    return( memo);
@@ -174,6 +177,7 @@ mulle_utf32_t  *mulle_utf16_convert_to_utf32( mulle_utf16_t *src,
       return( NULL);
    }
 
+   // add trailing zero
    tmp.s[ tmp.n]     = 0;
    tmp.s[ tmp.n + 1] = 0;
    tmp.s[ tmp.n + 2] = 0;
@@ -222,8 +226,8 @@ mulle_utf8_t  *mulle_utf32_convert_to_utf8( mulle_utf32_t *src,
 
 
 mulle_utf16_t  *mulle_utf32_convert_to_utf16( mulle_utf32_t *src,
-                                             size_t len,
-                                             struct mulle_allocator *allocator)
+                                              size_t len,
+                                              struct mulle_allocator *allocator)
 {
    struct mulle_utf_information   info;
    void                           *memo;
@@ -249,6 +253,7 @@ mulle_utf16_t  *mulle_utf32_convert_to_utf16( mulle_utf32_t *src,
       return( NULL);
    }
 
+   // add trailing zero
    tmp.s[ tmp.n]     = 0;
    tmp.s[ tmp.n + 1] = 0;
 
