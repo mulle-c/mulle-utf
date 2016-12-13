@@ -119,9 +119,6 @@ static inline uint32_t   mulle_char5_substring32( uint32_t value, unsigned int l
 # pragma mark -
 # pragma mark uintptr_t interface
 
-// the naming... the naming...
-// i will rename all this eventually
-//
 static inline int   mulle_char5_is_char5string( char *src, size_t len)
 {
    if( sizeof( mulle_char5_t) == sizeof( uint32_t))
@@ -141,8 +138,8 @@ static inline mulle_char5_t   mulle_char5_encode( char *src, size_t len)
 static inline size_t   mulle_char5_decode( mulle_char5_t value, char *src, size_t len)
 {
    if( sizeof( mulle_char5_t) == sizeof( uint32_t))
-      return( (uintptr_t) mulle_char5_decode32( (uint32_t) value, src, len));
-   return( (uintptr_t) mulle_char5_decode64( value, src, len));
+      return( mulle_char5_decode32( (uint32_t) value, src, len));
+   return( mulle_char5_decode64( value, src, len));
 }
 
 

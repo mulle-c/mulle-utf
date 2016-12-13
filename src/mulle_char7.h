@@ -93,9 +93,6 @@ static inline uint32_t   mulle_char7_substring32( uint32_t value, unsigned int l
 # pragma mark -
 # pragma mark uintptr_t interface
 
-// the naming... the naming...
-// i will rename all this eventually
-//
 static inline int   mulle_char7_is_char7string( char *src, size_t len)
 {
    if( sizeof( uintptr_t) == sizeof( uint32_t))
