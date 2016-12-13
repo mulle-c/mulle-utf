@@ -2,8 +2,7 @@
 
 PROJECT="MulleUtf" # requires camel-case
 DESC="UTF8-16-32 analysis, conversion, classification library"
-DEPENDENCIES='${DEPENDENCY_TAP}/mulle-c11
-${DEPENDENCY_TAP}/mulle-allocator'  # no camel case, will be evaled later!
+DEPENDENCIES='${DEPENDENCY_TAP}/mulle-allocator'  # no camel case, will be evaled later!
 LANGUAGE=c               # c,cpp, objc
 
 #
