@@ -97,19 +97,19 @@ static inline void  mulle_utf32_encode_surrogatepair( mulle_utf32_t x, mulle_utf
 {
    mulle_utf16_t  top;
    mulle_utf16_t  bottom;
-   
+
    assert( x >= 0x10000 && x <= 0x10FFFF);
-   
+
    x -= 0x10000;
-   
+
    assert( (x >> 10) <= 0x3FF);
-   
+
    top    = (mulle_utf16_t) (x >> 10);
    bottom = (mulle_utf16_t) (x & 0x3FF);
-   
+
    *hi = 0xD800 + top;
    *lo = 0xDC00 + bottom;
-   
+
    assert( *hi >= 0xD800 && *hi < 0xDC00);
    assert( *lo >= 0xDC00 && *lo < 0xE000);
 }
@@ -119,13 +119,13 @@ static inline mulle_utf32_t  mulle_utf16_decode_surrogatepair( mulle_utf16_t hi,
 {
    mulle_utf32_t   top;
    mulle_utf32_t   bottom;
-   
+
    assert( mulle_utf32_is_highsurrogatecharacter( hi));
    assert( mulle_utf32_is_lowsurrogatecharacter( lo));
-   
+
    top    = (mulle_utf32_t) (hi - 0xD800);
    bottom = (mulle_utf32_t) (lo - 0xDC00);
-   
+
    return( 0x10000 + (top << 10) + bottom);
 }
 

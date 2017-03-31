@@ -71,4 +71,4 @@ struct mulle_utf_information
    int      has_terminating_zero;
 };
 
-#endif 
+#endif

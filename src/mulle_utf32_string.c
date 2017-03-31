@@ -21,7 +21,7 @@ size_t  mulle_utf32_strnlen( mulle_utf32_t *src, size_t len)
 {
    mulle_utf32_t   *sentinel;
    mulle_utf32_t   *p;
-   
+
    p        = src;
    sentinel = &p[ len];
 
@@ -35,10 +35,10 @@ size_t  mulle_utf32_strnlen( mulle_utf32_t *src, size_t len)
 }
 
 
-/* memo: "string" oriented routines view the utf32 string as an array 
+/* memo: "string" oriented routines view the utf32 string as an array
          of int32_t, where the only special character is the 0, which
-         is the terminator. 
-         
+         is the terminator.
+
          None of these routines know about a BOM. You need to
          strip it out yourself.
 */
@@ -49,11 +49,11 @@ mulle_utf32_t   *mulle_utf32_strncpy( mulle_utf32_t *dst, mulle_utf32_t *src, si
    mulle_utf32_t   *memo;
    mulle_utf32_t   *sentinel;
    mulle_utf32_t   c;
-   
+
    assert( dst);
    assert( src);
    assert( src >= &dst[len] || &src[len] <= dst);
-   
+
    memo     = dst;
    sentinel = &dst[ len];
 
@@ -88,7 +88,7 @@ mulle_utf32_t   *mulle_utf32_strchr( mulle_utf32_t *s, mulle_utf32_t c)
 
 /*
  * use Rabin–Karp for expected "usual" strings to match
- * this could "partial" match a surrogate, but is this 
+ * this could "partial" match a surrogate, but is this
  * my problem ?
  */
 #define B    131
@@ -100,13 +100,13 @@ mulle_utf32_t  *mulle_utf32_strstr( mulle_utf32_t *s, mulle_utf32_t *pattern)
    unsigned int   Bm;
    unsigned int   i;
    unsigned int   n;
-   
+
    if( pattern[ 0] == 0)
       return( s);
-   
+
    Bm   = 1;
    hash_pattern = hash_text = 0;
-   
+
    /* initial hash and count pattern length */
    for( n = 0; s[ n] && pattern[ n]; n++)
    {
@@ -114,18 +114,18 @@ mulle_utf32_t  *mulle_utf32_strstr( mulle_utf32_t *s, mulle_utf32_t *pattern)
       hash_pattern  = hash_pattern * B + pattern[ n];
       hash_text     = hash_text * B + s[ n];
    }
-   
+
    if( ! s[ n] && pattern[ n])
       return( NULL);
-   
+
    for( i = n;; i++)
    {
       if( (hash_pattern == hash_text) && ! mulle_utf32_strncmp( &s[ i - n], pattern, n))
          return( &s[ i - n]);
-      
+
       if( ! s[ i])
          return( NULL);
-      
+
       hash_text = hash_text * B - s[ i - n] * Bm + s[ i];
    }
 }
@@ -136,7 +136,7 @@ int   mulle_utf32_strncmp( mulle_utf32_t *s1, mulle_utf32_t *s2, size_t len)
    mulle_utf32_t   *sentinel;
    mulle_utf32_t   c;
    mulle_utf32_t   d;
-   
+
    sentinel = &s1[ len];
 
    while( s1 < sentinel)
@@ -177,11 +177,11 @@ static size_t   _mulle_utf32_strspn( mulle_utf32_t *s1, mulle_utf32_t *s2, int f
    s2_len = mulle_utf32_strlen( s2);
    if( ! s2_len)
       return( 0);
-      
+
    if( s2_len == 1)
    {
       d = *s2;
-         
+
       --s1;
       while( (c = *++s1))
          if( c != d)
@@ -195,9 +195,9 @@ static size_t   _mulle_utf32_strspn( mulle_utf32_t *s1, mulle_utf32_t *s2, int f
    --s2;
    while( d = *++s2)
       buf[ i++] = d;
-   
+
    qsort( buf, i, sizeof( mulle_utf32_t), compare_mulle_utf32_t);
-   
+
    --s1;
    while( tmp = s1, c = *++s1)
    {
@@ -241,7 +241,7 @@ int   _mulle_utf32_atoi( mulle_utf32_t **s_p)
    }
    *p   = 0;
    *s_p = s;
-   
+
    return( (int) strtol( buf, NULL, 10));
 }
 

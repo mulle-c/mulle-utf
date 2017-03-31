@@ -50,7 +50,7 @@ static inline char   *mulle_char5_get_charset( void)
 static inline int   mulle_char5_decode_character( int c)
 {
    assert( c >= 0 && c < 32);
-   
+
    return( mulle_char5_get_charset()[ c]);
 }
 
@@ -71,7 +71,7 @@ int   mulle_char5_get32( uint32_t value, unsigned int index);
 static inline size_t   mulle_char5_strlen64( uint64_t value)
 {
    size_t   len;
-   
+
    len = 0;
    while( value)
    {
@@ -85,7 +85,7 @@ static inline size_t   mulle_char5_strlen64( uint64_t value)
 static inline size_t  mulle_char5_strlen32( uint32_t value)
 {
    size_t   len;
-   
+
    len = 0;
    while( value)
    {
@@ -109,7 +109,7 @@ static inline uint64_t   mulle_char5_substring64( uint64_t value, unsigned int l
 static inline uint32_t   mulle_char5_substring32( uint32_t value, unsigned int location, unsigned int length)
 {
    assert( location + length <= mulle_char5_strlen32( value));
-   
+
    value >>= location * 5;
    value  &= ~((~(uint32_t) 0) << (length * 5));
    return( value);

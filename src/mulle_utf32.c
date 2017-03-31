@@ -35,16 +35,16 @@ void  mulle_utf32_bufferconvert_to_utf16_as_surrogatepair(
    uint16_t  bottom;
    uint16_t  hi;
    uint16_t  lo;
-   
+
    assert( x >= 0x10000 && x <= 0x10FFFF);
-   
+
    x -= 0x10000;
-   
+
    assert( (x >> 10) <= 0x3FF);
-   
+
    top    = (uint16_t) (x >> 10);
    bottom = (uint16_t) (x & 0x3FF);
-   
+
    hi = 0xD800 + top;
    lo = 0xDC00 + bottom;
 
@@ -64,23 +64,23 @@ size_t   mulle_utf32_utf8length( mulle_utf32_t *src,
 {
    mulle_utf32_t       *sentinel;
    mulle_utf32_t       x;
-   
+
    if( ! src)
       return( 0);
-   
+
    if( len == (size_t) -1)
       len = mulle_utf32_strlen( src);
    if( ! len)
       return( 0);
-             
+
    // if dst_len == -1, then sentinel - 1 = dst_sentinel (OK!)
-   
+
    sentinel = &src[ len];
-   
+
    while( src < sentinel)
    {
       x = *src++;
-      
+
       if( x < 0x800)
       {
          if( x < 0x80)
@@ -96,7 +96,7 @@ size_t   mulle_utf32_utf8length( mulle_utf32_t *src,
          len += 2;
          continue;
       }
-      
+
       assert( x <= 0x10FFFF);
       len += 3;
    }
@@ -110,7 +110,7 @@ int   mulle_utf32_information( mulle_utf32_t *src, size_t len, struct mulle_utf_
    mulle_utf32_t                  *start;
    mulle_utf32_t                  *sentinel;
    struct mulle_utf_information   dummy;
-   
+
    if( ! info)
       info = &dummy;
 
@@ -124,12 +124,12 @@ int   mulle_utf32_information( mulle_utf32_t *src, size_t len, struct mulle_utf_
    info->utf16len             = 0;
    info->utf32len             = 0;
    info->has_bom              = 0;
-   
+
    if( ! len)
       return( 0);
    if( len == (size_t) -1)
       len = mulle_utf32_strlen( src);
-   
+
    //
    // remove leading BOM
    //
@@ -143,29 +143,29 @@ int   mulle_utf32_information( mulle_utf32_t *src, size_t len, struct mulle_utf_
    info->start = src;
    start       = src;
    sentinel    = &src[ len];
-   
+
    for( ; src < sentinel; src++)
    {
       if( ! (_c = *src))
-      {  
+      {
          info->has_terminating_zero = 1;
          break;
       }
-      
+
       if( mulle_utf32_is_asciicharacter( _c))
       {
          if( info->is_char5 && ! mulle_utf32_is_char5character( _c))
             info->is_char5 = 0;
          continue;
       }
-      
+
       info->is_ascii = 0;
       info->utf8len++;
 
       if( _c >= 0x0800)
          info->utf8len++;
 
-      
+
 #if FORBID_NON_CHARACTERS
       if( mulle_utf32_is_invalidcharacter( _c))
          goto fail;
@@ -173,7 +173,7 @@ int   mulle_utf32_information( mulle_utf32_t *src, size_t len, struct mulle_utf_
 
       if( _c >= 0x8000)
          info->is_utf15 = 0;
-      
+
       if( _c >= 0x10000)
       {
          info->utf8len++;
@@ -204,20 +204,20 @@ int  mulle_utf32_bufferconvert_to_utf8( mulle_utf32_t *src,
    mulle_utf32_t   *sentinel;
    mulle_utf32_t   x;
    mulle_utf8_t    s[ 4];
-   
+
    if( len == (size_t) -1)
       len = mulle_utf32_strlen( src);
    if( ! len)
       return( 0);
-             
+
    // if dst_len == -1, then sentinel - 1 = dst_sentinel (OK!)
-   
+
    sentinel = &src[ len];
-   
+
    while( src < sentinel)
    {
       x = *src++;
-      
+
       if( x < 0x800)
       {
          if( x < 0x80)
@@ -246,7 +246,7 @@ int  mulle_utf32_bufferconvert_to_utf8( mulle_utf32_t *src,
          }
 
          assert( x <= 0x10FFFF);
-         
+
          s[ 0] = 0xF0 | (mulle_utf8_t) (x >> 18);
          s[ 1] = 0x80 | ((x >> 12) & 0x3F);
          s[ 2] = 0x80 | ((x >> 6) & 0x3F);
@@ -267,24 +267,24 @@ int  mulle_utf32_bufferconvert_to_utf16( mulle_utf32_t *src,
    mulle_utf32_t   *sentinel;
    mulle_utf32_t   x;
    mulle_utf16_t   _w;
-   
+
    if( len == (size_t) -1)
       len = mulle_utf32_strlen( src);
    if( ! len)
       return( 0);
-   
+
    // if dst_len == -1, then sentinel - 1 = dst_sentinel (OK!)
-   
+
    sentinel = &src[ len];
-   
+
    while( src < sentinel)
    {
       x = *src++;
-      
+
       if( x < 0x10000)
       {
          assert( ! mulle_utf32_is_surrogatecharacter( x));
-         
+
          _w = (uint16_t) x;
          (*addbytes)( buffer, &_w, sizeof( _w));
          continue;
