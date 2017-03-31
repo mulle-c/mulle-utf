@@ -1,5 +1,5 @@
 //
-//  mulle_utf16.h 
+//  mulle_utf16.h
 //  mulle-utf
 //
 //  Copyright (C) 2011 Nat!, Mulle kybernetiK.

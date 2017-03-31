@@ -61,7 +61,7 @@ int   mulle_char5_is_char5string32( char *src, size_t len)
 
    if( len > mulle_char5_maxlength32)
       return( 0);
-   
+
    sentinel = &src[ len];
    while( src < sentinel)
       switch( mulle_char5_encode_character( *src++))
@@ -77,10 +77,10 @@ int   mulle_char5_is_char5string32( char *src, size_t len)
 int   mulle_char5_is_char5string64( char *src, size_t len)
 {
    char   *sentinel;
-   
+
    if( len > mulle_char5_maxlength64)
       return( 0);
-   
+
    sentinel = &src[ len];
    while( src < sentinel)
       switch( mulle_char5_encode_character( *src++))
@@ -88,7 +88,7 @@ int   mulle_char5_is_char5string64( char *src, size_t len)
       case 0  : return( 1);
       case -1 : return( 0);
       }
-   
+
    return( 1);
 }
 
@@ -100,7 +100,7 @@ uint32_t   mulle_char5_encode32( char *src, size_t len)
    char       c;
    int        char5;
    uint32_t   value;
-   
+
    value    = 0;
    sentinel = src;
    s        = &src[ len];
@@ -109,7 +109,7 @@ uint32_t   mulle_char5_encode32( char *src, size_t len)
       c = *--s;
       if( ! c)
          continue;
-      
+
       char5   = mulle_char5_encode_character( c);
       assert( char5 > 0 && char5 < 0x20);
       assert( value << 5 >> 5 == value);  // hope the optimizer doesn't fck up
@@ -127,7 +127,7 @@ uint64_t   mulle_char5_encode64( char *src, size_t len)
    char       c;
    int        char5;
    uint64_t   value;
-   
+
    value    = 0;
    sentinel = src;
    s        = &src[ len];
@@ -136,7 +136,7 @@ uint64_t   mulle_char5_encode64( char *src, size_t len)
       c = *--s;
       if( ! c)
          continue;
-      
+
       char5 = mulle_char5_encode_character( c);
       assert( char5 > 0 && char5 < 0x20);
       assert( value << 5 >> 5 == value);  // hope the optimizer doesn't fck up
@@ -152,14 +152,14 @@ size_t  mulle_char5_decode32( uint32_t value, char *dst, size_t len)
    char   *s;
    char   *sentinel;
    int    char5;
-   
+
    s        = dst;
    sentinel = &s[ len];
    while( s < sentinel)
    {
       if( ! value)
          break;
-      
+
       char5  = value & 0x1F;
       *s++ = (char) mulle_char5_decode_character( char5);
 
@@ -174,7 +174,7 @@ size_t  mulle_char5_decode64( uint64_t value, char *dst, size_t len)
    char   *s;
    char   *sentinel;
    int    char5;
-   
+
    s        = dst;
    sentinel = &s[ len];
    while( s < sentinel)
@@ -184,7 +184,7 @@ size_t  mulle_char5_decode64( uint64_t value, char *dst, size_t len)
 
       char5 = value & 0x1F;
       *s++  = (char) mulle_char5_decode_character( char5);
-      
+
       value >>= 5;
    }
    return( s - dst);
@@ -194,17 +194,17 @@ size_t  mulle_char5_decode64( uint64_t value, char *dst, size_t len)
 int   mulle_char5_get64( uint64_t value, unsigned int index)
 {
    int   char5;
-   
+
    do
    {
       char5 = value & 0x1F;
       if( ! value)
          break;
-      
+
       value >>= 5;
    }
    while( index--);
-   
+
    return( mulle_char5_decode_character( char5));
 }
 
@@ -212,16 +212,16 @@ int   mulle_char5_get64( uint64_t value, unsigned int index)
 int   mulle_char5_get32( uint32_t value, unsigned int index)
 {
    int   char5;
-   
+
    do
    {
       char5 = value & 0x1F;
       if( ! value)
          break;
-      
+
       value >>= 5;
    }
    while( index--);
-   
+
    return( mulle_char5_decode_character( char5));
 }
