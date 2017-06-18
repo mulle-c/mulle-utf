@@ -104,5 +104,6 @@ int  main()
    test( (mulle_utf32_t [ 4]) { 49938, 0 }, 0, 0, 0);
       // KILLER
    test( (mulle_utf32_t [ 4]) { 65279, 47177, 29938, 18497 }, 0, 0, 0);
+   return( 0);
 }
 
