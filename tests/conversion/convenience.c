@@ -71,5 +71,7 @@ int  main()
    test( bom_utf15);
    test( bom_utf16);
    test( ascii_trailing_zero);
+
+   return( 0);
 }
 

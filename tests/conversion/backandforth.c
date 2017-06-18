@@ -216,5 +216,7 @@ int  main()
    test( bom_utf16);
    test( ascii_trailing_zero);
    stress_test();
+
+   return( 0);
 }
 

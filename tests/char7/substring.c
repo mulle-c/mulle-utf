@@ -47,5 +47,7 @@ int  main()
             printf( "%.*s( %d, %d) -> %.*s\n",  i,  text, j, k, (int) len, buf);
          }
    }
+
+   return( 0);
 }
 

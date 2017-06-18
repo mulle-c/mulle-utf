@@ -53,5 +53,7 @@ int  main()
       putchar( mulle_char7_get( code, i));
 
    printf( "\n", d);
+
+   return( 0);
 }
 

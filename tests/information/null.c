@@ -29,5 +29,6 @@ static void   test_null()
 int  main()
 {
    test_null();
+   return( 0);
 }
 

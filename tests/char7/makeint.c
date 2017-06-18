@@ -77,5 +77,7 @@ int  main()
    test( "ABCDEFGHIJL");
    test( "ABCDEFGHIJLM");
    test( "ABCDEFGHIJLMN");  // 13
+
+   return( 0);
 }
 

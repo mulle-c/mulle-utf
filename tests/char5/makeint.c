@@ -75,5 +75,7 @@ int  main()
    test( "abcdeabcdea");
    test( "abcdeabcdeab");
    test( "abcdeabcdeabc");  // 13
+
+   return( 0);
 }
 

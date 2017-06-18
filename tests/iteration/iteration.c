@@ -157,5 +157,6 @@ int  main()
 
    test( killer);
    stress_test();
+   return( 0);
 }
 
