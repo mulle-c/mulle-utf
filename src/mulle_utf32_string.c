@@ -15,6 +15,9 @@
 #include <ctype.h>
 #include <stdlib.h>
 #include <string.h>
+#if _WIN32
+#include <malloc.h> // for alloca
+#endif
 
 
 size_t  mulle_utf32_strnlen( mulle_utf32_t *src, size_t len)
@@ -171,7 +174,6 @@ static size_t   _mulle_utf32_strspn( mulle_utf32_t *s1, mulle_utf32_t *s2, int f
    mulle_utf32_t   d;
    size_t          s2_len;
    unsigned int    i;
-   mulle_utf32_t   *buf;
 
    start  = s1;
    s2_len = mulle_utf32_strlen( s2);
@@ -190,21 +192,26 @@ static size_t   _mulle_utf32_strspn( mulle_utf32_t *s1, mulle_utf32_t *s2, int f
    }
 
    i   = 0;
-   buf = alloca( sizeof( mulle_utf32_t) * s2_len);
-
-   --s2;
-   while( d = *++s2)
-      buf[ i++] = d;
-
-   qsort( buf, i, sizeof( mulle_utf32_t), compare_mulle_utf32_t);
-
-   --s1;
-   while( tmp = s1, c = *++s1)
    {
-      if( ! bsearch( &c, buf, i, sizeof( mulle_utf32_t), compare_mulle_utf32_t) == flag)
-         break;
+#if _WIN32
+      mulle_utf32_t   *buf = alloca( sizeof( mulle_utf32_t) * s2_len);
+#else
+      mulle_utf32_t   buf[ sizeof( mulle_utf32_t) * s2_len];
+#endif
+      --s2;
+      while( d = *++s2)
+         buf[ i++] = d;
+
+      qsort( buf, i, sizeof( mulle_utf32_t), compare_mulle_utf32_t);
+
+      --s1;
+      while( tmp = s1, c = *++s1)
+      {
+         if( ! bsearch( &c, buf, i, sizeof( mulle_utf32_t), compare_mulle_utf32_t) == flag)
+            break;
+      }
+      return( tmp + 1 - start);
    }
-   return( tmp + 1 - start);
 }
 
 
@@ -226,7 +233,7 @@ int   _mulle_utf32_atoi( mulle_utf32_t **s_p)
    char            *sentinel;
    char            *p;
    mulle_utf32_t   *s;
-   mulle_utf32_t         c;
+   mulle_utf32_t   c;
 
    s        = *s_p;
    p        = buf;
