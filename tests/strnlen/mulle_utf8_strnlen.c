@@ -1,4 +1,5 @@
 #include <mulle_utf/mulle_utf.h>
+#include <stdio.h>
 
 
 int  main()
