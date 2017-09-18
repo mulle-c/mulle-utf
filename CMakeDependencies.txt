@@ -1,0 +1,21 @@
+if( NOT __MULLE_UTF_CMAKE_DEPENDENCIES_TXT__)
+   set( __MULLE_UTF_CMAKE_DEPENDENCIES_TXT__ ON)
+
+   message( STATUS "# Include mulle-utf CMakeDependencies.txt")
+
+   include( ${DEPENDENCIES_DIR}/include/mulle_allocator/CMakeDependencies.txt)
+
+   if( NOT MULLE_UTF_LIBRARY)
+      find_library( MULLE_UTF_LIBRARY NAMES mulle_utf)
+      message(STATUS "MULLE_UTF_LIBRARY is ${MULLE_UTF_LIBRARY}")
+      set( C_DEPENDENCY_LIBRARIES
+         ${MULLE_UTF_LIBRARY}
+         ${C_DEPENDENCY_LIBRARIES}
+         CACHE INTERNAL "need to cache this"
+      )
+   endif()
+
+   if( MSVC)
+      set( MULLE_UTF_DEFINITIONS ${MULLE_ALLOCATOR_DEFINITIONS})
+   endif()
+endif()

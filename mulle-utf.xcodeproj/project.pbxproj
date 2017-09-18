@@ -334,7 +334,7 @@
 				4146E0211C9C980B00209E86 /* ToolOSX.xcconfig */,
 				4146E0221C9C980B00209E86 /* _Common.xcconfig */,
 			);
-			path = "mulle-configuration";
+			path = "mulle-configuration/xcode";
 			sourceTree = "<group>";
 		};
 		4146E0251C9C983300209E86 /* src */ = {
