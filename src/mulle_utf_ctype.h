@@ -89,7 +89,7 @@ static inline int   mulle_utf32_is_asciicharacter( mulle_utf32_t c)
 // somewhat arbitrary
 static inline int   mulle_utf32_is_invalidcharacter( mulle_utf32_t c)
 {
-   return( mulle_utf32_is_surrogatecharacter( c) || mulle_utf32_is_noncharacter( c));   // utf-16 surrogate pair
+   return( mulle_utf32_is_noncharacter( c));   // utf-16 surrogate pair
 }
 
 
