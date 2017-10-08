@@ -231,7 +231,7 @@ mulle_utf32_t   _mulle_utf8_previous_utf32character( mulle_utf8_t **s_p)
 //
 // the slower non-crashing code ...
 //
-int   mulle_utf8_are_valid_extracharacters( char *src, unsigned int len)
+int   mulle_utf8_are_valid_extracharacters( mulle_utf8_t *src, unsigned int len, mulle_utf32_t *p_x)
 {
    mulle_utf8_t    _c;
    mulle_utf32_t   x;
@@ -251,7 +251,7 @@ int   mulle_utf8_are_valid_extracharacters( char *src, unsigned int len)
          return( 0);
 
       x  |= (_c & 0x3F);
-      if( x < 0x80)
+      if( x >= 0x80)
          return( 0);
       break;
 
@@ -268,7 +268,7 @@ int   mulle_utf8_are_valid_extracharacters( char *src, unsigned int len)
          return( 0);
       x  |= (_c & 0x3F);
 
-      if( x < 0x800)
+      if( x >= 0x800)
          return( 0);
 #if FORBID_NON_CHARACTERS
       if( mulle_utf32_is_invalidcharacter( x))
@@ -294,9 +294,11 @@ int   mulle_utf8_are_valid_extracharacters( char *src, unsigned int len)
          return( 0);
       x  |= (_c & 0x3F);
 
-      if( x < 0x10000 || x > 0x0010FFFF)
+      if( ! (x < 0x10000 || x > 0x0010FFFF))
          return( 0);
    }
+
+   *p_x = x;
    return( 1);
 }
 
@@ -492,7 +494,8 @@ int  mulle_utf8_information( mulle_utf8_t *src, size_t len, struct mulle_utf_inf
       if( end >= sentinel)
          goto fail;
 
-      _x = mulle_utf8_extracharactersvalue( src, extra_len);
+      if( ! mulle_utf8_are_valid_extracharacters( src, extra_len, &_x))
+         goto fail;
       if( _x >= 0x08000)
          info->is_utf15 = 0;
       if( _x >= 0x10000)

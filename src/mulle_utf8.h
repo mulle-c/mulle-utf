@@ -72,7 +72,10 @@ static inline int  mulle_utf8_has_leading_bomcharacter( mulle_utf8_t *src, size_
    return( src[ 0] == 0xEF && src[ 1] == 0xBB && src[ 2] == 0xBF);
 }
 
-int   mulle_utf8_are_valid_extracharacters( char *s, unsigned int len);
+// 0: no 1: yes
+// if yes, p_c will contain char value
+//
+int   mulle_utf8_are_valid_extracharacters( mulle_utf8_t *s, unsigned int len, mulle_utf32_t *p_c);
 
 //
 // if len is -1, assume that *s is '\0' terminated
