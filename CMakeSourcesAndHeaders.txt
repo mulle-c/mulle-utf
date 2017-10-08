@@ -77,3 +77,6 @@ src/mulle_utf_tolower.c
 src/mulle_utf_toupper.c
 )
 
+set( STANDALONE_SOURCES
+src/mulle_utf_standalone.c
+)
