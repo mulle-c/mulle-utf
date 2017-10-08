@@ -268,12 +268,8 @@ int   mulle_utf8_are_valid_extracharacters( mulle_utf8_t *src, unsigned int len,
          return( 0);
       x  |= (_c & 0x3F);
 
-      if( x >= 0x800)
+      if( x < 0x800)
          return( 0);
-#if FORBID_NON_CHARACTERS
-      if( mulle_utf32_is_invalidcharacter( x))
-         return( 0);
-#endif
       break;
 
    case 3 :   // 21 bits -> UTF32
@@ -298,6 +294,10 @@ int   mulle_utf8_are_valid_extracharacters( mulle_utf8_t *src, unsigned int len,
          return( 0);
    }
 
+#if FORBID_NON_CHARACTERS
+   if( mulle_utf32_is_invalidcharacter( x))
+      return( 0);
+#endif
    *p_x = x;
    return( 1);
 }
