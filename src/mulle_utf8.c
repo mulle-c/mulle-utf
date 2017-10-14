@@ -251,7 +251,7 @@ int   mulle_utf8_are_valid_extracharacters( mulle_utf8_t *src, unsigned int len,
          return( 0);
 
       x  |= (_c & 0x3F);
-      if( x >= 0x80)
+      if( x < 0x80)   // can't be ASCII
          return( 0);
       break;
 
@@ -268,7 +268,7 @@ int   mulle_utf8_are_valid_extracharacters( mulle_utf8_t *src, unsigned int len,
          return( 0);
       x  |= (_c & 0x3F);
 
-      if( x < 0x800)
+      if( x < 0x800)  // can't be in case 1 range
          return( 0);
       break;
 
@@ -290,7 +290,7 @@ int   mulle_utf8_are_valid_extracharacters( mulle_utf8_t *src, unsigned int len,
          return( 0);
       x  |= (_c & 0x3F);
 
-      if( ! (x < 0x10000 || x > 0x0010FFFF))
+      if( x < 0x10000 || x > 0x0010FFFF)  // // can't be in case 2 range or totally too large
          return( 0);
    }
 
