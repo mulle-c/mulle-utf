@@ -1,4 +1,4 @@
-#include <mulle_utf/mulle_utf.h>
+#include "dependencies.h"
 #include <stdio.h>
 
 

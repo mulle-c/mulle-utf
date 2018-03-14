@@ -1,4 +1,4 @@
-#include <mulle_utf/mulle_utf.h>
+#include "dependencies.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -25,7 +25,7 @@ static void   test_conversion( mulle_utf32_t text[ 5])
    mulle_utf8_information( utf8, -1, &info8);
    if( ! memcmp( &info8, &info32, sizeof( struct mulle_utf_information)))
    {
-      printf( "mulle_utf8_information failed");
+      printf( "mulle-utf8_information failed");
       return;
    }
 
@@ -39,7 +39,7 @@ static void   test_conversion( mulle_utf32_t text[ 5])
    mulle_utf16_information( utf16, -1, &info16);
    if( ! memcmp( &info16, &info32, sizeof( struct mulle_utf_information)))
    {
-      printf( "mulle_utf16_information failed");
+      printf( "mulle-utf16_information failed");
       return;
    }
 
