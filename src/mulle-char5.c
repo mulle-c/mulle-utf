@@ -7,6 +7,7 @@
 //  Copyright (c) 2016 Codeon GmbH.
 //  All rights reserved.
 //
+#define _XOPEN_SOURCE   700
 
 #include "mulle-char5.h"
 
