@@ -13,7 +13,7 @@
 
 // pollute mulle_utf with mulle_allocator ? but it's just so.. convenient!
 
-#include "dependencies.h"
+#include "include.h"
 #include "mulle-utf-type.h"
 
 
