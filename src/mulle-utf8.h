@@ -94,9 +94,25 @@ static inline size_t  mulle_utf8_strlen( mulle_utf8_t *s)
 }
 
 
+//
+// hand coded because linux doesn't have it by default, and I want to get rid
+// of the warning without having to define __USE_XOPEN2K8
+//
 static inline size_t  mulle_utf8_strnlen( mulle_utf8_t *s, size_t len)
 {
-   return( strnlen( (char *) s, len));
+   mulle_utf8_t   *start;
+   mulle_utf8_t   *sentinel;
+
+   start    = s;
+   sentinel = &s[ len];
+
+   while( s < sentinel)
+   {
+      if( ! *s)
+         break;
+      ++s;
+   }
+   return( (size_t) (s - start));
 }
 
 
