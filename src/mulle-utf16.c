@@ -207,7 +207,7 @@ int  mulle_utf16_bufferconvert_to_utf32( mulle_utf16_t *src,
 
 static inline int  mulle_utf16_is_invalid_char( mulle_utf16_t c)
 {
-   return( c >= 0xFFFE || c >= 0xFDD0 && c <= 0xFDEF);
+   return( c >= 0xFFFE || (c >= 0xFDD0 && c <= 0xFDEF));
 }
 
 
