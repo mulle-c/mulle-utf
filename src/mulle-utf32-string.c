@@ -8,6 +8,7 @@
 //  All rights reserved.
  *
  */
+#pragma clang diagnostic ignored "-Wparentheses"
 
 #include "mulle-utf32-string.h"
 
