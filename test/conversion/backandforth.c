@@ -46,7 +46,7 @@ struct buffer
 
 static void  buffer_add( struct buffer *p, void *bytes, size_t len)
 {
-   memcpy( &p->text._8[ p->n], bytes, len);
+   memmove( &p->text._8[ p->n], bytes, len);
    p->n += len;
 }
 
