@@ -52,8 +52,6 @@ mulle_utf16_t  *mulle_utf8_convert_to_utf16( mulle_utf8_t *src,
    }
 
    memo = mulle_allocator_malloc( allocator, sizeof( mulle_utf16_t) * (info.utf16len + 1));
-   if( ! memo)
-      return( NULL);
 
    tmp.s = memo;
    tmp.n = 0;
@@ -88,8 +86,6 @@ mulle_utf32_t  *mulle_utf8_convert_to_utf32( mulle_utf8_t *src,
    }
 
    memo = mulle_allocator_malloc( allocator, sizeof( mulle_utf32_t) * (info.utf32len + 1));
-   if( ! memo)
-      return( NULL);
 
    tmp.s = memo;
    tmp.n = 0;
@@ -129,8 +125,6 @@ mulle_utf8_t  *mulle_utf16_convert_to_utf8( mulle_utf16_t *src,
    }
 
    memo = mulle_allocator_malloc( allocator, sizeof( mulle_utf8_t) * (info.utf8len + 1));
-   if( ! memo)
-      return( NULL);
 
    tmp.s = memo;
    tmp.n = 0;
@@ -164,8 +158,6 @@ mulle_utf32_t  *mulle_utf16_convert_to_utf32( mulle_utf16_t *src,
    }
 
    memo = mulle_allocator_malloc( allocator, sizeof( mulle_utf32_t) * (info.utf32len + 1));
-   if( ! memo)
-      return( NULL);
 
    tmp.s = memo;
    tmp.n = 0;
@@ -204,9 +196,7 @@ mulle_utf8_t  *mulle_utf32_convert_to_utf8( mulle_utf32_t *src,
       return( NULL);
    }
 
-   memo = mulle_allocator_malloc( allocator, sizeof( mulle_utf8_t) * (info.utf8len + 1));
-   if( ! memo)
-      return( NULL);
+   memo  = mulle_allocator_malloc( allocator, sizeof( mulle_utf8_t) * (info.utf8len + 1));
 
    tmp.s = memo;
    tmp.n = 0;
@@ -239,9 +229,7 @@ mulle_utf16_t  *mulle_utf32_convert_to_utf16( mulle_utf32_t *src,
       return( NULL);
    }
 
-   memo = mulle_allocator_malloc( allocator, sizeof( mulle_utf16_t) * (info.utf16len + 1));
-   if( ! memo)
-      return( NULL);
+   memo  = mulle_allocator_malloc( allocator, sizeof( mulle_utf16_t) * (info.utf16len + 1));
 
    tmp.s = memo;
    tmp.n = 0;
