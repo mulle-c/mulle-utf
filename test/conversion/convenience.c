@@ -43,8 +43,8 @@ static void   test_conversion( mulle_utf32_t text[ 5])
       return;
    }
 
-   free( utf8);
-   free( utf16);
+   mulle_free( utf8);
+   mulle_free( utf16);
 }
 
 
