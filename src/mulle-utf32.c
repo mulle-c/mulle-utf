@@ -127,6 +127,9 @@ int   mulle_utf32_information( mulle_utf32_t *src, size_t len, struct mulle_utf_
 
    if( ! len)
       return( 0);
+   if( ! src)
+      goto fail;
+
    if( len == (size_t) -1)
       len = mulle_utf32_strlen( src);
 

@@ -43,7 +43,7 @@
 
 
 size_t   mulle_utf32_utf8length( mulle_utf32_t *src,
-                                     size_t len);
+                                 size_t len);
 
 int   mulle_utf32_information( mulle_utf32_t *src,
                                size_t len,

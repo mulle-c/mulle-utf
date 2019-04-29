@@ -397,6 +397,9 @@ int  mulle_utf16_information( mulle_utf16_t *src, size_t len, struct mulle_utf_i
 
    if( ! len)
       return( 0);
+   if( ! src)
+      goto fail;
+
    if( len == (size_t) -1)
       len = mulle_utf16_strlen( src);
 
