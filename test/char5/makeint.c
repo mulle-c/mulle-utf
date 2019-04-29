@@ -23,7 +23,7 @@ static void   bit32( char *s)
       printf( "%s failed\n", s);
       abort();
    }
-   printf( "32bit: %.*s (%d): 0x%lx\n", (int) decoded_len, decoded, decoded_len, (unsigned long) encoded);
+   printf( "32bit: %.*s (%ld): 0x%lx\n", (int) decoded_len, decoded, decoded_len, (unsigned long) encoded);
 }
 
 
@@ -45,7 +45,7 @@ static void   bit64( char *s)
       printf( "%s failed\n", s);
       abort();
    }
-   printf( "64bit: %.*s (%d): 0x%llx\n", (int) decoded_len, decoded, decoded_len, (unsigned long long) encoded);
+   printf( "64bit: %.*s (%ld): 0x%llx\n", (int) decoded_len, decoded, decoded_len, (unsigned long long) encoded);
 }
 
 
