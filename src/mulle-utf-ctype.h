@@ -16,6 +16,7 @@
 #include "mulle-utf-is-control.h"
 #include "mulle-utf-is-decimaldigit.h"
 #include "mulle-utf-is-decomposable.h"
+#include "mulle-utf-is-legalcharacter.h"
 #include "mulle-utf-is-letter.h"
 #include "mulle-utf-is-lowercase.h"
 #include "mulle-utf-is-newline.h"

@@ -8,6 +8,7 @@
 #ifndef _mulle_utf_include_h__
 #define _mulle_utf_include_h__
 
+// library: remove with `mark no-header`, rename with `set include`
 # include <mulle-allocator/mulle-allocator.h>   // mulle-allocator
 
 #endif
