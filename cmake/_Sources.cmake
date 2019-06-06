@@ -19,6 +19,7 @@ src/mulle-utf-is-capitalized.c
 src/mulle-utf-is-control.c
 src/mulle-utf-is-decimaldigit.c
 src/mulle-utf-is-decomposable.c
+src/mulle-utf-is-legalcharacter.c
 src/mulle-utf-is-letter.c
 src/mulle-utf-is-lowercase.c
 src/mulle-utf-is-newline.c
