@@ -298,4 +298,39 @@ int  mulle_utf32_bufferconvert_to_utf16( mulle_utf32_t *src,
 }
 
 
+mulle_utf8_t   *_mulle_utf32_as_utf8( mulle_utf32_t x, mulle_utf8_t *dst)
+{
+   if( x < 0x800)
+   {
+      if( x >= 0x80)
+      {
+         *dst++ = 0xC0 | (mulle_utf8_t) (x >> 6);
+         *dst++ = 0x80 | (x & 0x3F);
+         return( dst);
+      }
+
+      *dst++ = (mulle_utf8_t) x;
+      return( dst);
+   }
+
+   if( x < 0x10000)
+   {
+      assert( ! mulle_utf32_is_surrogatecharacter( x));
+
+      *dst++ = 0xE0 | (mulle_utf8_t) (x >> 12);
+      *dst++ = 0x80 | ((x >> 6) & 0x3F);
+      *dst++ = 0x80 | (x & 0x3F);
+      return( dst);
+   }
+
+   assert( x <= 0x10FFFF);
+
+   *dst++ = 0xF0 | (mulle_utf8_t) (x >> 18);
+   *dst++ = 0x80 | ((x >> 12) & 0x3F);
+   *dst++ = 0x80 | ((x >> 6) & 0x3F);
+   *dst++ = 0x80 | (x & 0x3F);
+
+   return( dst);
+}
+
 

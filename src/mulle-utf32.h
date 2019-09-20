@@ -42,6 +42,7 @@
 #include <stddef.h>
 
 
+
 size_t   mulle_utf32_utf8length( mulle_utf32_t *src,
                                  size_t len);
 
@@ -80,5 +81,20 @@ int  mulle_utf32_bufferconvert_to_utf16( mulle_utf32_t *src,
                                          size_t len,
                                          void *buffer,
                                          void (*addbytes)( void *buffer, void *bytes, size_t size));
+
+
+// no error checks whatsoever
+static inline mulle_utf8_t *mulle_utf32_as_utf8( mulle_utf32_t x, mulle_utf8_t *dst)
+{
+   mulle_utf8_t   *_mulle_utf32_as_utf8( mulle_utf32_t x, mulle_utf8_t *dst);
+
+   if( x < 0x80)
+   {
+      *dst++ = (mulle_utf8_t) x;
+      return( dst);
+   }
+   return( _mulle_utf32_as_utf8( x, dst));
+}
+
 #endif
 

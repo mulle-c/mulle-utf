@@ -133,6 +133,14 @@ static inline mulle_utf32_t   mulle_utf8_next_utf32character( mulle_utf8_t **s_p
 }
 
 
+// used in Foundation and maybe here in the future
+struct mulle_utf8_data
+{
+   mulle_utf8_t   *characters;
+   size_t         length;
+};
+
+
 
 // supply a "mulle-buffer" here as "buffer" and mulle_buffer_add_bytes as the
 // callback.
