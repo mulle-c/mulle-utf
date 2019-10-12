@@ -176,4 +176,52 @@ static inline mulle_char5_t  mulle_char5_substring( mulle_char5_t value,
    return( (mulle_char5_t) mulle_char5_substring64( value, location, length));
 }
 
+
+
+
+static inline uint32_t   _mulle_char5_fnv1a_32( uint32_t value)
+{
+   uint32_t    hash;
+
+   /*
+    * FNV-1A hash each octet in the buffer
+    */
+   hash = 0x811c9dc5;
+   while( value)
+   {
+      hash   ^= (uint32_t) mulle_char5_decode_character( value & 0x1F);
+      hash   *= 0x01000193;
+      value >>= 5;
+   }
+
+   return( hash);
+}
+
+
+static inline uint64_t   _mulle_char5_fnv1a_64( uint64_t value)
+{
+   uint64_t    hash;
+
+   /*
+    * FNV-1A hash each octet in the buffer
+    */
+   hash = 0xcbf29ce484222325ULL;
+   while( value)
+   {
+      hash   ^= (uint64_t) mulle_char5_decode_character( value & 0x1F);
+      hash   *= 0x0100000001b3ULL;
+      value >>= 5;
+   }
+
+   return( hash);
+}
+
+
+static inline uintptr_t   _mulle_char5_fnv1a( uintptr_t value)
+{
+   if( sizeof( uintptr_t) == sizeof( uint32_t))
+      return( (uintptr_t) _mulle_char5_fnv1a_32( value));
+   return( (uintptr_t) _mulle_char5_fnv1a_64( value));
+}
+
 #endif
