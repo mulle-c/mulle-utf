@@ -42,6 +42,7 @@ int   mulle_char7_get64( uint64_t value, unsigned int index);
 int   mulle_char7_get32( uint32_t value, unsigned int index);
 
 
+
 static inline size_t   mulle_char7_strlen64( uint64_t value)
 {
    size_t   len;
@@ -54,6 +55,14 @@ static inline size_t   mulle_char7_strlen64( uint64_t value)
    }
    return( len);
 }
+
+//
+// 0xfe00000   0x1fC000   0x3F80      0x007F
+// |||||||     |||||||    |||||||    |||||||
+// \     /     \     /    \     /    \     /
+//    OR     +   OR     +    OR   +     OR
+// Would be simple to do in hardware
+//
 
 
 static inline size_t  mulle_char7_strlen32( uint32_t value)
@@ -148,6 +157,52 @@ static inline mulle_char7_t  mulle_char7_substring( mulle_char7_t value,
    if( sizeof( mulle_char7_t) == sizeof( uint32_t))
       return( (mulle_char7_t) mulle_char7_substring32( (uint32_t) value, location, length));
    return( (mulle_char7_t) mulle_char7_substring64( value, location, length));
+}
+
+
+static inline uint32_t   _mulle_char7_fnv1a_32( uint32_t value)
+{
+   uint32_t    hash;
+
+   /*
+    * FNV-1A hash each octet in the buffer
+    */
+   hash = 0x811c9dc5;
+   while( value)
+   {
+      hash   ^= value & 0x7F;
+      hash   *= 0x01000193;
+      value >>= 7;
+   }
+
+   return( hash);
+}
+
+
+static inline uint64_t   _mulle_char7_fnv1a_64( uint64_t value)
+{
+   uint64_t    hash;
+
+   /*
+    * FNV-1A hash each octet in the buffer
+    */
+   hash = 0xcbf29ce484222325ULL;
+   while( value)
+   {
+      hash   ^= value & 0x7F;
+      hash   *= 0x0100000001b3ULL;
+      value >>= 7;
+   }
+
+   return( hash);
+}
+
+
+static inline uintptr_t   _mulle_char7_fnv1a( uintptr_t value)
+{
+   if( sizeof( uintptr_t) == sizeof( uint32_t))
+      return( (uintptr_t) _mulle_char7_fnv1a_32( value));
+   return( (uintptr_t) _mulle_char7_fnv1a_64( value));
 }
 
 #endif
