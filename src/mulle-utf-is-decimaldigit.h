@@ -13,9 +13,22 @@
 
 #include "mulle-utf-type.h"
 
+#include <assert.h>
+
 
 int   mulle_utf16_is_decimaldigit( mulle_utf16_t c);
 int   mulle_utf32_is_decimaldigit( mulle_utf32_t c);
-int   mulle_utf_is_decimaldigitplane( unsigned int plane);
 
-#endif /* mulle_utf_is_decimaldigit_h */
+
+static inline int   mulle_utf_is_decimaldigitplane( unsigned int plane)
+{
+   switch( plane)
+   {
+   case 0 :
+   case 1 :
+      return( 1);
+   }
+   return( 0);
+}
+
+#endif
