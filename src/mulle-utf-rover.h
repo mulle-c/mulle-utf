@@ -1,12 +1,12 @@
 //
-//  mulle-utf.h
+//  mulle-utf-rover.h
 //  mulle-utf
 //
-//  Created by Nat! on 18.03.16.
-//  Copyright © 2016 Mulle kybernetiK.
-//  Copyright (c) 2016 Codeon GmbH.
+//  Copyright (C) 2019 Nat!, Mulle kybernetiK.
+//  Copyright (c) 2019 Codeon GmbH.
 //  All rights reserved.
 //
+//  Coded by Nat!
 //
 //  Redistribution and use in source and binary forms, with or without
 //  modification, are permitted provided that the following conditions are met:
@@ -34,30 +34,54 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
-#ifndef mulle_utf_h__
-#define mulle_utf_h__
-
-#define MULLE_UTF_VERSION  ((2 << 20) | (1 << 8) | 0)
-
-#include "include.h"
+#ifndef mulle_utf32_rover_h__
+#define mulle_utf32_rover_h__
 
 #include "mulle-utf-type.h"
 
-#include "mulle-char5.h"
-#include "mulle-char7.h"
-#include "mulle-utf8.h"
-#include "mulle-utf16.h"
-#include "mulle-utf32.h"
-#include "mulle-utf16-string.h"
-#include "mulle-utf32-string.h"
 
-#include "mulle-utf-convenience.h"
-#include "mulle-utf-ctype.h"
-#include "mulle-utf-tolower.h"
-#include "mulle-utf-toupper.h"
-
-#include "mulle-utf-rover.h"
-#include "mulle-utf-scan.h"
+struct mulle_utf_rover
+{
+   void           *s;
+   void           *sentinel;
+   mulle_utf32_t  (*next)( struct mulle_utf_rover *rover);
+   void           (*dialback)( struct mulle_utf_rover *rover);
+};
 
 
-#endif /* mulle_utf_h */
+static inline void   *_mulle_utf_rover_get_current( struct mulle_utf_rover *rover)
+{
+   return( rover->s);
+}
+
+
+static inline int   _mulle_utf_rover_has_character( struct mulle_utf_rover *rover)
+{
+   return( (char *) rover->s < (char *) rover->sentinel);
+}
+
+
+static inline int   _mulle_utf_rover_next_character( struct mulle_utf_rover *rover)
+{
+   return( (*rover->next)( rover));
+}
+
+
+static inline void   _mulle_utf_rover_dial_back( struct mulle_utf_rover *rover)
+{
+   (*rover->dialback)( rover);
+}
+
+
+void   _mulle_utf32_rover_init( struct mulle_utf_rover *rover,
+                                mulle_utf32_t *s,
+                                size_t len);
+void   _mulle_utf16_rover_init( struct mulle_utf_rover *rover,
+                                mulle_utf16_t *s,
+                                size_t len);
+void   _mulle_utf8_rover_init( struct mulle_utf_rover *rover,
+                               mulle_utf8_t *s,
+                               size_t len);
+
+#endif
+

@@ -1,12 +1,12 @@
 //
-//  mulle-utf.h
+//  mulle-utf32-scan.h
 //  mulle-utf
 //
-//  Created by Nat! on 18.03.16.
-//  Copyright © 2016 Mulle kybernetiK.
-//  Copyright (c) 2016 Codeon GmbH.
+//  Copyright (C) 2019 Nat!, Mulle kybernetiK.
+//  Copyright (c) 2019 Codeon GmbH.
 //  All rights reserved.
 //
+//  Coded by Nat!
 //
 //  Redistribution and use in source and binary forms, with or without
 //  modification, are permitted provided that the following conditions are met:
@@ -34,30 +34,38 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
-#ifndef mulle_utf_h__
-#define mulle_utf_h__
-
-#define MULLE_UTF_VERSION  ((2 << 20) | (1 << 8) | 0)
-
-#include "include.h"
+#ifndef mulle_utf_scan_h__
+#define mulle_utf_scan_h__
 
 #include "mulle-utf-type.h"
 
-#include "mulle-char5.h"
-#include "mulle-char7.h"
-#include "mulle-utf8.h"
-#include "mulle-utf16.h"
-#include "mulle-utf32.h"
-#include "mulle-utf16-string.h"
-#include "mulle-utf32-string.h"
 
-#include "mulle-utf-convenience.h"
-#include "mulle-utf-ctype.h"
-#include "mulle-utf-tolower.h"
-#include "mulle-utf-toupper.h"
+//
+// These routines only scan for ASCII 0-9 possibly prefixed with either +
+// or -
+//
+// will return scanned position in p_s (+1)
+// will not scan more than len
+// will return value in p_value
+//
+// Return values:
+//    -2 : has overflown
+//    -1 : is not valid
+//    0  : is long long
+//    1  : is unsigned long long
+//    2  : is long long but has trailing garbage
+//    3  : is unsigned long long but has trailing garbage
+//
+int   _mulle_utf8_scan_longlong_decimal( mulle_utf8_t **p_s,
+                                         size_t len,
+                                         long long *p_value);
 
-#include "mulle-utf-rover.h"
-#include "mulle-utf-scan.h"
+int   _mulle_utf16_scan_longlong_decimal( mulle_utf16_t **p_s,
+                                          size_t len,
+                                          long long *p_value);
 
+int   _mulle_utf32_scan_longlong_decimal( mulle_utf32_t **p_s,
+                                          size_t len,
+                                          long long *p_value);
 
-#endif /* mulle_utf_h */
+#endif

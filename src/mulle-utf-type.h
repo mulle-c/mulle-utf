@@ -71,4 +71,14 @@ struct mulle_utf_information
    int      has_terminating_zero;
 };
 
+
+enum mulle_utf_scan_return
+{
+   mulle_utf_has_overflown           = -2,
+   mulle_utf_is_invalid              = -1,
+   mulle_utf_is_valid                = 0x0,
+   mulle_utf_is_too_large_for_signed = 0x1, // too large for a signed number
+   mulle_utf_has_trailing_garbage    = 0x2
+};
+
 #endif
