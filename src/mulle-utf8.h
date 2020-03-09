@@ -116,6 +116,19 @@ static inline size_t  mulle_utf8_strnlen( mulle_utf8_t *s, size_t len)
 }
 
 
+// use the more canonical *, size_t oder
+static inline int  mulle_utf8_strncmp( mulle_utf8_t *s, size_t len, mulle_utf8_t *other)
+{
+   return( strncmp( (char *) s, (char *) other, len));
+}
+
+
+mulle_utf8_t   *mulle_utf8_strnstr( mulle_utf8_t *s, size_t len, mulle_utf8_t *search);
+mulle_utf8_t   *mulle_utf8_strnchr( mulle_utf8_t *s, size_t len, mulle_utf8_t c);
+size_t         mulle_utf8_strnspn( mulle_utf8_t *s, size_t len, mulle_utf8_t *search);
+size_t         mulle_utf8_strncspn( mulle_utf8_t *s, size_t len, mulle_utf8_t *search);
+
+
 // extremely primitive!
 // iterate back and forth over a  buffer. the utf8 must be valid, and
 // this doesn't check for zero or buffer overflow

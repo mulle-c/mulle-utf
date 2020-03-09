@@ -531,6 +531,9 @@ int   mulle_utf8_is_ascii( mulle_utf8_t *src, size_t len)
 {
    mulle_utf8_t   *sentinel;
 
+   if( ! src)
+      return( 0);
+
    if( len == (size_t) -1)
       len = mulle_utf8_strlen( src);
 
@@ -553,6 +556,9 @@ size_t  mulle_utf8_utf16length( mulle_utf8_t *src, size_t len)
    mulle_utf8_t   *end;
    size_t          extra_len;
    size_t          dst_len;
+
+   if( ! src)
+      return( 0);
 
    if( len == (size_t) -1)
       len = mulle_utf8_strlen( src);
@@ -592,4 +598,135 @@ size_t  mulle_utf8_utf16length( mulle_utf8_t *src, size_t len)
    return( dst_len);
 }
 
+
+
+
+//
+// different API to strnstr, and on linux strnstr is only available
+// with BSD...
+// You can't search for '\0' with this function.
+//
+mulle_utf8_t   *mulle_utf8_strnstr( mulle_utf8_t *s, size_t len, mulle_utf8_t *search)
+{
+   mulle_utf8_t      *sentinel;
+   mulle_utf8_t      *p;
+   ssize_t           offset;
+
+   if( ! s || ! search)
+      return( NULL);
+
+   if( len == (size_t) -1)
+      len = mulle_utf8_strlen( s);
+
+   offset   = mulle_utf8_strlen( search);
+   if( ! offset)
+      return( NULL);
+
+   sentinel = &s[ len];
+   p        = search;
+
+   // fprintf( stderr, "# s=\"%s\" search=\"%s\" len=%ld, offset=%ld, sentinel=\"%s\"\n",
+   //            s, search, (long) len, (long) offset, sentinel);
+
+   for(;;)
+   {
+      if( s >= sentinel)
+         return( NULL);
+
+      if( *s++ != *p)
+      {
+         p = search;
+         continue;
+      }
+
+      if( *++p)
+         continue;
+
+      return( &s[ -offset]);
+   }
+}
+
+
+// 0 is no terminator in this case
+mulle_utf8_t  *mulle_utf8_strnchr( mulle_utf8_t *s, size_t len, mulle_utf8_t c)
+{
+   mulle_utf8_t   *start;
+   mulle_utf8_t   *sentinel;
+
+   if( ! s)
+      return( NULL);
+
+   if( len == (size_t) -1)
+      len = mulle_utf8_strlen( s);
+
+   start    = s;
+   sentinel = &s[ len];
+
+   while( s < sentinel)
+   {
+      if( *s == c)
+         return( s);
+      ++s;
+   }
+   return( NULL);
+}
+
+
+size_t   mulle_utf8_strnspn( mulle_utf8_t *s, size_t len, mulle_utf8_t *search)
+{
+   mulle_utf8_t   *start;
+   mulle_utf8_t   *sentinel;
+   size_t         search_len;
+
+   if( ! s)
+      return( 0);
+
+   if( ! search)
+      return( 0);
+   search_len = mulle_utf8_strlen( search);
+
+   if( len == (size_t) -1)
+      len = mulle_utf8_strlen( s);
+
+   start    = s;
+   sentinel = &s[ len];
+
+   while( s < sentinel)
+   {
+      if( ! mulle_utf8_strnchr( search, search_len, *s))
+         break;
+      ++s;
+   }
+   return( s - start);
+}
+
+
+size_t   mulle_utf8_strncspn( mulle_utf8_t *s, size_t len, mulle_utf8_t *search)
+{
+   mulle_utf8_t   *start;
+   mulle_utf8_t   *sentinel;
+   size_t         search_len;
+
+   if( ! s)
+      return( 0);
+
+   if( len == (size_t) -1)
+      len = mulle_utf8_strlen( s);
+
+   if( search)
+   {
+      search_len = mulle_utf8_strlen( search);
+
+      start    = s;
+      sentinel = &s[ len];
+
+      while( s < sentinel)
+      {
+         if( mulle_utf8_strnchr( search, search_len, *s))
+            return( s - start);
+         ++s;
+      }
+   }
+   return( len);
+}
 
