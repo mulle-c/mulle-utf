@@ -41,10 +41,7 @@ src/mulle-utf-is-whitespace.c
 src/mulle-utf-is-whitespaceornewline.c
 src/mulle-utf-rover.c
 src/mulle-utf-scan.c
+src/mulle-utf-standalone.c
 src/mulle-utf-tolower.c
 src/mulle-utf-toupper.c
-)
-
-set( STANDALONE_SOURCES
-src/mulle-utf-standalone.c
 )
