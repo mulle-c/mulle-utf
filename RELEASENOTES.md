@@ -1,3 +1,8 @@
+## 2.3.0
+
+* split off ctype style code to mulle-unicode, because its pretty large and not that much used
+
+
 ## 2.2.0
 
 * added ``mulle_utf8_strnstr`,` ``mulle_utf8_strnchr`,` ``mulle_utf8_strnspn`,` ``mulle_utf8_strncspn``

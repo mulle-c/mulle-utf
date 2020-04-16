@@ -36,10 +36,10 @@
 //
 #include "mulle-utf8.h"
 
-#include "mulle-utf-ctype.h"
 #include "mulle-char5.h"
 #include "mulle-utf16.h"
 #include "mulle-utf32.h"
+#include "mulle-utf-noncharacter.h"
 #include <errno.h>
 #include <assert.h>
 #include <stdlib.h>
@@ -729,4 +729,3 @@ size_t   mulle_utf8_strncspn( mulle_utf8_t *s, size_t len, mulle_utf8_t *search)
    }
    return( len);
 }
-

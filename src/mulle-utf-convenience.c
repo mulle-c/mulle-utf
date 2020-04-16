@@ -248,3 +248,87 @@ mulle_utf16_t  *mulle_utf32_convert_to_utf16( mulle_utf32_t *src,
    return( memo);
 }
 
+
+
+#pragma mark -  support for -toLower
+
+// ctype_convert will always add a zero (at buf[ len])
+struct mulle_utf8_data
+   mulle_utf8_character_convert( mulle_utf8_t *src,
+                                 size_t len,
+                                 mulle_utf32_t (*f_conversion)( mulle_utf32_t),
+                                 struct mulle_allocator *allocator)
+{
+   mulle_utf8_t            *p;
+   mulle_utf8_t            *sentinel;
+   mulle_utf32_t           c;
+   struct mulle_utf8_data  buf;
+
+   // mulle_utf32_t can become 4 bytes max
+   buf.length     = (len * 4) + 1;
+   buf.characters = mulle_allocator_malloc( allocator, buf.length);
+   p              = buf.characters;
+
+   sentinel = &src[ len];
+   while( src < sentinel)
+   {
+      c = mulle_utf8_next_utf32character( &src);
+      c = (*f_conversion)( c);
+      p = mulle_utf32_as_utf8( c, p);
+   }
+
+   *p++ = 0;
+   assert( p <= &buf.characters[ buf.length]);
+
+   buf.length     = p - buf.characters;
+   buf.characters = mulle_allocator_realloc( allocator, buf.characters, buf.length);
+   return( buf);
+}
+
+
+struct mulle_utf8_data
+   mulle_utf8_word_convert( mulle_utf8_t *src,
+                            size_t len,
+                            mulle_utf32_t (*f1_conversion)( mulle_utf32_t),
+                            mulle_utf32_t (*f2_conversion)( mulle_utf32_t),
+                            int           (*is_white)( mulle_utf32_t),
+                            struct mulle_allocator *allocator)
+{
+   int                     is_start;
+   mulle_utf32_t           c;
+   mulle_utf8_t            *p;
+   mulle_utf8_t            *sentinel;
+   struct mulle_utf8_data  buf;
+
+   is_start = 1;
+
+   // mulle_utf32_t can become 4 bytes max
+   buf.length     = (len * 4) + 1;
+   buf.characters = mulle_allocator_malloc( allocator, buf.length);
+   p              = buf.characters;
+
+   sentinel = &src[ len];
+   while( src < sentinel)
+   {
+      c = mulle_utf8_next_utf32character( &src);
+      if( (*is_white)( c))
+         is_start = 1;
+      else
+      {
+         if( is_start)
+         {
+            c = (*f1_conversion)( c);
+            is_start = 0;
+         }
+         else
+            c = (*f2_conversion)( c);
+      }
+      p = mulle_utf32_as_utf8( c, p);
+   }
+   *p++ = 0;
+   assert( p <= &buf.characters[ buf.length]);
+
+   buf.length     = p - buf.characters;
+   buf.characters = mulle_allocator_realloc( allocator, buf.characters, buf.length);
+   return( buf);
+}

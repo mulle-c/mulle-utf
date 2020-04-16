@@ -1,2 +1,0 @@
-   case 0xE000 :
-   case 0xF8FF :
