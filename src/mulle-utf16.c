@@ -38,9 +38,8 @@
 #include "mulle-utf16.h"
 
 #include "mulle-utf16-string.h"
-#include "mulle-utf-ctype.h"
+#include "mulle-utf-noncharacter.h"
 #include "mulle-char5.h"
-#include "mulle-utf-ctype.h"
 #include <errno.h>
 #include <string.h>
 

@@ -12,8 +12,8 @@
 
 #include "mulle-utf16-string.h"
 
-#include "mulle-utf-ctype.h"
 #include "mulle-utf16.h"
+#include "mulle-utf-noncharacter.h"
 #include <assert.h>
 #include <ctype.h>
 #include <stdlib.h>
