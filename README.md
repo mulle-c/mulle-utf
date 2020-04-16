@@ -1,13 +1,11 @@
 # mulle-utf
 
-🔤 UTF8-16-32 analysis, conversion, classification library
+🔤 UTF8-16-32 analysis and manipulation library
 
 a C (C99) library to analyze and convert unicode strings. It also contains some
-limited `<string.h>` functionality for UTF16 and UTF32. And it contains some
-fairly extensive `<ctype.h>` functionality for UTF16 and UTF32 based on the
-Unicode 3.0.0 specification.
+limited `<string.h>` like functionality for UTF16 and UTF32.
 
-It is the backbone of **NSString** and **NSCharacterSet**.
+It is the backbone of **NSString**.
 
 
 Build Status | Release Version
@@ -38,13 +36,11 @@ File                                    | Description
 --------------------------------------- | ----------------------------------------
 [`mulle_char7`](dox/API_CHAR7.md)       | Encode small ASCII strings into integers
 [`mulle_char5`](dox/API_CHAR5.md)       | Encode some more smallish ASCII strings integers
-[`Conversion`](dox/API_CONVERSION.md)   | Convert back and forth between UTF8, UTF16, UTF32,
 [`Information`](dox/API_INFORMATION.md) | Analyze and classify string encodings
 [`String`](dox/API_STRING.md)           | Primitive UTF16 and UTF32 string handling
-[`Ctype`](dox/API_CTYPE.md)             | `<ctype.h>` like functionality for UTF32 and UTF16 strings
 
 
-## Add 
+## Add
 
 Use [mulle-sde](//github.com/mulle-sde) to add mulle-utf to your project:
 
@@ -59,12 +55,11 @@ mulle-sde dependency add --c --github mulle-c mulle-utf
 Use [mulle-sde](//github.com/mulle-sde) to build and install mulle-utf and all dependencies:
 
 ```
-mulle-sde install --prefix /usr/local \
+mulle-sde install --linkorder --prefix /usr/local \
    https://github.com/mulle-c/mulle-utf/archive/latest.tar.gz
 ```
 
 ### Manual Installation
-
 
 Install the requirements:
 
