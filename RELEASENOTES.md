@@ -1,3 +1,7 @@
+### 2.3.1
+
+* get privatecharacter back from mulle-unicode
+
 ## 2.3.0
 
 * split off ctype style code to mulle-unicode, because its pretty large and not that much used

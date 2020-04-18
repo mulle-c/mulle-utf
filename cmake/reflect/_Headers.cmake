@@ -34,6 +34,7 @@ src/mulle-utf8.h
 src/mulle-utf-convenience.h
 src/mulle-utf.h
 src/mulle-utf-noncharacter.h
+src/mulle-utf-privatecharacter.h
 src/mulle-utf-rover.h
 src/mulle-utf-scan.h
 src/mulle-utf-type.h
