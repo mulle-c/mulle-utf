@@ -37,7 +37,7 @@
 #ifndef mulle_utf_h__
 #define mulle_utf_h__
 
-#define MULLE_UTF_VERSION  ((2 << 20) | (3 << 8) | 0)
+#define MULLE_UTF_VERSION  ((2 << 20) | (3 << 8) | 1)
 
 #include "include.h"
 
@@ -53,6 +53,7 @@
 
 #include "mulle-utf-convenience.h"
 #include "mulle-utf-noncharacter.h"
+#include "mulle-utf-privatecharacter.h"
 #include "mulle-utf-rover.h"
 #include "mulle-utf-scan.h"
 
