@@ -15,6 +15,7 @@ src/mulle-utf32-string.c
 src/mulle-utf8.c
 src/mulle-utf-convenience.c
 src/mulle-utf-noncharacter.c
+src/mulle-utf-privatecharacter.c
 src/mulle-utf-rover.c
 src/mulle-utf-scan.c
 )
