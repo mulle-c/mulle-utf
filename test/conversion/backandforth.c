@@ -1,5 +1,4 @@
 #include <mulle-utf/mulle-utf.h>
-#include <mulle-unicode/mulle-unicode.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -16,7 +15,7 @@ static mulle_utf32_t   random_char( mulle_utf32_t mask)
       if( ! c)
          continue;
    }
-   while( mulle_utf32_is_bomcharacter( c) || mulle_utf32_is_noncharacter( c) || mulle_unicode_is_privatecharacter( c));
+   while( mulle_utf32_is_bomcharacter( c) || mulle_utf32_is_noncharacter( c) || mulle_utf32_is_privatecharacter( c));
 
    return( c);
 }
