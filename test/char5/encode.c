@@ -17,6 +17,12 @@ int  main()
    for( i = 0; i < 255; i++)
    {
       c = mulle_char5_encode_character( i);
+      d = mulle_char5_lookup_character( i);
+      if( c != d)
+      {
+         printf( "%d failed encode<>lookup\n", i);
+         abort();
+      }
       if( c < 0)
          continue;
 

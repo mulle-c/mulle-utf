@@ -55,7 +55,7 @@ static inline int   mulle_utf16_is_asciicharacter( mulle_utf16_t c)
 
 static inline int   mulle_utf16_is_char5character( mulle_utf16_t c)
 {
-   return( mulle_char5_encode_character( c) >= 0);
+   return( mulle_char5_lookup_character( c) >= 0);
 }
 
 
@@ -88,20 +88,108 @@ int  mulle_utf16_is_valid_surrogatepair( mulle_utf16_t hi, mulle_utf16_t lo)
 }
 
 
-// bytebuffer code needs to be reintroduced sometime
+
+/*
+ * copy converters
+ */
+mulle_utf32_t  *_mulle_utf16_convert_to_utf32( mulle_utf16_t *src,
+                                               size_t len,
+                                               mulle_utf32_t *dst)
+{
+   mulle_utf16_t   *sentinel;
+   mulle_utf32_t   x;
+
+   // if dst_len == -1, then sentinel - 1 = dst_sentinel (OK!)
+
+   sentinel = &src[ len];
+
+   while( src < sentinel)
+   {
+      x = *src++;
+      if( mulle_utf32_is_highsurrogatecharacter( x))  // hi surrogate
+      {
+         // decode surrogate
+         assert( src < sentinel);
+         x = mulle_utf16_decode_surrogatepair( (mulle_utf16_t) x, *src++);
+      }
+
+      *dst++ = x;
+   }
+   return( dst);
+}
+
 
 //
-// this also does not do any error checking, the UTF8 string must be perfect
-//
-// -1  dst buffer too small
-//  0  OK!
-//
-
+// this also does not do any error checking,
 // must be proper UTF16 code!
-int  mulle_utf16_bufferconvert_to_utf8( mulle_utf16_t *src,
-                                        size_t len,
-                                        void *buffer,
-                                        void (*addbytes)( void *buffer, void *bytes, size_t length))
+mulle_utf8_t  *_mulle_utf16_convert_to_utf8( mulle_utf16_t *src,
+                                             size_t len,
+                                             mulle_utf8_t *dst)
+{
+   mulle_utf16_t   *sentinel;
+   mulle_utf32_t   x;
+
+   // if dst_len == -1, then sentinel - 1 = dst_sentinel (OK!)
+
+   sentinel = &src[ len];
+
+   while( src < sentinel)
+   {
+      x = *src++;
+      if( mulle_utf32_is_highsurrogatecharacter( x))  // hi surrogate
+      {
+         // decode surrogate
+         assert( src < sentinel);
+         x = mulle_utf16_decode_surrogatepair( (mulle_utf16_t) x, *src++);
+      }
+
+      // 4 cases
+      // < 0x80, < 0x800 < 0x10000, > 0x10000
+      if( x < 0x800)
+      {
+         if( x < 0x80)
+         {
+            *dst++ = (mulle_utf8_t) x;
+            continue;
+         }
+
+         *dst++ = 0xC0 | (mulle_utf8_t) (x >> 6);
+         *dst++ = 0x80 | (x & 0x3F);
+      }
+      else
+      {
+         if( x < 0x10000)
+         {
+            assert( ! mulle_utf32_is_lowsurrogatecharacter( x));
+
+            *dst++ = 0xE0 | (mulle_utf8_t) (x >> 12);
+            *dst++ = 0x80 | ((x >> 6) & 0x3F);
+            *dst++ = 0x80 | (x & 0x3F);
+            continue;
+         }
+
+         assert( x <= 0x10FFFF);
+
+         *dst++ = 0xF0 | (mulle_utf8_t) (x >> 18);
+         *dst++ = 0x80 | ((x >> 12) & 0x3F);
+         *dst++ = 0x80 | ((x >> 6) & 0x3F);
+         *dst++ = 0x80 | (x & 0x3F);
+      }
+   }
+   return( dst);
+}
+
+
+/*
+ * buffer converters
+ */
+//
+// this also does not do any error checking,
+// must be proper UTF16 code!
+void  mulle_utf16_bufferconvert_to_utf8( mulle_utf16_t *src,
+                                         size_t len,
+                                         void *buffer,
+                                         mulle_utf_add_bytes_function_t addbytes)
 {
    mulle_utf16_t   *sentinel;
    mulle_utf32_t   x;
@@ -120,11 +208,7 @@ int  mulle_utf16_bufferconvert_to_utf8( mulle_utf16_t *src,
       if( mulle_utf32_is_highsurrogatecharacter( x))  // hi surrogate
       {
          // decode surrogate
-         if( src >= sentinel)
-         {
-            errno = EINVAL;
-            return( -1);
-         }
+         assert( src < sentinel);
          x = mulle_utf16_decode_surrogatepair( (mulle_utf16_t) x, *src++);
       }
 
@@ -165,14 +249,13 @@ int  mulle_utf16_bufferconvert_to_utf8( mulle_utf16_t *src,
          (*addbytes)( buffer, tmp, 4);
       }
    }
-   return( 0);
 }
 
 
-int  mulle_utf16_bufferconvert_to_utf32( mulle_utf16_t *src,
-                                         size_t len,
-                                         void *buffer,
-                                         void (*addbytes)( void *buffer, void *bytes, size_t length))
+void  mulle_utf16_bufferconvert_to_utf32( mulle_utf16_t *src,
+                                          size_t len,
+                                          void *buffer,
+                                          mulle_utf_add_bytes_function_t addbytes)
 {
    mulle_utf16_t   *sentinel;
    mulle_utf32_t   x;
@@ -190,17 +273,12 @@ int  mulle_utf16_bufferconvert_to_utf32( mulle_utf16_t *src,
       if( mulle_utf32_is_highsurrogatecharacter( x))  // hi surrogate
       {
          // decode surrogate
-         if( src >= sentinel)
-         {
-            errno = EINVAL;
-            return( -1);
-         }
+         assert( src < sentinel);
          x = mulle_utf16_decode_surrogatepair( (mulle_utf16_t) x, *src++);
       }
 
       (*addbytes)( buffer, &x, sizeof( x));
    }
-   return( 0);
 }
 
 
@@ -219,6 +297,9 @@ mulle_utf16_t  *mulle_utf16_validate( mulle_utf16_t *src, size_t len)
    mulle_utf16_t   d;
    mulle_utf16_t   *sentinel;
 
+   if( ! src)
+      return( NULL);
+
    if( len == (size_t) -1)
       len = mulle_utf16_strlen( src);
 
@@ -228,11 +309,12 @@ mulle_utf16_t  *mulle_utf16_validate( mulle_utf16_t *src, size_t len)
    {
       c = *src;
 
-      // non characters, do not want
-#if FORBID_NON_CHARACTERS
+      if( ! c)
+         return( src);
+
       if( mulle_utf16_is_invalid_char( c))
          return( src);
-#endif
+
       if( ! mulle_utf32_is_surrogatecharacter( c))
          continue;
 
@@ -248,6 +330,9 @@ mulle_utf16_t  *mulle_utf16_validate( mulle_utf16_t *src, size_t len)
 
       if( ! mulle_utf16_is_valid_surrogatepair( c, d))
          return( src - 1);
+
+      if( mulle_utf16_decode_surrogatepair( c, d) > mulle_utf32_max)
+         return( src -1);
    }
    return( 0);
 }

@@ -17,33 +17,69 @@
 #include <errno.h>
 
 
-struct buffer
+// len will be 1 to 4
+void  mulle_utf8_conversion_context_add_bytes( void *_p,
+                                               void *bytes,
+                                               size_t len)
 {
-   char     *s;
-   size_t   n;
-};
+   struct mulle_utf8_conversion_context *p = _p;
+   mulle_utf8_t   *end;
+   mulle_utf8_t   *src;
 
+   assert( len >= 1 && len <= 4);
 
-//
-// len will be #bytes
-//
-static void  buffer_add( struct buffer *p, void *bytes, size_t len)
-{
-   memmove( &p->s[ p->n], bytes, len);
-   p->n += len;
+   /* EOB reached ? */
+   end = &p->buf[ len];
+   if( end > p->sentinel)
+   {
+      p->buf = end;  // ensure we don't add a later smaller character
+      return;
+   }
+
+   src = bytes;
+   // probably faster then doing a memcpy, since we copy at most 4 bytes
+   while( p->buf < end)
+      *p->buf++ = *src++;
 }
 
 
-# pragma mark -
-# pragma mark utf8
-
-mulle_utf16_t  *mulle_utf8_convert_to_utf16( mulle_utf8_t *src,
-                                             size_t len,
-                                             struct mulle_allocator *allocator)
+// its much simpler since we get only a character at a time
+void  mulle_utf16_conversion_context_add_bytes( void  *_p,
+                                                void *bytes,
+                                                size_t len)
 {
-   struct mulle_utf_information   info;
-   void                           *memo;
-   struct buffer                  tmp;
+   struct mulle_utf16_conversion_context *p = _p;
+   assert( len == sizeof( mulle_utf16_t));
+
+   if( p->buf < p->sentinel)
+      *p->buf++ = *(mulle_utf16_t *) bytes;
+}
+
+
+
+void  mulle_utf32_conversion_context_add_bytes( void  *_p,
+                                                void *bytes,
+                                                size_t len)
+{
+   struct mulle_utf32_conversion_context *p = _p;
+   assert( len == sizeof( mulle_utf32_t));
+
+   if( p->buf < p->sentinel)
+      *p->buf++ = *(mulle_utf32_t *) bytes;
+}
+
+
+
+# pragma mark - utf8
+
+// rename to utf16_string
+mulle_utf16_t  *mulle_utf8_convert_to_utf16_string( mulle_utf8_t *src,
+                                                    size_t len,
+                                                    struct mulle_allocator *allocator)
+{
+   struct mulle_utf_information            info;
+   mulle_utf16_t                           *memo;
+   struct mulle_utf16_conversion_context   ctxt;
 
    if( mulle_utf8_information( src, len, &info))
    {
@@ -51,33 +87,30 @@ mulle_utf16_t  *mulle_utf8_convert_to_utf16( mulle_utf8_t *src,
       return( NULL);
    }
 
-   memo = mulle_allocator_malloc( allocator, sizeof( mulle_utf16_t) * (info.utf16len + 1));
+   memo  = mulle_allocator_malloc( allocator, sizeof( mulle_utf16_t) * (info.utf16len + 1));
 
-   tmp.s = memo;
-   tmp.n = 0;
+   ctxt.buf      = memo;
+   ctxt.sentinel = &ctxt.buf[ info.utf16len];
 
-   if( mulle_utf8_bufferconvert_to_utf16( info.start, info.utf8len, &tmp, (void *) buffer_add))
-   {
-      mulle_allocator_free( allocator, memo);
-      errno = EINVAL;
-      return( NULL);
-   }
+   mulle_utf8_bufferconvert_to_utf16( info.start,
+                                      info.utf8len,
+                                      &ctxt,
+                                      mulle_utf16_conversion_context_add_bytes);
 
    // add trailing zero
-   tmp.s[ tmp.n]     = 0;
-   tmp.s[ tmp.n + 1] = 0;
+   memo[ info.utf16len] = 0;
 
    return( memo);
 }
 
 
-mulle_utf32_t  *mulle_utf8_convert_to_utf32( mulle_utf8_t *src,
-                                             size_t len,
-                                             struct mulle_allocator *allocator)
+mulle_utf32_t  *mulle_utf8_convert_to_utf32_string( mulle_utf8_t *src,
+                                                    size_t len,
+                                                    struct mulle_allocator *allocator)
 {
-   struct mulle_utf_information   info;
-   void                           *memo;
-   struct buffer                  tmp;
+   struct mulle_utf_information            info;
+   mulle_utf32_t                           *memo;
+   struct mulle_utf32_conversion_context   ctxt;
 
    if( mulle_utf8_information( src, len, &info))
    {
@@ -87,36 +120,29 @@ mulle_utf32_t  *mulle_utf8_convert_to_utf32( mulle_utf8_t *src,
 
    memo = mulle_allocator_malloc( allocator, sizeof( mulle_utf32_t) * (info.utf32len + 1));
 
-   tmp.s = memo;
-   tmp.n = 0;
+   ctxt.buf      = memo;
+   ctxt.sentinel = &ctxt.buf[ info.utf32len];
 
-   if( mulle_utf8_bufferconvert_to_utf32( info.start, info.utf8len, &tmp, (void *) buffer_add))
-   {
-      mulle_allocator_free( allocator, memo);
-      errno = EINVAL;
-      return( NULL);
-   }
-
+   mulle_utf8_bufferconvert_to_utf32( info.start,
+                                      info.utf8len,
+                                      &ctxt,
+                                      mulle_utf32_conversion_context_add_bytes);
    // add trailing zero
-   tmp.s[ tmp.n]     = 0;
-   tmp.s[ tmp.n + 1] = 0;
-   tmp.s[ tmp.n + 2] = 0;
-   tmp.s[ tmp.n + 3] = 0;
+   memo[ info.utf32len] = 0;
 
    return( memo);
 }
 
 
-# pragma mark -
-# pragma mark utf16
+# pragma mark - utf16
 
-mulle_utf8_t  *mulle_utf16_convert_to_utf8( mulle_utf16_t *src,
+mulle_utf8_t  *mulle_utf16_convert_to_utf8_string( mulle_utf16_t *src,
                                             size_t len,
                                             struct mulle_allocator *allocator)
 {
-   struct mulle_utf_information   info;
-   void                           *memo;
-   struct buffer                  tmp;
+   struct mulle_utf_information           info;
+   mulle_utf8_t                           *memo;
+   struct mulle_utf8_conversion_context   ctxt;
 
    if( mulle_utf16_information( src, len, &info))
    {
@@ -126,30 +152,27 @@ mulle_utf8_t  *mulle_utf16_convert_to_utf8( mulle_utf16_t *src,
 
    memo = mulle_allocator_malloc( allocator, sizeof( mulle_utf8_t) * (info.utf8len + 1));
 
-   tmp.s = memo;
-   tmp.n = 0;
+   ctxt.buf      = memo;
+   ctxt.sentinel = &ctxt.buf[ info.utf8len];
 
-   if( mulle_utf16_bufferconvert_to_utf8( info.start, info.utf16len, &tmp, (void *) buffer_add))
-   {
-      mulle_allocator_free( allocator, memo);
-      errno = EINVAL;
-      return( NULL);
-   }
-
+   mulle_utf16_bufferconvert_to_utf8( info.start,
+                                      info.utf16len,
+                                      &ctxt,
+                                      mulle_utf8_conversion_context_add_bytes);
    // add trailing zero
-   tmp.s[ tmp.n] = 0;
+   memo[ info.utf8len] = 0;
 
    return( memo);
 }
 
 
-mulle_utf32_t  *mulle_utf16_convert_to_utf32( mulle_utf16_t *src,
+mulle_utf32_t  *mulle_utf16_convert_to_utf32_string( mulle_utf16_t *src,
                                               size_t len,
                                               struct mulle_allocator *allocator)
 {
-   struct mulle_utf_information   info;
-   void                           *memo;
-   struct buffer                  tmp;
+   struct mulle_utf_information            info;
+   mulle_utf32_t                           *memo;
+   struct mulle_utf32_conversion_context   ctxt;
 
    if( mulle_utf16_information( src, len, &info))
    {
@@ -159,21 +182,16 @@ mulle_utf32_t  *mulle_utf16_convert_to_utf32( mulle_utf16_t *src,
 
    memo = mulle_allocator_malloc( allocator, sizeof( mulle_utf32_t) * (info.utf32len + 1));
 
-   tmp.s = memo;
-   tmp.n = 0;
+   ctxt.buf      = memo;
+   ctxt.sentinel = &ctxt.buf[ info.utf32len];
 
-   if( mulle_utf16_bufferconvert_to_utf32( info.start, info.utf16len, &tmp, (void *) buffer_add))
-   {
-      mulle_allocator_free( allocator, memo);
-      errno = EINVAL;
-      return( NULL);
-   }
+   mulle_utf16_bufferconvert_to_utf32( info.start,
+                                       info.utf16len,
+                                       &ctxt,
+                                       mulle_utf32_conversion_context_add_bytes);
 
    // add trailing zero
-   tmp.s[ tmp.n]     = 0;
-   tmp.s[ tmp.n + 1] = 0;
-   tmp.s[ tmp.n + 2] = 0;
-   tmp.s[ tmp.n + 3] = 0;
+   memo[ info.utf32len] = 0;
 
    return( memo);
 }
@@ -182,13 +200,13 @@ mulle_utf32_t  *mulle_utf16_convert_to_utf32( mulle_utf16_t *src,
 # pragma mark -
 # pragma mark utf32
 
-mulle_utf8_t  *mulle_utf32_convert_to_utf8( mulle_utf32_t *src,
+mulle_utf8_t  *mulle_utf32_convert_to_utf8_string( mulle_utf32_t *src,
                                             size_t len,
                                             struct mulle_allocator *allocator)
 {
-   struct mulle_utf_information   info;
-   void                           *memo;
-   struct buffer                  tmp;
+   struct mulle_utf_information           info;
+   mulle_utf8_t                           *memo;
+   struct mulle_utf8_conversion_context   ctxt;
 
    if( mulle_utf32_information( src, len, &info))
    {
@@ -198,30 +216,27 @@ mulle_utf8_t  *mulle_utf32_convert_to_utf8( mulle_utf32_t *src,
 
    memo  = mulle_allocator_malloc( allocator, sizeof( mulle_utf8_t) * (info.utf8len + 1));
 
-   tmp.s = memo;
-   tmp.n = 0;
+   ctxt.buf      = memo;
+   ctxt.sentinel = &ctxt.buf[ info.utf8len];
 
-   if( mulle_utf32_bufferconvert_to_utf8( info.start, info.utf32len, &tmp, (void *) buffer_add))
-   {
-      mulle_allocator_free( allocator, memo);
-      errno = EINVAL;
-      return( NULL);
-   }
-
-   tmp.s[ tmp.n] = 0;
+   mulle_utf32_bufferconvert_to_utf8( info.start,
+                                      info.utf32len,
+                                      &ctxt,
+                                      mulle_utf8_conversion_context_add_bytes);
+   memo[ info.utf8len] = 0;
 
    return( memo);
 }
 
 
 
-mulle_utf16_t  *mulle_utf32_convert_to_utf16( mulle_utf32_t *src,
+mulle_utf16_t  *mulle_utf32_convert_to_utf16_string( mulle_utf32_t *src,
                                               size_t len,
                                               struct mulle_allocator *allocator)
 {
-   struct mulle_utf_information   info;
-   void                           *memo;
-   struct buffer                  tmp;
+   struct mulle_utf_information            info;
+   mulle_utf16_t                           *memo;
+   struct mulle_utf16_conversion_context   ctxt;
 
    if( mulle_utf32_information( src, len, &info))
    {
@@ -231,19 +246,16 @@ mulle_utf16_t  *mulle_utf32_convert_to_utf16( mulle_utf32_t *src,
 
    memo  = mulle_allocator_malloc( allocator, sizeof( mulle_utf16_t) * (info.utf16len + 1));
 
-   tmp.s = memo;
-   tmp.n = 0;
+   ctxt.buf      = memo;
+   ctxt.sentinel = &ctxt.buf[ info.utf16len];
 
-   if( mulle_utf32_bufferconvert_to_utf16( info.start, info.utf32len, &tmp, (void *) buffer_add))
-   {
-      mulle_allocator_free( allocator, memo);
-      errno = EINVAL;
-      return( NULL);
-   }
+   mulle_utf32_bufferconvert_to_utf16( info.start,
+                                       info.utf32len,
+                                       &ctxt,
+                                       mulle_utf16_conversion_context_add_bytes);
 
    // add trailing zero
-   tmp.s[ tmp.n]     = 0;
-   tmp.s[ tmp.n + 1] = 0;
+   memo[ info.utf16len] = 0;
 
    return( memo);
 }
@@ -252,83 +264,202 @@ mulle_utf16_t  *mulle_utf32_convert_to_utf16( mulle_utf32_t *src,
 
 #pragma mark -  support for -toLower
 
-// ctype_convert will always add a zero (at buf[ len])
-struct mulle_utf8_data
-   mulle_utf8_character_convert( mulle_utf8_t *src,
-                                 size_t len,
-                                 mulle_utf32_t (*f_conversion)( mulle_utf32_t),
-                                 struct mulle_allocator *allocator)
+int   _mulle_utf8_character_mogrify( struct mulle_utf8_data *dst,
+                                     struct mulle_utf8_data *src,
+                                     struct mulle_utf_mogrification_info *info)
 {
-   mulle_utf8_t            *p;
-   mulle_utf8_t            *sentinel;
-   mulle_utf32_t           c;
-   struct mulle_utf8_data  buf;
+   mulle_utf8_t             *p;
+   mulle_utf8_t             *q;
+   mulle_utf8_t             *start;
+   mulle_utf8_t             *p_sentinel;
+   mulle_utf8_t             *q_sentinel;
+   mulle_utf32_t            c;
+   mulle_utf32_t            d;
+   struct mulle_utf8_data   buf;
+   size_t                   conversions;
 
-   // mulle_utf32_t can become 4 bytes max
-   buf.length     = (len * 4) + 1;
-   buf.characters = mulle_allocator_malloc( allocator, buf.length);
-   p              = buf.characters;
+   assert( info);
+   assert( dst);
+   assert( src);
+   assert( dst != src);
+   assert( info->f1_conversion);
 
-   sentinel = &src[ len];
-   while( src < sentinel)
+   conversions = 0;
+   p           = src->characters;
+   p_sentinel  = &p[ src->length];
+   q           = dst->characters;
+   q_sentinel  = &q[ dst->length - 4];  // expands to 4
+
+   while( p < p_sentinel)
    {
-      c = mulle_utf8_next_utf32character( &src);
-      c = (*f_conversion)( c);
-      p = mulle_utf32_as_utf8( c, p);
+      if( q >= q_sentinel)
+         return( -1);
+
+      c            = mulle_utf8_next_utf32character( &p);
+      d            = (*info->f1_conversion)( c);
+      conversions += c != d;
+      q            = mulle_utf32_as_utf8( d, q);
+
    }
 
-   *p++ = 0;
-   assert( p <= &buf.characters[ buf.length]);
-
-   buf.length     = p - buf.characters;
-   buf.characters = mulle_allocator_realloc( allocator, buf.characters, buf.length);
-   return( buf);
+   dst->length = q - dst->characters;
+   return( conversions ? 1 : 0);
 }
 
 
-struct mulle_utf8_data
-   mulle_utf8_word_convert( mulle_utf8_t *src,
-                            size_t len,
-                            mulle_utf32_t (*f1_conversion)( mulle_utf32_t),
-                            mulle_utf32_t (*f2_conversion)( mulle_utf32_t),
-                            int           (*is_white)( mulle_utf32_t),
-                            struct mulle_allocator *allocator)
+int   _mulle_utf32_character_mogrify( struct mulle_utf32_data *dst,
+                                      struct mulle_utf32_data *src,
+                                      struct mulle_utf_mogrification_info *info)
 {
-   int                     is_start;
-   mulle_utf32_t           c;
-   mulle_utf8_t            *p;
-   mulle_utf8_t            *sentinel;
-   struct mulle_utf8_data  buf;
+   mulle_utf32_t            *p;
+   mulle_utf32_t            *q;
+   mulle_utf32_t            *start;
+   mulle_utf32_t            *p_sentinel;
+   mulle_utf32_t            c;
+   mulle_utf32_t            d;
+   struct mulle_utf8_data   buf;
+   size_t                   conversions;
 
-   is_start = 1;
+   assert( info);
+   assert( dst);
+   assert( src);
+   // assert( dst != src); // src can be same as dst
+   assert( info->f1_conversion);
 
-   // mulle_utf32_t can become 4 bytes max
-   buf.length     = (len * 4) + 1;
-   buf.characters = mulle_allocator_malloc( allocator, buf.length);
-   p              = buf.characters;
+   conversions = 0;
+   p           = src->characters;
+   p_sentinel  = &p[ src->length];
+   q           = dst->characters;
 
-   sentinel = &src[ len];
-   while( src < sentinel)
+   if( dst->length < src->length)
+      return( -1);
+
+   while( p < p_sentinel)
    {
-      c = mulle_utf8_next_utf32character( &src);
-      if( (*is_white)( c))
+      c            = *p++;
+      d            = (*info->f1_conversion)( c);
+      conversions += c != d;
+      *q++         = d;
+   }
+
+   dst->length = q - dst->characters;
+   return( conversions ? 1 : 0);
+}
+
+
+
+int   _mulle_utf8_word_mogrify( struct mulle_utf8_data *dst,
+                                struct mulle_utf8_data *src,
+                                struct mulle_utf_mogrification_info *info)
+{
+   int             is_start;
+   mulle_utf32_t   c;
+   mulle_utf32_t   d;
+   mulle_utf8_t    *p;
+   mulle_utf8_t    *q;
+   mulle_utf8_t    *p_sentinel;
+   mulle_utf8_t    *q_sentinel;
+   size_t          conversions;
+
+   assert( info);
+   assert( dst);
+   assert( src);
+   assert( dst != src);
+   assert( info->f1_conversion);
+   assert( info->f2_conversion);
+   assert( info->is_white);
+
+   is_start    = 1;
+   conversions = 0;
+   p           = src->characters;
+   p_sentinel  = &p[ src->length];
+   q           = dst->characters;
+   q_sentinel  = &q[ dst->length - 4];  // expands to 4 \0
+
+   while( p < p_sentinel)
+   {
+      if( q >= q_sentinel)
+         return( -1);
+
+      c = mulle_utf8_next_utf32character( &p);
+      if( (*info->is_white)( c))
+      {
          is_start = 1;
+         d        = c;
+      }
       else
       {
          if( is_start)
          {
-            c = (*f1_conversion)( c);
+            d = (*info->f1_conversion)( c);
             is_start = 0;
          }
          else
-            c = (*f2_conversion)( c);
+            d = (*info->f2_conversion)( c);
       }
-      p = mulle_utf32_as_utf8( c, p);
+      conversions += c != d;
+      q            = mulle_utf32_as_utf8( d, q);
    }
-   *p++ = 0;
-   assert( p <= &buf.characters[ buf.length]);
 
-   buf.length     = p - buf.characters;
-   buf.characters = mulle_allocator_realloc( allocator, buf.characters, buf.length);
-   return( buf);
+   dst->length = q - dst->characters;
+   return( conversions ? 1 : 0);
 }
+
+
+int   _mulle_utf32_word_mogrify( struct mulle_utf32_data *dst,
+                                 struct mulle_utf32_data *src,
+                                 struct mulle_utf_mogrification_info *info)
+{
+   int             is_start;
+   mulle_utf32_t   c;
+   mulle_utf32_t   d;
+   mulle_utf32_t   *p;
+   mulle_utf32_t   *q;
+   mulle_utf32_t   *p_sentinel;
+   mulle_utf32_t   *q_sentinel;
+   size_t          conversions;
+
+   assert( info);
+   assert( dst);
+   assert( src);
+   assert( dst != src);
+   assert( info->f1_conversion);
+   assert( info->f2_conversion);
+   assert( info->is_white);
+
+   is_start    = 1;
+   conversions = 0;
+   p           = src->characters;
+   p_sentinel  = &p[ src->length];
+   q           = dst->characters;
+
+   if( dst->length < src->length)
+      return( -1);
+
+   while( p < p_sentinel)
+   {
+      c = *p++;
+      if( (*info->is_white)( c))
+      {
+         is_start = 1;
+         d        = c;
+      }
+      else
+      {
+         if( is_start)
+         {
+            d = (*info->f1_conversion)( c);
+            is_start = 0;
+         }
+         else
+            d = (*info->f2_conversion)( c);
+      }
+      conversions += c != d;
+      *q++         = d;
+   }
+
+   dst->length = q - dst->characters;
+
+   return( conversions ? 1 : 0);
+}
+

@@ -42,6 +42,13 @@
 #include <stddef.h>
 
 
+// used in Foundation and maybe here in the future
+struct mulle_utf32_data
+{
+   mulle_utf32_t   *characters;
+   size_t          length;
+};
+
 
 size_t   mulle_utf32_utf8length( mulle_utf32_t *src,
                                  size_t len);
@@ -49,6 +56,8 @@ size_t   mulle_utf32_utf8length( mulle_utf32_t *src,
 int   mulle_utf32_information( mulle_utf32_t *src,
                                size_t len,
                                struct mulle_utf_information *info);
+
+mulle_utf32_t  *mulle_utf32_validate( mulle_utf32_t *src, size_t len);
 
 //
 // these two are just here for completeness
@@ -66,21 +75,35 @@ static inline mulle_utf32_t   _mulle_utf32_previous_utf32character( mulle_utf32_
 
 
 
-void  mulle_utf32_bufferconvert_to_utf16_as_surrogatepair(
-                       void *buffer,
-                       void (*addbytes)( void *buffer, void *bytes, size_t size),
-                       mulle_utf32_t x);
+// low level conversion, no checks dst is assumed to be wide enough
+// returns end of dst
+mulle_utf16_t  *_mulle_utf32_convert_to_utf16_as_surrogatepair( mulle_utf32_t x,
+                                                                mulle_utf16_t *dst);
+
+mulle_utf16_t   *_mulle_utf32_convert_to_utf16( mulle_utf32_t *src,
+                                                size_t len,
+                                                mulle_utf16_t *dst);
+mulle_utf8_t  *_mulle_utf32_convert_to_utf8( mulle_utf32_t *src,
+                                             size_t len,
+                                             mulle_utf8_t *dst);
 
 // these routines do not skip BOM characters
-int  mulle_utf32_bufferconvert_to_utf8( mulle_utf32_t *src,
-                                        size_t len,
-                                        void *buffer,
-                                        void (*addbytes)( void *buffer, void *bytes, size_t size));
+void   mulle_utf32_bufferconvert_to_utf8( mulle_utf32_t *src,
+                                          size_t len,
+                                          void *buffer,
+                                          mulle_utf_add_bytes_function_t addbytes);
 
-int  mulle_utf32_bufferconvert_to_utf16( mulle_utf32_t *src,
-                                         size_t len,
-                                         void *buffer,
-                                         void (*addbytes)( void *buffer, void *bytes, size_t size));
+void   mulle_utf32_bufferconvert_to_utf16( mulle_utf32_t *src,
+                                           size_t len,
+                                           void *buffer,
+                                           mulle_utf_add_bytes_function_t addbytes);
+
+
+void
+   mulle_utf32_bufferconvert_to_utf16_as_surrogatepair(
+                       mulle_utf32_t x,
+                       void *buffer,
+                       void (*addbytes)( void *buffer, void *bytes, size_t size));
 
 
 // no error checks whatsoever

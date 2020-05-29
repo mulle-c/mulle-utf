@@ -26,10 +26,122 @@ static inline int   mulle_utf32_is_char5character( mulle_utf32_t c)
 }
 
 
+mulle_utf16_t  *_mulle_utf32_convert_to_utf16_as_surrogatepair( mulle_utf32_t x,
+                                                                mulle_utf16_t *dst)
+{
+   uint16_t  top;
+   uint16_t  bottom;
+   uint16_t  hi;
+   uint16_t  lo;
+
+   assert( x >= 0x10000 && x <= 0x10FFFF);
+
+   x -= 0x10000;
+
+   assert( (x >> 10) <= 0x3FF);
+
+   top    = (uint16_t) (x >> 10);
+   bottom = (uint16_t) (x & 0x3FF);
+
+   hi = 0xD800 + top;
+   lo = 0xDC00 + bottom;
+
+   assert( hi >= 0xD800 && hi < 0xDC00);
+   assert( lo >= 0xDC00 && lo < 0xE000);
+
+   // (nat) I used to flip those adds around based on endianness, but I think
+   // that was wrong
+   *dst++ = hi;
+   *dst++ = lo;
+   return( dst);
+}
+
+
+// must be proper UTF32 code!
+mulle_utf8_t  *_mulle_utf32_convert_to_utf8( mulle_utf32_t *src,
+                                             size_t len,
+                                             mulle_utf8_t *dst)
+{
+   mulle_utf32_t   *sentinel;
+   mulle_utf32_t   x;
+
+   // if dst_len == -1, then sentinel - 1 = dst_sentinel (OK!)
+
+   sentinel = &src[ len];
+
+   while( src < sentinel)
+   {
+      x = *src++;
+
+      if( x < 0x800)
+      {
+         if( x < 0x80)
+         {
+            *dst++ = (mulle_utf8_t) x;
+         }
+
+         *dst++ = 0xC0 | (mulle_utf8_t) (x >> 6);
+         *dst++ = 0x80 | (x & 0x3F);
+         continue;
+      }
+      else
+      {
+         if( x < 0x10000)
+         {
+            assert( ! mulle_utf32_is_surrogatecharacter( x));
+
+            *dst++ = 0xE0 | (mulle_utf8_t) (x >> 12);
+            *dst++ = 0x80 | ((x >> 6) & 0x3F);
+            *dst++ = 0x80 | (x & 0x3F);
+            continue;
+         }
+
+         assert( x <= 0x10FFFF);
+
+         *dst++ = 0xF0 | (mulle_utf8_t) (x >> 18);
+         *dst++ = 0x80 | ((x >> 12) & 0x3F);
+         *dst++ = 0x80 | ((x >> 6) & 0x3F);
+         *dst++ = 0x80 | (x & 0x3F);
+      }
+   }
+   return( dst);
+}
+
+
+
+mulle_utf16_t   *_mulle_utf32_convert_to_utf16( mulle_utf32_t *src,
+                                                size_t len,
+                                                mulle_utf16_t *dst)
+{
+   mulle_utf32_t   *sentinel;
+   mulle_utf32_t   x;
+
+   // if dst_len == -1, then sentinel - 1 = dst_sentinel (OK!)
+
+   sentinel = &src[ len];
+
+   while( src < sentinel)
+   {
+      x = *src++;
+
+      if( x < 0x10000)
+      {
+         assert( ! mulle_utf32_is_surrogatecharacter( x));
+
+         *dst++ = (uint16_t) x;
+         continue;
+      }
+      dst = _mulle_utf32_convert_to_utf16_as_surrogatepair( x, dst);
+   }
+   return( dst);
+}
+
+
+
 void  mulle_utf32_bufferconvert_to_utf16_as_surrogatepair(
+            mulle_utf32_t x,
             void *buffer,
-            void (*addbytes)( void *buffer, void *bytes, size_t size),
-            mulle_utf32_t x)
+            mulle_utf_add_bytes_function_t addbytes)
 {
    uint16_t  top;
    uint16_t  bottom;
@@ -56,6 +168,102 @@ void  mulle_utf32_bufferconvert_to_utf16_as_surrogatepair(
    (*addbytes)( buffer, &hi, sizeof( uint16_t));
    (*addbytes)( buffer, &lo, sizeof( uint16_t));
 }
+
+
+
+// must be proper UTF32 code!
+void  mulle_utf32_bufferconvert_to_utf8( mulle_utf32_t *src,
+                                         size_t len,
+                                         void *buffer,
+                                         mulle_utf_add_bytes_function_t addbytes)
+{
+   mulle_utf32_t   *sentinel;
+   mulle_utf32_t   x;
+   mulle_utf8_t    s[ 4];
+
+   if( len == (size_t) -1)
+      len = mulle_utf32_strlen( src);
+
+   // if dst_len == -1, then sentinel - 1 = dst_sentinel (OK!)
+
+   sentinel = &src[ len];
+
+   while( src < sentinel)
+   {
+      x = *src++;
+
+      if( x < 0x800)
+      {
+         if( x < 0x80)
+         {
+            s[ 0] = (mulle_utf8_t) x;
+            (*addbytes)( buffer, s, 1);
+            continue;
+         }
+
+         s[ 0] = 0xC0 | (mulle_utf8_t) (x >> 6);
+         s[ 1] = 0x80 | (x & 0x3F);
+         (*addbytes)( buffer, s, 2);
+         continue;
+      }
+      else
+      {
+         if( x < 0x10000)
+         {
+            assert( ! mulle_utf32_is_surrogatecharacter( x));
+
+            s[ 0] = 0xE0 | (mulle_utf8_t) (x >> 12);
+            s[ 1] = 0x80 | ((x >> 6) & 0x3F);
+            s[ 2] = 0x80 | (x & 0x3F);
+            (*addbytes)( buffer, s, 3);
+            continue;
+         }
+
+         assert( x <= 0x10FFFF);
+
+         s[ 0] = 0xF0 | (mulle_utf8_t) (x >> 18);
+         s[ 1] = 0x80 | ((x >> 12) & 0x3F);
+         s[ 2] = 0x80 | ((x >> 6) & 0x3F);
+         s[ 3] = 0x80 | (x & 0x3F);
+         (*addbytes)( buffer, s, 4);
+      }
+   }
+}
+
+
+
+void   mulle_utf32_bufferconvert_to_utf16( mulle_utf32_t *src,
+                                           size_t len,
+                                           void *buffer,
+                                           mulle_utf_add_bytes_function_t addbytes)
+{
+   mulle_utf32_t   *sentinel;
+   mulle_utf32_t   x;
+   mulle_utf16_t   _w;
+
+   if( len == (size_t) -1)
+      len = mulle_utf32_strlen( src);
+
+   // if dst_len == -1, then sentinel - 1 = dst_sentinel (OK!)
+
+   sentinel = &src[ len];
+
+   while( src < sentinel)
+   {
+      x = *src++;
+
+      if( x < 0x10000)
+      {
+         assert( ! mulle_utf32_is_surrogatecharacter( x));
+
+         _w = (uint16_t) x;
+         (*addbytes)( buffer, &_w, sizeof( _w));
+         continue;
+      }
+      mulle_utf32_bufferconvert_to_utf16_as_surrogatepair( x, buffer, addbytes);
+   }
+}
+
 
 
 // must be proper UTF32 code!
@@ -198,105 +406,6 @@ fail:
 }
 
 
-// must be proper UTF32 code!
-int  mulle_utf32_bufferconvert_to_utf8( mulle_utf32_t *src,
-                                        size_t len,
-                                        void *buffer,
-                                        void (*addbytes)( void *, void *, size_t size))
-{
-   mulle_utf32_t   *sentinel;
-   mulle_utf32_t   x;
-   mulle_utf8_t    s[ 4];
-
-   if( len == (size_t) -1)
-      len = mulle_utf32_strlen( src);
-   if( ! len)
-      return( 0);
-
-   // if dst_len == -1, then sentinel - 1 = dst_sentinel (OK!)
-
-   sentinel = &src[ len];
-
-   while( src < sentinel)
-   {
-      x = *src++;
-
-      if( x < 0x800)
-      {
-         if( x < 0x80)
-         {
-            s[ 0] = (mulle_utf8_t) x;
-            (*addbytes)( buffer, s, 1);
-            continue;
-         }
-
-         s[ 0] = 0xC0 | (mulle_utf8_t) (x >> 6);
-         s[ 1] = 0x80 | (x & 0x3F);
-         (*addbytes)( buffer, s, 2);
-         continue;
-      }
-      else
-      {
-         if( x < 0x10000)
-         {
-            assert( ! mulle_utf32_is_surrogatecharacter( x));
-
-            s[ 0] = 0xE0 | (mulle_utf8_t) (x >> 12);
-            s[ 1] = 0x80 | ((x >> 6) & 0x3F);
-            s[ 2] = 0x80 | (x & 0x3F);
-            (*addbytes)( buffer, s, 3);
-            continue;
-         }
-
-         assert( x <= 0x10FFFF);
-
-         s[ 0] = 0xF0 | (mulle_utf8_t) (x >> 18);
-         s[ 1] = 0x80 | ((x >> 12) & 0x3F);
-         s[ 2] = 0x80 | ((x >> 6) & 0x3F);
-         s[ 3] = 0x80 | (x & 0x3F);
-         (*addbytes)( buffer, s, 4);
-      }
-   }
-   return( 0);
-}
-
-
-
-int  mulle_utf32_bufferconvert_to_utf16( mulle_utf32_t *src,
-                                         size_t len,
-                                         void *buffer,
-                                         void (*addbytes)( void *, void *, size_t size))
-{
-   mulle_utf32_t   *sentinel;
-   mulle_utf32_t   x;
-   mulle_utf16_t   _w;
-
-   if( len == (size_t) -1)
-      len = mulle_utf32_strlen( src);
-   if( ! len)
-      return( 0);
-
-   // if dst_len == -1, then sentinel - 1 = dst_sentinel (OK!)
-
-   sentinel = &src[ len];
-
-   while( src < sentinel)
-   {
-      x = *src++;
-
-      if( x < 0x10000)
-      {
-         assert( ! mulle_utf32_is_surrogatecharacter( x));
-
-         _w = (uint16_t) x;
-         (*addbytes)( buffer, &_w, sizeof( _w));
-         continue;
-      }
-      mulle_utf32_bufferconvert_to_utf16_as_surrogatepair( buffer, addbytes, x);
-   }
-   return( 0);
-}
-
 
 mulle_utf8_t   *_mulle_utf32_as_utf8( mulle_utf32_t x, mulle_utf8_t *dst)
 {
@@ -333,4 +442,40 @@ mulle_utf8_t   *_mulle_utf32_as_utf8( mulle_utf32_t x, mulle_utf8_t *dst)
    return( dst);
 }
 
+// same as mulle_utf16_is_invalid_char really
+static inline int  mulle_utf32_is_invalid_char( mulle_utf32_t c)
+{
+   return( c == 0xFFFE || c == 0xFFFF || (c >= 0xFDD0 && c <= 0xFDEF));
+}
+
+
+mulle_utf32_t  *mulle_utf32_validate( mulle_utf32_t *src, size_t len)
+{
+   mulle_utf32_t   c;
+   mulle_utf32_t   d;
+   mulle_utf32_t   *sentinel;
+
+   if( ! src)
+      return( NULL);
+
+   if( len == (size_t) -1)
+      len = mulle_utf32_strlen( src);
+
+   sentinel = &src[ len];
+
+   for( ; src < sentinel; src++)
+   {
+      c = *src;
+
+      if( ! c || c > mulle_utf32_max)
+         return( src);
+
+      if( mulle_utf32_is_invalid_char( c))
+         return( src);
+
+      if( mulle_utf32_is_surrogatecharacter( c))
+         return( src);
+   }
+   return( 0);
+}
 
