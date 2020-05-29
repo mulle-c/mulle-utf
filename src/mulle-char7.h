@@ -32,6 +32,9 @@ enum
 int   mulle_char7_is_char7string32( char *src, size_t len);
 int   mulle_char7_is_char7string64( char *src, size_t len);
 
+uint32_t   mulle_char7_encode32_utf32( mulle_utf32_t *src, size_t len);
+uint64_t   mulle_char7_encode64_utf32( mulle_utf32_t *src, size_t len);
+
 uint32_t   mulle_char7_encode32( char *src, size_t len);
 uint64_t   mulle_char7_encode64( char *src, size_t len);
 
@@ -115,6 +118,13 @@ static inline mulle_char7_t   mulle_char7_encode( char *src, size_t len)
    if( sizeof( mulle_char7_t) == sizeof( uint32_t))
       return( (mulle_char7_t) mulle_char7_encode32( src, len));
    return( (mulle_char7_t) mulle_char7_encode64( src, len));
+}
+
+static inline mulle_char7_t   mulle_char7_encode_utf32( mulle_utf32_t *src, size_t len)
+{
+   if( sizeof( mulle_char7_t) == sizeof( uint32_t))
+      return( (mulle_char7_t) mulle_char7_encode32_utf32( src, len));
+   return( (mulle_char7_t) mulle_char7_encode64_utf32( src, len));
 }
 
 

@@ -42,8 +42,6 @@
 #include <string.h>
 
 
-struct mulle_bytebuffer;
-
 // Check: http://tools.ietf.org/html/rfc3629
 // General considerations.
 //    On the initial procurement of your UTF8 string, you must validate it once
@@ -86,6 +84,9 @@ int   mulle_utf8_are_valid_extracharacters( mulle_utf8_t *s, unsigned int len, m
 
 int  mulle_utf8_information( mulle_utf8_t *s, size_t len, struct mulle_utf_information *info);
 int  mulle_utf8_is_ascii( mulle_utf8_t *s, size_t len);
+
+// returns NULL if OK, otherwise the offending character address
+mulle_utf8_t  *mulle_utf8_validate( mulle_utf8_t *src, size_t len);
 
 
 static inline size_t  mulle_utf8_strlen( mulle_utf8_t *s)
@@ -154,20 +155,30 @@ struct mulle_utf8_data
 };
 
 
+// low level conversion, no checks dst is assumed to be wide enough
+// returns end of dst
+mulle_utf16_t   *_mulle_utf8_convert_to_utf16( mulle_utf8_t *src,
+                                               size_t len,
+                                               mulle_utf16_t *dst);
 
-// supply a "mulle-buffer" here as "buffer" and mulle_buffer_add_bytes as the
-// callback.
-// int == 0 : OK!
-// these routines do not skip BOM characters
-int  mulle_utf8_bufferconvert_to_utf16( mulle_utf8_t *src,
-                                        size_t len,
-                                        void *buffer,
-                                        void (*add)( void *buffer, void *bytes, size_t size));
+mulle_utf32_t   *_mulle_utf8_convert_to_utf32( mulle_utf8_t *src,
+                                               size_t len,
+                                               mulle_utf32_t *dst);
+//
+// You can supply a "mulle-buffer" here as "buffer" and mulle_buffer_add_bytes
+// as the callback.
+// These routines do not skip BOM characters. And don't check for validity.
+// The input must be correct!
+//
+void   mulle_utf8_bufferconvert_to_utf16( mulle_utf8_t *src,
+                                          size_t len,
+                                          void *buffer,
+                                          mulle_utf_add_bytes_function_t addbytes);
 
 // as above, but for utf32
-int  mulle_utf8_bufferconvert_to_utf32( mulle_utf8_t *src,
-                                        size_t len,
-                                        void *buffer,
-                                        void (*add)( void *buffer, void *bytes, size_t size));
+void   mulle_utf8_bufferconvert_to_utf32( mulle_utf8_t *src,
+                                          size_t len,
+                                          void *buffer,
+                                          mulle_utf_add_bytes_function_t addbytes);
 
 #endif

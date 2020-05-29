@@ -15,7 +15,7 @@ static void   test_conversion( mulle_utf32_t text[ 5])
 
    // UTF32 <-> UTF8
    mulle_utf32_information( text, -1, &info32);
-   utf8 = mulle_utf32_convert_to_utf8( info32.start, info32.utf32len, NULL);
+   utf8 = mulle_utf32_convert_to_utf8_string( info32.start, info32.utf32len, NULL);
    if( ! utf8)
    {
       printf( "32 to 8 conversion failed");
@@ -29,7 +29,7 @@ static void   test_conversion( mulle_utf32_t text[ 5])
       return;
    }
 
-   utf16 = mulle_utf8_convert_to_utf16( info8.start, info8.utf8len, NULL);
+   utf16 = mulle_utf8_convert_to_utf16_string( info8.start, info8.utf8len, NULL);
    if( ! utf16)
    {
       printf( "8 to 16 conversion failed");
