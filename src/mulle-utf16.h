@@ -64,19 +64,28 @@ int  mulle_utf16_is_valid_surrogatepair( mulle_utf16_t hi, mulle_utf16_t lo);
 mulle_utf32_t   _mulle_utf16_next_utf32character( mulle_utf16_t **s_p);
 mulle_utf32_t   _mulle_utf16_previous_utf32character( mulle_utf16_t **s_p);
 
+
+// low level conversion, no checks dst is assumed to be wide enough
+// returns end of dst
+mulle_utf32_t  *_mulle_utf16_convert_to_utf32( mulle_utf16_t *src,
+                                               size_t len,
+                                               mulle_utf32_t *dst);
+mulle_utf8_t  *_mulle_utf16_convert_to_utf8( mulle_utf16_t *src,
+                                             size_t len,
+                                             mulle_utf8_t *dst);
 //
 // This will not stop on a zero. It will not by itself append a zero.
 // return value = 0  means OK!
 // these routines do not skip BOM characters
 //
-int  mulle_utf16_bufferconvert_to_utf8( mulle_utf16_t *src,
-                                        size_t len,
-                                        void *buffer,
-                                        void (*addbytes)( void *buffer, void *bytes, size_t length));
+void   mulle_utf16_bufferconvert_to_utf8( mulle_utf16_t *src,
+                                          size_t len,
+                                          void *buffer,
+                                          mulle_utf_add_bytes_function_t addbytes);
 
-int  mulle_utf16_bufferconvert_to_utf32( mulle_utf16_t *src,
-                                         size_t len,
-                                         void *buffer,
-                                         void (*addbytes)( void *buffer, void *bytes, size_t length));
+void   mulle_utf16_bufferconvert_to_utf32( mulle_utf16_t *src,
+                                           size_t len,
+                                           void *buffer,
+                                           mulle_utf_add_bytes_function_t addbytes);
 
 #endif

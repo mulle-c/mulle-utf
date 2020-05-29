@@ -81,4 +81,6 @@ enum mulle_utf_scan_return
    mulle_utf_has_trailing_garbage    = 0x2
 };
 
+typedef void   (*mulle_utf_add_bytes_function_t)( void *, void *, size_t);
+
 #endif
