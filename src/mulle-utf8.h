@@ -62,6 +62,7 @@ static inline size_t  mulle_utf8_utf16maxlength( size_t len)
    return( len * 4);
 }
 
+
 static inline int  mulle_utf8_has_leading_bomcharacter( mulle_utf8_t *src, size_t len)
 {
    if( len < 3)

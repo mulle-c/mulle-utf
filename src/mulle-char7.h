@@ -32,6 +32,9 @@ enum
 int   mulle_char7_is_char7string32( char *src, size_t len);
 int   mulle_char7_is_char7string64( char *src, size_t len);
 
+uint32_t   mulle_char7_encode32_utf16( mulle_utf16_t *src, size_t len);
+uint64_t   mulle_char7_encode64_utf16( mulle_utf16_t *src, size_t len);
+
 uint32_t   mulle_char7_encode32_utf32( mulle_utf32_t *src, size_t len);
 uint64_t   mulle_char7_encode64_utf32( mulle_utf32_t *src, size_t len);
 
@@ -44,6 +47,27 @@ size_t   mulle_char7_decode64( uint64_t value, char *src, size_t len);
 int   mulle_char7_get64( uint64_t value, unsigned int index);
 int   mulle_char7_get32( uint32_t value, unsigned int index);
 
+
+static inline int  mulle_char7_next64( uint64_t *value)
+{
+   int   char7;
+
+   char7    = *value & 0x7F;
+   *value >>= 7;
+
+   return( char7);
+}
+
+
+static inline int  mulle_char7_next32( uint32_t *value)
+{
+   int   char7;
+
+   char7    = *value & 0x7F;
+   *value >>= 7;
+
+   return( char7);
+}
 
 
 static inline size_t   mulle_char7_strlen64( uint64_t value)
@@ -58,6 +82,7 @@ static inline size_t   mulle_char7_strlen64( uint64_t value)
    }
    return( len);
 }
+
 
 //
 // 0xfe00000   0x1fC000   0x3F80      0x007F
@@ -120,6 +145,15 @@ static inline mulle_char7_t   mulle_char7_encode( char *src, size_t len)
    return( (mulle_char7_t) mulle_char7_encode64( src, len));
 }
 
+
+static inline mulle_char7_t   mulle_char7_encode_utf16( mulle_utf16_t *src, size_t len)
+{
+   if( sizeof( mulle_char7_t) == sizeof( uint32_t))
+      return( (mulle_char7_t) mulle_char7_encode32_utf16( src, len));
+   return( (mulle_char7_t) mulle_char7_encode64_utf16( src, len));
+}
+
+
 static inline mulle_char7_t   mulle_char7_encode_utf32( mulle_utf32_t *src, size_t len)
 {
    if( sizeof( mulle_char7_t) == sizeof( uint32_t))
@@ -133,6 +167,14 @@ static inline size_t   mulle_char7_decode( mulle_char7_t value, char *src, size_
    if( sizeof( mulle_char7_t) == sizeof( uint32_t))
       return( mulle_char7_decode32( (uint32_t) value, src, len));
    return( mulle_char7_decode64( value, src, len));
+}
+
+
+static inline int   mulle_char7_next( mulle_char7_t *value)
+{
+   if( sizeof( mulle_char7_t) == sizeof( uint32_t))
+      return( mulle_char7_next32( (uint32_t *) value));
+   return( mulle_char7_next64( (uint64_t *) value));
 }
 
 

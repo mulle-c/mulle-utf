@@ -22,7 +22,7 @@
 
 static inline int   mulle_utf32_is_char5character( mulle_utf32_t c)
 {
-   return( mulle_char5_encode_character( c) >= 0);
+   return( mulle_char5_lookup_character( c) >= 0);
 }
 
 
@@ -357,14 +357,15 @@ int   mulle_utf32_information( mulle_utf32_t *src, size_t len, struct mulle_utf_
 
    for( ; src < sentinel; src++)
    {
-      if( ! (_c = *src))
-      {
-         info->has_terminating_zero = 1;
-         break;
-      }
+      _c = *src;
 
       if( mulle_utf32_is_asciicharacter( _c))
       {
+         if( ! _c)
+         {
+            info->has_terminating_zero = 1;
+            break;
+         }
          if( info->is_char5 && ! mulle_utf32_is_char5character( _c))
             info->is_char5 = 0;
          continue;
