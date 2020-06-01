@@ -177,6 +177,61 @@ uint64_t   mulle_char5_encode64( char *src, size_t len)
 }
 
 
+uint32_t   mulle_char5_encode32_utf16( mulle_utf16_t *src, size_t len)
+{
+   mulle_utf16_t   *s;
+   mulle_utf16_t   *sentinel;
+   int             c;
+   int             char5;
+   uint32_t        value;
+
+   value    = 0;
+   sentinel = src;
+   s        = &src[ len];
+   while( s > sentinel)
+   {
+      c = *--s;
+      if( ! c)
+         continue;
+
+      char5   = mulle_char5_lookup_character( c);
+      assert( char5 > 0 && char5 < 0x20);
+      assert( value << 5 >> 5 == value);  // hope the optimizer doesn't fck up
+      value <<= 5;
+      value  |= char5;
+   }
+   return( value);
+}
+
+
+uint64_t   mulle_char5_encode64_utf16( mulle_utf16_t *src, size_t len)
+{
+   mulle_utf16_t   *s;
+   mulle_utf16_t   *sentinel;
+   int             c;
+   int             char5;
+   uint64_t        value;
+
+   value    = 0;
+   sentinel = src;
+   s        = &src[ len];
+   while( s > sentinel)
+   {
+      c = *--s;
+      if( ! c)
+         continue;
+
+      char5 = mulle_char5_lookup_character( c);
+      assert( char5 > 0 && char5 < 0x20);
+      assert( value << 5 >> 5 == value);  // hope the optimizer doesn't fck up
+      value <<= 5;
+      value  |= char5;
+   }
+   return( value);
+}
+
+
+
 
 uint32_t   mulle_char5_encode32_utf32( mulle_utf32_t *src, size_t len)
 {

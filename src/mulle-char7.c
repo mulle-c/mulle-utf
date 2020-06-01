@@ -105,6 +105,58 @@ uint64_t  mulle_char7_encode64( char *src, size_t len)
 }
 
 
+uint32_t  mulle_char7_encode32_utf16( mulle_utf16_t *src, size_t len)
+{
+   mulle_utf16_t   *s;
+   mulle_utf16_t   *sentinel;
+   int             char7;
+   uint32_t        value;
+
+   assert( len <= mulle_char7_maxlength32);
+
+   value    = 0;
+   sentinel = src;
+   s        = &src[ len];
+   while( s > sentinel)
+   {
+      char7 = *--s;
+      if( ! char7)
+         continue;
+
+      assert( ! (char7 & 0x80));
+      value <<= 7;
+      value  |= char7;
+   }
+   return( value);
+}
+
+
+uint64_t  mulle_char7_encode64_utf16( mulle_utf16_t *src, size_t len)
+{
+   mulle_utf16_t   *s;
+   mulle_utf16_t   *sentinel;
+   int             char7;
+   uint64_t        value;
+
+   assert( len <= mulle_char7_maxlength64);
+
+   value    = 0;
+   sentinel = src;
+   s        = &src[ len];
+   while( s > sentinel)
+   {
+      char7 = *--s;
+      if( ! char7)
+         continue;
+
+      assert( ! (char7 & 0x80));
+      value <<= 7;
+      value  |= char7;
+   }
+   return( value);
+}
+
+
 uint32_t  mulle_char7_encode32_utf32( mulle_utf32_t *src, size_t len)
 {
    mulle_utf32_t   *s;

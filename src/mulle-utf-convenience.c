@@ -13,6 +13,7 @@
 #include "mulle-utf8.h"
 #include "mulle-utf16.h"
 #include "mulle-utf32.h"
+#include "mulle-utf-noncharacter.h"
 
 #include <errno.h>
 
@@ -270,7 +271,6 @@ int   _mulle_utf8_character_mogrify( struct mulle_utf8_data *dst,
 {
    mulle_utf8_t             *p;
    mulle_utf8_t             *q;
-   mulle_utf8_t             *start;
    mulle_utf8_t             *p_sentinel;
    mulle_utf8_t             *q_sentinel;
    mulle_utf32_t            c;
@@ -300,6 +300,99 @@ int   _mulle_utf8_character_mogrify( struct mulle_utf8_data *dst,
       conversions += c != d;
       q            = mulle_utf32_as_utf8( d, q);
 
+   }
+
+   dst->length = q - dst->characters;
+   return( conversions ? 1 : 0);
+}
+
+
+//
+// Can be used for mulle_utf16_data where its known that there are no
+// surrogate pairs contained and the mogrification stays with 16 bit,
+// which is tolower/toupper! This can be used inplace.
+//
+int   _mulle_utf16_character_mogrify_unsafe( struct mulle_utf16_data *dst,
+                                             struct mulle_utf16_data *src,
+                                             struct mulle_utf_mogrification_info *info)
+{
+   mulle_utf16_t            *p;
+   mulle_utf16_t            *p_sentinel;
+   mulle_utf16_t            *q;
+   mulle_utf32_t            c;
+   mulle_utf32_t            d;
+   struct mulle_utf8_data   buf;
+   size_t                   conversions;
+
+   assert( info);
+   assert( dst);
+   assert( src);
+   // assert( dst != src); // src can be same as dst
+   assert( info->f1_conversion);
+
+   conversions = 0;
+   p           = src->characters;
+   p_sentinel  = &p[ src->length];
+   q           = dst->characters;
+
+   if( dst->length < src->length)
+      return( -1);
+
+   while( p < p_sentinel)
+   {
+      c            = *p++;
+      d            = (*info->f1_conversion)( c);
+      assert( d <= 0xFFFF);
+      conversions += c != d;
+      *q++         = (mulle_utf16_t) d;
+   }
+
+   dst->length = q - dst->characters;
+   return( conversions ? 1 : 0);
+}
+
+
+//
+// the mogrification can expand into 32 bit, so we make the dst data as wide
+//
+int   _mulle_utf16_character_mogrify( struct mulle_utf32_data *dst,
+                                      struct mulle_utf16_data *src,
+                                      struct mulle_utf_mogrification_info *info)
+{
+   mulle_utf16_t            *p;
+   mulle_utf16_t            *p_sentinel;
+   mulle_utf32_t            *q;
+   mulle_utf32_t            c;
+   mulle_utf32_t            d;
+   struct mulle_utf8_data   buf;
+   size_t                   conversions;
+
+   assert( info);
+   assert( dst);
+   assert( src);
+   // assert( dst != src); // src can be same as dst
+   assert( info->f1_conversion);
+
+   conversions = 0;
+   p           = src->characters;
+   p_sentinel  = &p[ src->length];
+   q           = dst->characters;
+
+   if( dst->length < src->length)
+      return( -1);
+
+   while( p < p_sentinel)
+   {
+      c = *p++;
+      if( mulle_utf32_is_highsurrogatecharacter( c))  // hi surrogate
+      {
+         // decode surrogate
+         assert( p < p_sentinel);
+         c = mulle_utf16_decode_surrogatepair( (mulle_utf16_t) c, *p++);
+      }
+      d            = (*info->f1_conversion)( c);
+      conversions += c != d;
+      *q++         = d;
    }
 
    dst->length = q - dst->characters;
@@ -347,7 +440,9 @@ int   _mulle_utf32_character_mogrify( struct mulle_utf32_data *dst,
 }
 
 
-
+/*
+ *
+ */
 int   _mulle_utf8_word_mogrify( struct mulle_utf8_data *dst,
                                 struct mulle_utf8_data *src,
                                 struct mulle_utf_mogrification_info *info)
@@ -402,6 +497,71 @@ int   _mulle_utf8_word_mogrify( struct mulle_utf8_data *dst,
    }
 
    dst->length = q - dst->characters;
+   return( conversions ? 1 : 0);
+}
+
+
+int   _mulle_utf16_word_mogrify( struct mulle_utf32_data *dst,
+                                 struct mulle_utf16_data *src,
+                                 struct mulle_utf_mogrification_info *info)
+{
+   int             is_start;
+   mulle_utf32_t   c;
+   mulle_utf32_t   d;
+   mulle_utf16_t   *p;
+   mulle_utf16_t   *p_sentinel;
+   mulle_utf32_t   *q;
+   mulle_utf32_t   *q_sentinel;
+   size_t          conversions;
+
+   assert( info);
+   assert( dst);
+   assert( src);
+   assert( dst != (struct mulle_utf32_data *) src);
+   assert( info->f1_conversion);
+   assert( info->f2_conversion);
+   assert( info->is_white);
+
+   is_start    = 1;
+   conversions = 0;
+   p           = src->characters;
+   p_sentinel  = &p[ src->length];
+   q           = dst->characters;
+
+   if( dst->length < src->length)
+      return( -1);
+
+   while( p < p_sentinel)
+   {
+      c = *p++;
+      if( mulle_utf32_is_highsurrogatecharacter( c))  // hi surrogate
+      {
+         // decode surrogate
+         assert( p < p_sentinel);
+         c = mulle_utf16_decode_surrogatepair( (mulle_utf16_t) c, *p++);
+      }
+
+      if( (*info->is_white)( c))
+      {
+         is_start = 1;
+         d        = c;
+      }
+      else
+      {
+         if( is_start)
+         {
+            d = (*info->f1_conversion)( c);
+            is_start = 0;
+         }
+         else
+            d = (*info->f2_conversion)( c);
+      }
+      conversions += c != d;
+      *q++         = d;
+   }
+
+   dst->length = q - dst->characters;
+
    return( conversions ? 1 : 0);
 }
 

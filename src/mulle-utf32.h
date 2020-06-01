@@ -74,7 +74,6 @@ static inline mulle_utf32_t   _mulle_utf32_previous_utf32character( mulle_utf32_
 }
 
 
-
 // low level conversion, no checks dst is assumed to be wide enough
 // returns end of dst
 mulle_utf16_t  *_mulle_utf32_convert_to_utf16_as_surrogatepair( mulle_utf32_t x,

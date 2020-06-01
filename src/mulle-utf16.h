@@ -44,6 +44,14 @@
 #include <stddef.h>
 
 
+// used in Foundation and maybe here in the future
+struct mulle_utf16_data
+{
+   mulle_utf16_t   *characters;
+   size_t          length;
+};
+
+
 int     mulle_utf16_information( mulle_utf16_t *src, size_t len, struct mulle_utf_information *info);
 
 size_t  mulle_utf16_utf8length( mulle_utf16_t *src, size_t len);
