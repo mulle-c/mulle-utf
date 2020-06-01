@@ -70,6 +70,9 @@ int   mulle_char5_is_char5string64( char *src, size_t len);
 uint32_t   mulle_char5_encode32( char *src, size_t len);
 uint64_t   mulle_char5_encode64( char *src, size_t len);
 
+uint32_t   mulle_char5_encode32_utf16( mulle_utf16_t *src, size_t len);
+uint64_t   mulle_char5_encode64_utf16( mulle_utf16_t *src, size_t len);
+
 uint32_t   mulle_char5_encode32_utf32( mulle_utf32_t *src, size_t len);
 uint64_t   mulle_char5_encode64_utf32( mulle_utf32_t *src, size_t len);
 
@@ -78,6 +81,28 @@ size_t   mulle_char5_decode64( uint64_t value, char *src, size_t len);
 
 int   mulle_char5_get64( uint64_t value, unsigned int index);
 int   mulle_char5_get32( uint32_t value, unsigned int index);
+
+
+static inline int   mulle_char5_next64( uint64_t *value)
+{
+   int   char5;
+
+   char5    = *value & 0x1F;
+   *value >>= 5;
+
+   return( mulle_char5_decode_character( char5));
+}
+
+
+static inline int   mulle_char5_next32( uint32_t *value)
+{
+   int   char5;
+
+   char5    = *value & 0x1F;
+   *value >>= 5;
+
+   return( mulle_char5_decode_character( char5));
+}
 
 
 static inline size_t   mulle_char5_strlen64( uint64_t value)
@@ -146,6 +171,13 @@ static inline mulle_char5_t   mulle_char5_encode( char *src, size_t len)
    return( (mulle_char5_t) mulle_char5_encode64( src, len));
 }
 
+static inline mulle_char5_t   mulle_char5_encode_utf16( mulle_utf16_t *src, size_t len)
+{
+   if( sizeof( mulle_char5_t) == sizeof( uint32_t))
+      return( (mulle_char5_t) mulle_char5_encode32_utf16( src, len));
+   return( (mulle_char5_t) mulle_char5_encode64_utf16( src, len));
+}
+
 
 static inline mulle_char5_t   mulle_char5_encode_utf32( mulle_utf32_t *src, size_t len)
 {
@@ -168,6 +200,13 @@ static inline int   mulle_char5_get( mulle_char5_t value, unsigned int index)
    if( sizeof( mulle_char5_t) == sizeof( uint32_t))
       return( mulle_char5_get32( (uint32_t) value, index));
    return( mulle_char5_get64( value, index));
+}
+
+static inline int   mulle_char5_next( mulle_char5_t *value)
+{
+   if( sizeof( mulle_char5_t) == sizeof( uint32_t))
+      return( mulle_char5_next32( (uint32_t *) value));
+   return( mulle_char5_next64( (uint64_t *) value));
 }
 
 
