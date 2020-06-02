@@ -105,6 +105,9 @@ static inline int   mulle_char5_next32( uint32_t *value)
 }
 
 
+//
+// it's not really clear if strlen or fstrlen is better
+//
 static inline size_t   mulle_char5_strlen64( uint64_t value)
 {
    size_t   len;
@@ -131,6 +134,70 @@ static inline size_t  mulle_char5_strlen32( uint32_t value)
    }
    return( len);
 }
+
+
+//
+// mmmmm.lllll.jjjjj.iiiii.hhhhh.ggggg.ffffff.eeeee.ddddd.ccccc.bbbbb.aaaaa
+//
+static inline size_t   mulle_char5_fstrlen64( uint64_t value)
+{
+   int64_t     mask;
+   size_t      len;
+
+   // if any of m.l.j.i.h.g is set, we know f.e.d.c.b.a exist, so len 6 + strlen( m.l.j.i.h.g)
+   mask = ~0x3FFFFFFFLL;  // ~ffffff.eeeee.ddddd.ccccc.bbbbb.aaaaa
+   len  = 0;
+   if( value & (uint64_t) mask)
+   {
+      len     = 6;
+      value >>= 30;  // move fed down do cba
+   }
+   mask >>= 15;
+
+   if( value & (uint64_t) mask)
+   {
+      len    += 3;
+      value >>= 15;
+   }
+
+   mask >>= 10;
+   if( value & (uint64_t) mask)
+   {
+      len    += 2;
+      value >>= 10;
+   }
+   len += (value > 0x1F) ? 2 : (value != 0);
+   return( len);
+}
+
+
+//
+// ffffff.eeeee.ddddd.ccccc.bbbbb.aaaaa
+//
+static inline size_t  mulle_char5_fstrlen32( uint32_t value)
+{
+   int32_t   mask;
+   size_t    len;
+
+   // if any of f.e.d is set, we know c.b.a exist, so len 3 + strlen( ffffff.eeeee.ddddd)
+   mask = ~0x7FFF;  // ~ccccc.bbbbb.aaaaa
+   len  = 0;
+   if( value & (uint32_t) mask)
+   {
+      len     = 3;
+      value >>= 15;  // move fed down do cba
+   }
+   mask >>= 10;   // same idea for lower 3 bytes, so len 2 + strlen( aaaaa)
+
+   if( value & (uint32_t) mask)
+   {
+      len    += 2;
+      value >>= 10;
+   }
+   len += (value > 0x1F) ? 2 : (value != 0);
+   return( len);
+}
+
 
 
 static inline uint64_t   mulle_char5_substring64( uint64_t value, unsigned int location, unsigned int length)
@@ -215,6 +282,15 @@ static inline size_t   mulle_char5_strlen( mulle_char5_t value)
    if( sizeof( mulle_char5_t) == sizeof( uint32_t))
       return( mulle_char5_strlen32( (uint32_t) value));
    return( mulle_char5_strlen64( value));
+}
+
+
+
+static inline size_t   mulle_char5_fstrlen( mulle_char5_t value)
+{
+   if( sizeof( mulle_char5_t) == sizeof( uint32_t))
+      return( mulle_char5_fstrlen32( (uint32_t) value));
+   return( mulle_char5_fstrlen64( value));
 }
 
 
