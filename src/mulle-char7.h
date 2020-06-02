@@ -19,9 +19,9 @@
 // char7 is a scheme that places small 7 bit ASCII strings
 // into 32 bit or 64 bit words
 //
-// 32 bit can hold up to 4 chars with 4 bits left over
-// 64 bit can hold up to 8 chars with 8 bits left over
-//
+// 32 bit can hold up to 4 chars, with 4 bits left over
+// 64 bit can hold up to 8 chars, with 8 bits left over
+// since we need 2-3 bits space for TPS info, the 64 bit is really only 61 bit
 enum
 {
    mulle_char7_maxlength32 = 4,
@@ -103,6 +103,60 @@ static inline size_t  mulle_char7_strlen32( uint32_t value)
       value >>= 7;
       ++len;
    }
+   return( len);
+}
+
+
+
+//
+// hhhhhhh.ggggggg.ffffffff.eeeeeee.ddddddd.ccccccc.bbbbbbb.aaaaaaa
+//                                  1111.1111.1111.1111.1111.1111.1111
+//                                     f    f    f    f    f    f    f
+static inline size_t   mulle_char7_fstrlen64( uint64_t value)
+{
+   int64_t   mask;
+   size_t    len;
+
+   // if any of m.l.j.i.h.g is set, we know f.e.d.c.b.a exist, so len 6 + strlen( m.l.j.i.h.g)
+   mask = ~0xFFFFFFFLL;  // ~ddddddd.ccccccc.bbbbbbb.aaaaaaa
+   len  = 0;
+   if( value & (uint64_t) mask)
+   {
+      len     = 4;
+      value >>= 28;
+   }
+   mask >>= 14;
+
+   if( value & (uint64_t) mask)
+   {
+      len    += 2;
+      value >>= 14;
+   }
+
+   len += (value > 0x7F) ? 2 : (value != 0);
+   return( len);
+}
+
+
+//
+// ddddddd.ccccccc.bbbbbbb.aaaaaaa
+//                 11.1111.1111.1111
+//
+static inline size_t   mulle_char7_fstrlen32( uint32_t value)
+{
+   int32_t   mask;
+   size_t    len;
+
+   // if any of m.l.j.i.h.g is set, we know f.e.d.c.b.a exist, so len 6 + strlen( m.l.j.i.h.g)
+   mask = ~0x3FFF;  // ~ddddddd.ccccccc.bbbbbbb.aaaaaaa
+   len  = 0;
+   if( value & (uint64_t) mask)
+   {
+      len     = 2;
+      value >>= 14;
+   }
+
+   len += (value > 0x7F) ? 2 : (value != 0);
    return( len);
 }
 
@@ -191,6 +245,14 @@ static inline size_t  mulle_char7_strlen( mulle_char7_t value)
    if( sizeof( mulle_char7_t) == sizeof( uint32_t))
       return( mulle_char7_strlen32( (uint32_t) value));
    return( mulle_char7_strlen64( value));
+}
+
+
+static inline size_t  mulle_char7_fstrlen( mulle_char7_t value)
+{
+   if( sizeof( mulle_char7_t) == sizeof( uint32_t))
+      return( mulle_char7_fstrlen32( (uint32_t) value));
+   return( mulle_char7_fstrlen64( value));
 }
 
 
