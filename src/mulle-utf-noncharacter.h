@@ -63,11 +63,6 @@ static inline int   mulle_utf32_is_lowsurrogatecharacter( mulle_utf32_t x)
    return( x >= 0xDC00 && x < 0xE000);
 }
 
-static inline int   mulle_utf32_is_asciicharacter( mulle_utf32_t c)
-{
-   return( c < 0x80);
-}
-
 
 // somewhat arbitrary
 static inline int   mulle_utf32_is_invalidcharacter( mulle_utf32_t c)

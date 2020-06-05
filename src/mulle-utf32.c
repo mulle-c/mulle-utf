@@ -14,16 +14,12 @@
 #include "mulle-utf16.h"
 #include "mulle-utf-noncharacter.h"
 #include "mulle-char5.h"
+#include "mulle-char7.h"
 #include <assert.h>
 #include <string.h>
 
 
 #define FORBID_NON_CHARACTERS  1
-
-static inline int   mulle_utf32_is_char5character( mulle_utf32_t c)
-{
-   return( mulle_char5_lookup_character( c) >= 0);
-}
 
 
 mulle_utf16_t  *_mulle_utf32_convert_to_utf16_as_surrogatepair( mulle_utf32_t x,
@@ -108,7 +104,6 @@ mulle_utf8_t  *_mulle_utf32_convert_to_utf8( mulle_utf32_t *src,
 }
 
 
-
 mulle_utf16_t   *_mulle_utf32_convert_to_utf16( mulle_utf32_t *src,
                                                 size_t len,
                                                 mulle_utf16_t *dst)
@@ -135,7 +130,6 @@ mulle_utf16_t   *_mulle_utf32_convert_to_utf16( mulle_utf32_t *src,
    }
    return( dst);
 }
-
 
 
 void  mulle_utf32_bufferconvert_to_utf16_as_surrogatepair(
@@ -168,7 +162,6 @@ void  mulle_utf32_bufferconvert_to_utf16_as_surrogatepair(
    (*addbytes)( buffer, &hi, sizeof( uint16_t));
    (*addbytes)( buffer, &lo, sizeof( uint16_t));
 }
-
 
 
 // must be proper UTF32 code!
@@ -231,7 +224,6 @@ void  mulle_utf32_bufferconvert_to_utf8( mulle_utf32_t *src,
 }
 
 
-
 void   mulle_utf32_bufferconvert_to_utf16( mulle_utf32_t *src,
                                            size_t len,
                                            void *buffer,
@@ -265,10 +257,9 @@ void   mulle_utf32_bufferconvert_to_utf16( mulle_utf32_t *src,
 }
 
 
-
 // must be proper UTF32 code!
 size_t   mulle_utf32_utf8length( mulle_utf32_t *src,
-                                     size_t len)
+                                 size_t len)
 {
    mulle_utf32_t       *sentinel;
    mulle_utf32_t       x;
@@ -312,7 +303,9 @@ size_t   mulle_utf32_utf8length( mulle_utf32_t *src,
 }
 
 
-int   mulle_utf32_information( mulle_utf32_t *src, size_t len, struct mulle_utf_information *info)
+int   mulle_utf32_information( mulle_utf32_t *src,
+                               size_t len,
+                               struct mulle_utf_information *info)
 {
    mulle_utf32_t                  _c;
    mulle_utf32_t                  *start;
@@ -479,4 +472,39 @@ mulle_utf32_t  *mulle_utf32_validate( mulle_utf32_t *src, size_t len)
    }
    return( 0);
 }
+
+
+enum mulle_utf_charinfo   _mulle_utf32_charinfo( mulle_utf32_t *src, size_t len)
+{
+   mulle_utf32_t   _c;
+   mulle_utf32_t   *start;
+   mulle_utf32_t   *sentinel;
+
+   assert( len);
+
+   if( len > mulle_char5_get_maxlength())
+      return( mulle_utf_is_not_char5_or_char7);
+
+   start    = src;
+   sentinel = &start[ len];
+   if( len <= mulle_char7_get_maxlength())
+   {
+      for( ; src < sentinel; src++)
+      {
+         _c = *src;
+         if( ! mulle_utf32_is_asciicharacter( _c))
+            return( mulle_utf_is_not_char5_or_char7);
+      }
+      return( mulle_utf_is_char7);
+   }
+
+   for( ; src < sentinel; src++)
+   {
+      _c = *src;
+      if( ! mulle_utf32_is_char5character( _c))
+         return( mulle_utf_is_not_char5_or_char7);
+   }
+   return( mulle_utf_is_char5);
+}
+
 
