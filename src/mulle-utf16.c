@@ -40,23 +40,12 @@
 #include "mulle-utf16-string.h"
 #include "mulle-utf-noncharacter.h"
 #include "mulle-char5.h"
+#include "mulle-char7.h"
 #include <errno.h>
 #include <string.h>
 
 
 #define FORBID_NON_CHARACTERS  1
-
-
-static inline int   mulle_utf16_is_asciicharacter( mulle_utf16_t c)
-{
-   return( c < 0x80);
-}
-
-
-static inline int   mulle_utf16_is_char5character( mulle_utf16_t c)
-{
-   return( mulle_char5_lookup_character( c) >= 0);
-}
 
 
 int  mulle_utf16_is_valid_surrogatepair( mulle_utf16_t hi, mulle_utf16_t lo)
@@ -452,7 +441,6 @@ mulle_utf32_t   _mulle_utf16_previous_utf32character( mulle_utf16_t **s_p)
 }
 
 
-
 //
 // make it more optimal, by (a) checking that pointer can be accessed with
 // a long or long long
@@ -581,4 +569,41 @@ int   mulle_utf16_is_ascii( mulle_utf16_t *src, size_t len)
    }
 
    return( 1);
+}
+
+
+//
+// src must be known to be UTF15, and contain no zeroes
+//
+enum mulle_utf_charinfo   _mulle_utf16_charinfo( mulle_utf16_t *src, size_t len)
+{
+   mulle_utf16_t   _c;
+   mulle_utf16_t   *start;
+   mulle_utf16_t   *sentinel;
+
+   assert( len);
+
+   if( len > mulle_char5_get_maxlength())
+      return( mulle_utf_is_not_char5_or_char7);
+
+   start    = src;
+   sentinel = &start[ len];
+   if( len <= mulle_char7_get_maxlength())
+   {
+      for( ; src < sentinel; src++)
+      {
+         _c = *src;
+         if( ! mulle_utf16_is_asciicharacter( _c))
+            return( mulle_utf_is_not_char5_or_char7);
+      }
+      return( mulle_utf_is_char7);
+   }
+
+   for( ; src < sentinel; src++)
+   {
+      _c = *src;
+      if( ! mulle_utf16_is_char5character( _c))
+         return( mulle_utf_is_not_char5_or_char7);
+   }
+   return( mulle_utf_is_char5);
 }

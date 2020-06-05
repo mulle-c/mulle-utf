@@ -38,6 +38,7 @@
 #define mulle_utf32_h__
 
 #include "mulle-utf-type.h"
+#include "mulle-char5.h"
 
 #include <stddef.h>
 
@@ -48,6 +49,18 @@ struct mulle_utf32_data
    mulle_utf32_t   *characters;
    size_t          length;
 };
+
+
+static inline int   mulle_utf32_is_asciicharacter( mulle_utf32_t c)
+{
+   return( c < 0x80);
+}
+
+
+static inline int   mulle_utf32_is_char5character( mulle_utf32_t c)
+{
+   return( mulle_char5_lookup_character( c) >= 0);
+}
 
 
 size_t   mulle_utf32_utf8length( mulle_utf32_t *src,
@@ -117,6 +130,10 @@ static inline mulle_utf8_t *mulle_utf32_as_utf8( mulle_utf32_t x, mulle_utf8_t *
    }
    return( _mulle_utf32_as_utf8( x, dst));
 }
+
+
+
+enum mulle_utf_charinfo   _mulle_utf32_charinfo( mulle_utf32_t *src, size_t len);
 
 #endif
 

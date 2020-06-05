@@ -83,4 +83,12 @@ enum mulle_utf_scan_return
 
 typedef void   (*mulle_utf_add_bytes_function_t)( void *, void *, size_t);
 
+
+enum mulle_utf_charinfo
+{
+   mulle_utf_is_not_char5_or_char7 = 0,
+   mulle_utf_is_char5              = 1,
+   mulle_utf_is_char7              = 2
+};
+
 #endif
