@@ -53,6 +53,16 @@ struct mulle_utf16_data
 };
 
 
+static inline struct mulle_utf16_data   mulle_utf16_data_make( mulle_utf16_t *s, size_t length)
+{
+   struct mulle_utf16_data   data;
+
+   data.characters = s;
+   data.length     = length;
+   return( data);
+}
+
+
 static inline int   mulle_utf16_is_asciicharacter( mulle_utf16_t c)
 {
    return( c < 0x80);

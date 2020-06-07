@@ -1,12 +1,12 @@
 //
-//  mulle-utf.h
+//  mulle_utf8.h
 //  mulle-utf
 //
-//  Created by Nat! on 18.03.16.
-//  Copyright © 2016 Mulle kybernetiK.
-//  Copyright (c) 2016 Codeon GmbH.
+//  Copyright (C) 2011 Nat!, Mulle kybernetiK.
+//  Copyright (c) 2011 Codeon GmbH.
 //  All rights reserved.
 //
+//  Coded by Nat!
 //
 //  Redistribution and use in source and binary forms, with or without
 //  modification, are permitted provided that the following conditions are met:
@@ -34,29 +34,51 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
-#ifndef mulle_utf_h__
-#define mulle_utf_h__
-
-#define MULLE_UTF_VERSION  ((3 << 20) | (0 << 8) | 0)
-
-#include "include.h"
+#ifndef mulle_ascii_h__
+#define mulle_ascii_h__
 
 #include "mulle-utf-type.h"
 
-#include "mulle-char5.h"
-#include "mulle-char7.h"
-#include "mulle-ascii.h"
-#include "mulle-utf8.h"
-#include "mulle-utf16.h"
-#include "mulle-utf32.h"
-#include "mulle-utf16-string.h"
-#include "mulle-utf32-string.h"
-
-#include "mulle-utf-convenience.h"
-#include "mulle-utf-noncharacter.h"
-#include "mulle-utf-privatecharacter.h"
-#include "mulle-utf-rover.h"
-#include "mulle-utf-scan.h"
+#include <string.h>
 
 
-#endif /* mulle_utf_h */
+// used in Foundation and maybe here in the future
+struct mulle_ascii_data
+{
+   char     *characters;
+   size_t   length;
+};
+
+
+static inline struct mulle_ascii_data   mulle_ascii_data_make( char *s, size_t length)
+{
+   struct mulle_ascii_data   data;
+
+   data.characters = s;
+   data.length     = length;
+   return( data);
+}
+
+
+
+// low level conversion, no checks dst is assumed to be wide enough
+// returns end of dst
+mulle_utf16_t   *_mulle_ascii_convert_to_utf16( char *src,
+                                                size_t len,
+                                                mulle_utf16_t *dst);
+
+mulle_utf32_t   *_mulle_ascii_convert_to_utf32( char *src,
+                                                size_t len,
+                                                mulle_utf32_t *dst);
+
+void   mulle_ascii_bufferconvert_to_utf16( char *src,
+                                           size_t len,
+                                           void *buffer,
+                                           mulle_utf_add_bytes_function_t addbytes);
+
+void   mulle_ascii_bufferconvert_to_utf32( char *src,
+                                           size_t len,
+                                           void *buffer,
+                                           mulle_utf_add_bytes_function_t addbytes);
+
+#endif

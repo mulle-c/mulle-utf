@@ -156,6 +156,20 @@ struct mulle_utf8_data
 };
 
 
+static inline struct mulle_utf8_data   mulle_utf8_data_make( mulle_utf8_t *s, size_t length)
+{
+   struct mulle_utf8_data   data;
+
+   data.characters = s;
+   data.length     = length;
+   return( data);
+}
+
+mulle_utf32_t   *_mulle_utf8_convert_to_utf32( mulle_utf8_t *src,
+                                               size_t len,
+                                               mulle_utf32_t *dst);
+
+
 // low level conversion, no checks dst is assumed to be wide enough
 // returns end of dst
 mulle_utf16_t   *_mulle_utf8_convert_to_utf16( mulle_utf8_t *src,
