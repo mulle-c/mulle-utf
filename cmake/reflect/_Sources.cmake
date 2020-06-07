@@ -6,6 +6,7 @@ if( MULLE_TRACE_INCLUDE)
 endif()
 
 set( SOURCES
+src/mulle-ascii.c
 src/mulle-char5.c
 src/mulle-char7.c
 src/mulle-utf16.c

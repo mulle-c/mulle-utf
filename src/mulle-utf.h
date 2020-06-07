@@ -45,6 +45,7 @@
 
 #include "mulle-char5.h"
 #include "mulle-char7.h"
+#include "mulle-ascii.h"
 #include "mulle-utf8.h"
 #include "mulle-utf16.h"
 #include "mulle-utf32.h"

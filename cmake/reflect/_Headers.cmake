@@ -24,6 +24,7 @@ src/reflect/_mulle-utf-include.h
 
 set( PUBLIC_HEADERS
 src/include.h
+src/mulle-ascii.h
 src/mulle-char5.h
 src/mulle-char7.h
 src/mulle-utf16.h
