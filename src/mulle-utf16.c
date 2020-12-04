@@ -194,6 +194,8 @@ void  mulle_utf16_bufferconvert_to_utf8( mulle_utf16_t *src,
    while( src < sentinel)
    {
       x = *src++;
+
+      //TODO: can't this be done later
       if( mulle_utf32_is_highsurrogatecharacter( x))  // hi surrogate
       {
          // decode surrogate

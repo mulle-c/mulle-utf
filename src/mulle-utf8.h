@@ -149,21 +149,49 @@ static inline mulle_utf32_t   mulle_utf8_next_utf32character( mulle_utf8_t **s_p
 
 
 // used in Foundation and maybe here in the future
-struct mulle_utf8_data
+struct mulle_utf8data
 {
    mulle_utf8_t   *characters;
    size_t         length;
 };
 
 
-static inline struct mulle_utf8_data   mulle_utf8_data_make( mulle_utf8_t *s, size_t length)
+static inline struct mulle_utf8data
+   mulle_utf8data_make( mulle_utf8_t *s, size_t length)
 {
-   struct mulle_utf8_data   data;
+   struct mulle_utf8data   data;
 
    data.characters = s;
    data.length     = length;
    return( data);
 }
+
+
+//
+// some conversions
+//
+static inline struct mulle_utf8data
+   mulle_data_as_utf8data( struct mulle_data data)
+{
+   struct mulle_utf8data   tmp;
+
+   tmp.characters = data.bytes;
+   tmp.length     = data.length;
+   return( tmp);
+}
+
+
+static inline struct mulle_data
+   mulle_utf8data_as_data( struct mulle_utf8data data)
+{
+   struct mulle_data   tmp;
+
+   tmp.bytes  = data.characters;
+   tmp.length = data.length;
+   return( tmp);
+}
+
+
 
 mulle_utf32_t   *_mulle_utf8_convert_to_utf32( mulle_utf8_t *src,
                                                size_t len,
