@@ -36,6 +36,8 @@
 #ifndef mulle_utf_type_h__
 #define mulle_utf_type_h__
 
+#include "include.h"
+
 #include <stdint.h>
 #include <stddef.h>
 
@@ -71,6 +73,11 @@ struct mulle_utf_information
    int      has_terminating_zero;
 };
 
+
+static inline int   mulle_utf_information_is_valid( struct mulle_utf_information *info)
+{
+   return( info->invalid == NULL);
+}
 
 enum mulle_utf_scan_return
 {

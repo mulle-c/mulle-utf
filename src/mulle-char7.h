@@ -91,8 +91,6 @@ static inline size_t   mulle_char7_strlen64( uint64_t value)
 //    OR     +   OR     +    OR   +     OR
 // Would be simple to do in hardware
 //
-
-
 static inline size_t  mulle_char7_strlen32( uint32_t value)
 {
    size_t   len;
@@ -181,8 +179,7 @@ static inline uint32_t   mulle_char7_substring32( uint32_t value, unsigned int l
 }
 
 
-# pragma mark -
-# pragma mark uintptr_t interface
+# pragma mark - uintptr_t interface
 
 static inline int   mulle_char7_is_char7string( char *src, size_t len)
 {

@@ -43,16 +43,16 @@
 
 
 // used in Foundation and maybe here in the future
-struct mulle_ascii_data
+struct mulle_asciidata
 {
    char     *characters;
    size_t   length;
 };
 
 
-static inline struct mulle_ascii_data   mulle_ascii_data_make( char *s, size_t length)
+static inline struct mulle_asciidata   mulle_asciidata_make( char *s, size_t length)
 {
-   struct mulle_ascii_data   data;
+   struct mulle_asciidata   data;
 
    data.characters = s;
    data.length     = length;

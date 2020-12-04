@@ -33,7 +33,7 @@ void  mulle_utf8_conversion_context_add_bytes( void *_p,
    end = &p->buf[ len];
    if( end > p->sentinel)
    {
-      p->buf = end;  // ensure we don't add a later smaller character
+      p->sentinel = NULL; // ensure we don't add a late smaller character
       return;
    }
 
@@ -265,8 +265,8 @@ mulle_utf16_t  *mulle_utf32_convert_to_utf16_string( mulle_utf32_t *src,
 
 #pragma mark -  support for -toLower
 
-int   _mulle_utf8_character_mogrify( struct mulle_utf8_data *dst,
-                                     struct mulle_utf8_data *src,
+int   _mulle_utf8_character_mogrify( struct mulle_utf8data *dst,
+                                     struct mulle_utf8data *src,
                                      struct mulle_utf_mogrification_info *info)
 {
    mulle_utf8_t             *p;
@@ -275,7 +275,7 @@ int   _mulle_utf8_character_mogrify( struct mulle_utf8_data *dst,
    mulle_utf8_t             *q_sentinel;
    mulle_utf32_t            c;
    mulle_utf32_t            d;
-   struct mulle_utf8_data   buf;
+   struct mulle_utf8data   buf;
    size_t                   conversions;
 
    assert( info);
@@ -308,12 +308,12 @@ int   _mulle_utf8_character_mogrify( struct mulle_utf8_data *dst,
 
 
 //
-// Can be used for mulle_utf16_data where its known that there are no
+// Can be used for mulle_utf16data where its known that there are no
 // surrogate pairs contained and the mogrification stays with 16 bit,
 // which is tolower/toupper! This can be used inplace.
 //
-int   _mulle_utf16_character_mogrify_unsafe( struct mulle_utf16_data *dst,
-                                             struct mulle_utf16_data *src,
+int   _mulle_utf16_character_mogrify_unsafe( struct mulle_utf16data *dst,
+                                             struct mulle_utf16data *src,
                                              struct mulle_utf_mogrification_info *info)
 {
    mulle_utf16_t            *p;
@@ -321,7 +321,7 @@ int   _mulle_utf16_character_mogrify_unsafe( struct mulle_utf16_data *dst,
    mulle_utf16_t            *q;
    mulle_utf32_t            c;
    mulle_utf32_t            d;
-   struct mulle_utf8_data   buf;
+   struct mulle_utf8data   buf;
    size_t                   conversions;
 
    assert( info);
@@ -355,8 +355,8 @@ int   _mulle_utf16_character_mogrify_unsafe( struct mulle_utf16_data *dst,
 //
 // the mogrification can expand into 32 bit, so we make the dst data as wide
 //
-int   _mulle_utf16_character_mogrify( struct mulle_utf32_data *dst,
-                                      struct mulle_utf16_data *src,
+int   _mulle_utf16_character_mogrify( struct mulle_utf32data *dst,
+                                      struct mulle_utf16data *src,
                                       struct mulle_utf_mogrification_info *info)
 {
    mulle_utf16_t            *p;
@@ -364,7 +364,7 @@ int   _mulle_utf16_character_mogrify( struct mulle_utf32_data *dst,
    mulle_utf32_t            *q;
    mulle_utf32_t            c;
    mulle_utf32_t            d;
-   struct mulle_utf8_data   buf;
+   struct mulle_utf8data   buf;
    size_t                   conversions;
 
    assert( info);
@@ -400,8 +400,8 @@ int   _mulle_utf16_character_mogrify( struct mulle_utf32_data *dst,
 }
 
 
-int   _mulle_utf32_character_mogrify( struct mulle_utf32_data *dst,
-                                      struct mulle_utf32_data *src,
+int   _mulle_utf32_character_mogrify( struct mulle_utf32data *dst,
+                                      struct mulle_utf32data *src,
                                       struct mulle_utf_mogrification_info *info)
 {
    mulle_utf32_t            *p;
@@ -410,7 +410,7 @@ int   _mulle_utf32_character_mogrify( struct mulle_utf32_data *dst,
    mulle_utf32_t            *p_sentinel;
    mulle_utf32_t            c;
    mulle_utf32_t            d;
-   struct mulle_utf8_data   buf;
+   struct mulle_utf8data   buf;
    size_t                   conversions;
 
    assert( info);
@@ -443,8 +443,8 @@ int   _mulle_utf32_character_mogrify( struct mulle_utf32_data *dst,
 /*
  *
  */
-int   _mulle_utf8_word_mogrify( struct mulle_utf8_data *dst,
-                                struct mulle_utf8_data *src,
+int   _mulle_utf8_word_mogrify( struct mulle_utf8data *dst,
+                                struct mulle_utf8data *src,
                                 struct mulle_utf_mogrification_info *info)
 {
    int             is_start;
@@ -501,8 +501,8 @@ int   _mulle_utf8_word_mogrify( struct mulle_utf8_data *dst,
 }
 
 
-int   _mulle_utf16_word_mogrify( struct mulle_utf32_data *dst,
-                                 struct mulle_utf16_data *src,
+int   _mulle_utf16_word_mogrify( struct mulle_utf32data *dst,
+                                 struct mulle_utf16data *src,
                                  struct mulle_utf_mogrification_info *info)
 {
    int             is_start;
@@ -517,7 +517,7 @@ int   _mulle_utf16_word_mogrify( struct mulle_utf32_data *dst,
    assert( info);
    assert( dst);
    assert( src);
-   assert( dst != (struct mulle_utf32_data *) src);
+   assert( dst != (struct mulle_utf32data *) src);
    assert( info->f1_conversion);
    assert( info->f2_conversion);
    assert( info->is_white);
@@ -566,8 +566,8 @@ int   _mulle_utf16_word_mogrify( struct mulle_utf32_data *dst,
 }
 
 
-int   _mulle_utf32_word_mogrify( struct mulle_utf32_data *dst,
-                                 struct mulle_utf32_data *src,
+int   _mulle_utf32_word_mogrify( struct mulle_utf32data *dst,
+                                 struct mulle_utf32data *src,
                                  struct mulle_utf_mogrification_info *info)
 {
    int             is_start;

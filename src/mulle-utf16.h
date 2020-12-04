@@ -46,16 +46,16 @@
 
 
 // used in Foundation and maybe here in the future
-struct mulle_utf16_data
+struct mulle_utf16data
 {
    mulle_utf16_t   *characters;
    size_t          length;
 };
 
 
-static inline struct mulle_utf16_data   mulle_utf16_data_make( mulle_utf16_t *s, size_t length)
+static inline struct mulle_utf16data   mulle_utf16data_make( mulle_utf16_t *s, size_t length)
 {
-   struct mulle_utf16_data   data;
+   struct mulle_utf16data   data;
 
    data.characters = s;
    data.length     = length;
