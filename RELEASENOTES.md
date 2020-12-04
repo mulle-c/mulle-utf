@@ -18,7 +18,7 @@
 
 * added `mulle_utf…_nop` functions for nop callbacks
 * added `_mulle_utf32_as_utf8` for quick conversions w/o error checks
-* struct `mulle_utf8_data` added
+* struct `mulle_utf8data` added
 * updated to Unicode 12.1
 * added legal characterset, though its pretty large
 * fixed a lot of bugs with respect to charactersets

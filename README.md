@@ -1,6 +1,6 @@
 # mulle-utf
 
-🔤 UTF8-16-32 analysis and manipulation library
+#### 🔤 UTF8-16-32 analysis and manipulation library
 
 a C (C99) library to analyze and convert unicode strings. It also contains some
 limited `<string.h>` like functionality for UTF16 and UTF32.

@@ -84,14 +84,14 @@ struct mulle_utf_mogrification_info
      int           (*is_white)( mulle_utf32_t);
 };
 
-typedef int   mulle_utf8_mogrifier_function_t( struct mulle_utf8_data *dst,
-                                               struct mulle_utf8_data *src,
+typedef int   mulle_utf8_mogrifier_function_t( struct mulle_utf8data *dst,
+                                               struct mulle_utf8data *src,
                                                struct mulle_utf_mogrification_info *info);
-typedef int   mulle_utf16_mogrifier_function_t( struct mulle_utf32_data *dst,
-                                                struct mulle_utf16_data *src,
+typedef int   mulle_utf16_mogrifier_function_t( struct mulle_utf32data *dst,
+                                                struct mulle_utf16data *src,
                                                 struct mulle_utf_mogrification_info *info);
-typedef int   mulle_utf32_mogrifier_function_t( struct mulle_utf32_data *dst,
-                                                struct mulle_utf32_data *src,
+typedef int   mulle_utf32_mogrifier_function_t( struct mulle_utf32data *dst,
+                                                struct mulle_utf32data *src,
                                                 struct mulle_utf_mogrification_info *info);
 
 //
@@ -100,15 +100,15 @@ typedef int   mulle_utf32_mogrifier_function_t( struct mulle_utf32_data *dst,
 // The value of dst->length will be adjusted to the actual length.
 //  The incoming data must be sane.
 //
-int   _mulle_utf8_character_mogrify( struct mulle_utf8_data *dst,
-                                     struct mulle_utf8_data *src,
+int   _mulle_utf8_character_mogrify( struct mulle_utf8data *dst,
+                                     struct mulle_utf8data *src,
                                      struct mulle_utf_mogrification_info *info);
-int   _mulle_utf16_character_mogrify( struct mulle_utf32_data *dst,
-                                      struct mulle_utf16_data *src,
+int   _mulle_utf16_character_mogrify( struct mulle_utf32data *dst,
+                                      struct mulle_utf16data *src,
                                       struct mulle_utf_mogrification_info *info);
 
-int   _mulle_utf16_character_mogrify_unsafe( struct mulle_utf16_data *dst,
-                                             struct mulle_utf16_data *src,
+int   _mulle_utf16_character_mogrify_unsafe( struct mulle_utf16data *dst,
+                                             struct mulle_utf16data *src,
                                              struct mulle_utf_mogrification_info *info);
 //
 // This will return 0, if no actual conversion took place, will return a
@@ -116,21 +116,21 @@ int   _mulle_utf16_character_mogrify_unsafe( struct mulle_utf16_data *dst,
 // The value of dst->length will be adjusted to the actual length, which
 // is the same as src->length. The incoming data must be sane.
 //
-int   _mulle_utf32_character_mogrify( struct mulle_utf32_data *dst,
-                                      struct mulle_utf32_data *src,
+int   _mulle_utf32_character_mogrify( struct mulle_utf32data *dst,
+                                      struct mulle_utf32data *src,
                                       struct mulle_utf_mogrification_info *info);
 
-int   _mulle_utf8_word_mogrify( struct mulle_utf8_data *dst,
-                                struct mulle_utf8_data *src,
+int   _mulle_utf8_word_mogrify( struct mulle_utf8data *dst,
+                                struct mulle_utf8data *src,
                                 struct mulle_utf_mogrification_info *info);
 
 // different! converts utf16 data to utf32
-int   _mulle_utf16_word_mogrify( struct mulle_utf32_data *dst,
-                                 struct mulle_utf16_data *src,
+int   _mulle_utf16_word_mogrify( struct mulle_utf32data *dst,
+                                 struct mulle_utf16data *src,
                                  struct mulle_utf_mogrification_info *info);
 
-int   _mulle_utf32_word_mogrify( struct mulle_utf32_data *dst,
-                                 struct mulle_utf32_data *src,
+int   _mulle_utf32_word_mogrify( struct mulle_utf32data *dst,
+                                 struct mulle_utf32data *src,
                                  struct mulle_utf_mogrification_info *info);
 
 
