@@ -8,9 +8,9 @@ limited `<string.h>` like functionality for UTF16 and UTF32.
 It is the backbone of **NSString**.
 
 
-Build Status | Release Version
--------------|-----------------------------------
-[![Build Status](https://travis-ci.org/mulle-c/mulle-utf.svg?branch=release)](https://travis-ci.org/mulle-c/mulle-utf) | ![Mulle kybernetiK tag](https://img.shields.io/github/tag/mulle-c/mulle-utf.svg) [![Build Status](https://travis-ci.org/mulle-c/mulle-utf.svg?branch=release)](https://travis-ci.org/mulle-c/mulle-utf)
+| Release Version
+|-----------------------------------
+| ![Mulle kybernetiK tag](https://img.shields.io/github/tag/mulle-c/mulle-utf.svg?branch=release) [![Build Status](https://github.com/mulle-c/mulle-utf/workflows/CI/badge.svg?branch=release)](https://github.com/mulle-c/mulle-utf/actions)
 
 
 ## Encode strings as integers
@@ -42,11 +42,19 @@ File                                    | Description
 
 ## Add
 
-Use [mulle-sde](//github.com/mulle-sde) to add mulle-utf to your project:
+### Either: link library
+
+Use [mulle-sde](//github.com/mulle-sde) to add mulle-buffer to your project:
 
 ```
-mulle-sde dependency add --c --github mulle-c mulle-utf
+mulle-sde dependency add --c --github mulle-c mulle-buffer
 ```
+
+### Or: add Sources
+
+Alternatively you can read [STEAL.md](//github.com/mulle-c11/dox/STEAL.md) on
+how to add mulle-c source code into your own projects.
+
 
 ## Install
 
