@@ -1,3 +1,21 @@
+# 3.0.0
+
+* changed `struct `mulle_utf8_data`` to `struct `mulle_utf8data`` (and other related datas as well)
+* add some `mulle_ascii` conversion routines
+* add convenience `mulle_utfxx_data_make` functions
+* added `mulle_utfxx_charinfo` functions
+* coded an alternative strlen function for char5 and char7
+* added ``mulle_char5_encode32_utf16`,` ``mulle_char5_encode32_utf32`,` ``mulle_char7_encode32_utf16`,` ``mulle_char7_encode64_utf16``
+* added ``mulle_char5_next`` and ``mulle_char7_next`` for faster isEqual:
+* added ``_mulle_utf16_character_mogrify_unsafe`` and ``_mulle_utf16_character_mogrify`` for faster lowercaseString
+* added ``_mulle_utf16_word_mogrify`` for completeness
+* speed up various operations
+* add routines to char5 and char7 to encode to UTF16 and UTF32
+* rewrote conversion routines with changes in the API  and added lowleve routines
+* tolower/toupper support code renamed from "convert" to "mogrify" to distinguis from UTF conversion
+* added `mulle_utf32_data` and `mulle_utf16_data` structs
+
+
 ### 2.3.1
 
 * get privatecharacter back from mulle-unicode
