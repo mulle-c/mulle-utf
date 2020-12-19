@@ -1,0 +1,17 @@
+{
+   "name" : "mulle-utf",
+   "version" : "3.0.0",
+   "description" : "🔤 UTF8-16-32 analysis and manipulation library",
+   "homepage" : "https://github.com/mulle-c/mulle-utf",
+   "bugs" : "https://github.com/mulle-c/mulle-utf/issues",
+   "keywords" : [],
+   "license" : "BSD-3-Clause",
+   "repository" : {
+      "type" : "git",
+      "url" : "mulle-c/mulle-utf"
+   },
+   "dependencies" : {
+      "mulle-allocator" : "mulle-c/mulle-allocator",
+      "mulle-data" : "mulle-c/mulle-data"
+   }
+}
