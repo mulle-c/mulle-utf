@@ -107,16 +107,14 @@ static inline size_t  mulle_char7_strlen32( uint32_t value)
 
 
 //
-// hhhhhhh.ggggggg.ffffffff.eeeeeee.ddddddd.ccccccc.bbbbbbb.aaaaaaa
-//                                  1111.1111.1111.1111.1111.1111.1111
-//                                     f    f    f    f    f    f    f
+// hhhhhhh.ggggggg.fffffff.eeeeeee.ddddddd.ccccccc.bbbbbbb.aaaaaaa
+//
 static inline size_t   mulle_char7_fstrlen64( uint64_t value)
 {
    int64_t   mask;
    size_t    len;
 
-   // if any of m.l.j.i.h.g is set, we know f.e.d.c.b.a exist, so len 6 + strlen( m.l.j.i.h.g)
-   mask = ~0xFFFFFFFLL;  // ~ddddddd.ccccccc.bbbbbbb.aaaaaaa
+   mask = ~0xFFFFFFFLL;
    len  = 0;
    if( value & (uint64_t) mask)
    {
@@ -145,8 +143,7 @@ static inline size_t   mulle_char7_fstrlen32( uint32_t value)
    int32_t   mask;
    size_t    len;
 
-   // if any of m.l.j.i.h.g is set, we know f.e.d.c.b.a exist, so len 6 + strlen( m.l.j.i.h.g)
-   mask = ~0x3FFF;  // ~ddddddd.ccccccc.bbbbbbb.aaaaaaa
+   mask = ~0x3FFF;
    len  = 0;
    if( value & (uint64_t) mask)
    {
