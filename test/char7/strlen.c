@@ -13,11 +13,10 @@ int  main()
    uint64_t      code64;
    size_t        strlen1;
    size_t        strlen2;
-   static char   text[ ] =  {  '.', '0', '1', '2', 'A', 'C', 'E', 'I',
-      'L', 'M', 'P', 'R', 'S', 'T', '_', 'a',
-      'b', 'c', 'd', 'e', 'g', 'i', 'l', 'm',
-      'n', 'o', 'p', 'r', 's', 't', 'u', 0 };
 
+   // doesn't matter just needs to be ascii, and it good that the top bit is
+   // set
+   static char   *text = "vfl:bochum";
    for( i = 0; i <= mulle_char7_maxlength32; i++)
    {
       code32    = mulle_char7_encode32( text, i);
