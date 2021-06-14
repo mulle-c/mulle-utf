@@ -224,4 +224,12 @@ void   mulle_utf8_bufferconvert_to_utf32( mulle_utf8_t *src,
                                           void *buffer,
                                           mulle_utf_add_bytes_function_t addbytes);
 
+
+
+//
+// data may not have a bom
+//
+struct mulle_utf8data   mulle_utf8data_range_of_utf32_range( struct mulle_utf8data,
+                                                             struct mulle_range range);
+
 #endif
