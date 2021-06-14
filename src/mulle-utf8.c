@@ -836,7 +836,6 @@ mulle_utf8_t   *mulle_utf8_strnstr( mulle_utf8_t *s, size_t len, mulle_utf8_t *s
 // 0 is no terminator in this case
 mulle_utf8_t  *mulle_utf8_strnchr( mulle_utf8_t *s, size_t len, mulle_utf8_t c)
 {
-   mulle_utf8_t   *start;
    mulle_utf8_t   *sentinel;
 
    if( ! s)
@@ -845,7 +844,6 @@ mulle_utf8_t  *mulle_utf8_strnchr( mulle_utf8_t *s, size_t len, mulle_utf8_t c)
    if( len == (size_t) -1)
       len = mulle_utf8_strlen( s);
 
-   start    = s;
    sentinel = &s[ len];
 
    while( s < sentinel)
@@ -915,3 +913,51 @@ size_t   mulle_utf8_strncspn( mulle_utf8_t *s, size_t len, mulle_utf8_t *search)
    }
    return( len);
 }
+
+
+struct mulle_utf8data  mulle_utf8data_range_of_utf32_range( struct mulle_utf8data data,
+                                                            struct mulle_range range)
+{
+   mulle_utf8_t            *s;
+   mulle_utf8_t            *sentinel;
+   uintptr_t               i;
+   uintptr_t               end;
+   struct mulle_utf8data   rval;
+
+   assert( mulle_range_is_valid( range));
+
+   range = mulle_range_validate_against_length( range, data.length);
+
+   // is this needed ?
+//   if( mulle_utf8_has_leading_bomcharacter( data.characters, data.length))
+//   {
+//      data.characters += 3;
+//      data.length     -= 3;
+//   }
+
+   if( ! range.length)
+      return( mulle_utf8data_make( NULL, 0));
+
+   s        = data.characters;
+   sentinel = &data.characters[ data.length];
+   end      = range.location + range.length;
+   i        = 0;
+
+   rval.characters = s;   // for the analyzer
+   while( s < sentinel)
+   {
+      if( i == range.location)
+         rval.characters = s;
+      if( *s++ & 0x80)
+         continue;
+      if( ++i == end)
+      {
+         rval.length = s - rval.characters;
+         return( rval);
+      }
+   }
+
+   return( mulle_utf8data_make( NULL, 0));
+}
+
+
