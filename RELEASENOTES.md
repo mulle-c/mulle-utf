@@ -1,3 +1,7 @@
+### 3.0.1
+
+* added  function
+
 # 3.0.0
 
 * changed `struct `mulle_utf8_data`` to `struct `mulle_utf8data`` (and other related datas as well)
