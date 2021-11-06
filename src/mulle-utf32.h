@@ -63,7 +63,7 @@ static inline struct mulle_utf32data   mulle_utf32data_make( mulle_utf32_t *s, s
 
 static inline int   mulle_utf32_is_asciicharacter( mulle_utf32_t c)
 {
-   return( c < 0x80);
+   return( (uint32_t) c < 0x80);
 }
 
 
@@ -128,12 +128,13 @@ void
                        void (*addbytes)( void *buffer, void *bytes, size_t size));
 
 
-// no error checks whatsoever
-static inline mulle_utf8_t *mulle_utf32_as_utf8( mulle_utf32_t x, mulle_utf8_t *dst)
-{
-   mulle_utf8_t   *_mulle_utf32_as_utf8( mulle_utf32_t x, mulle_utf8_t *dst);
+mulle_utf8_t   *_mulle_utf32_as_utf8( mulle_utf32_t x, mulle_utf8_t *dst);
 
-   if( x < 0x80)
+// no error checks whatsoever
+static inline mulle_utf8_t   *mulle_utf32_as_utf8( mulle_utf32_t x, mulle_utf8_t *dst)
+{
+
+   if( (uint32_t) x < 0x80)
    {
       *dst++ = (mulle_utf8_t) x;
       return( dst);

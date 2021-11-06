@@ -35,6 +35,12 @@ static inline int   mulle_char5_lookup_character( int c)
 }
 
 
+static inline int   mulle_utf8_is_char5character( mulle_utf8_t c)
+{
+   return( mulle_char5_lookup_character( c) >= 0);
+}
+
+
 enum
 {
    mulle_char5_maxlength32 = 6,
