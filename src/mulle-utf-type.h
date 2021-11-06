@@ -47,7 +47,9 @@ typedef uintptr_t  mulle_char7_t;
 
 typedef uint8_t    mulle_utf8_t;
 typedef uint16_t   mulle_utf16_t;
-typedef int32_t    mulle_utf32_t;  //  0 - 0x10FFFF.
+
+// this is signed, so any function returning an error can return -1
+typedef int32_t   mulle_utf32_t;  //  0 - 0x10FFFF.
 
 
 enum
@@ -78,6 +80,7 @@ static inline int   mulle_utf_information_is_valid( struct mulle_utf_information
 {
    return( info->invalid == NULL);
 }
+
 
 enum mulle_utf_scan_return
 {

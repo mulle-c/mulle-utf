@@ -42,6 +42,12 @@
 #include <string.h>
 
 
+static inline int   mulle_utf8_is_asciicharacter( mulle_utf8_t c)
+{
+   return( (char) c >= 0);
+}
+
+
 // Check: http://tools.ietf.org/html/rfc3629
 // General considerations.
 //    On the initial procurement of your UTF8 string, you must validate it once
@@ -131,7 +137,7 @@ size_t         mulle_utf8_strnspn( mulle_utf8_t *s, size_t len, mulle_utf8_t *se
 size_t         mulle_utf8_strncspn( mulle_utf8_t *s, size_t len, mulle_utf8_t *search);
 
 
-// extremely primitive!
+// extremely primitive! (Not as primitive anymore...)
 // iterate back and forth over a  buffer. the utf8 must be valid, and
 // this doesn't check for zero or buffer overflow
 //
@@ -140,12 +146,14 @@ mulle_utf32_t   _mulle_utf8_previous_utf32character( mulle_utf8_t **s_p);
 
 
 // use this to walk through a utf8 string
+// returns -2 if malformed
 static inline mulle_utf32_t   mulle_utf8_next_utf32character( mulle_utf8_t **s_p)
 {
-   if( **s_p <= 0x7F)
+   if( mulle_utf8_is_asciicharacter( **s_p))
       return( *(*s_p)++);
    return( _mulle_utf8_next_utf32character( s_p));
 }
+
 
 
 // used in Foundation and maybe here in the future
@@ -192,6 +200,32 @@ static inline struct mulle_data
 }
 
 
+// changes contents of rover
+mulle_utf32_t   _mulle_utf8data_next_utf32character( struct mulle_utf8data *rover);
+mulle_utf32_t   __mulle_utf8data_next_utf32character( struct mulle_utf8data *rover, mulle_utf8_t c);
+
+// use this to walk through a utf8 string
+// changes contents of rover
+// returns -1 at end (not 0)
+// returns -2 if malformed
+static inline mulle_utf32_t   mulle_utf8data_next_utf32character( struct mulle_utf8data *rover)
+{
+   mulle_utf8_t   c;
+
+   if( ! rover->length)
+      return( -1);
+   c = *rover->characters;
+   if( mulle_utf8_is_asciicharacter( c))
+   {
+      rover->characters++;
+      rover->length--;
+      return( c);
+   }
+
+   return( __mulle_utf8data_next_utf32character( rover, c));
+}
+
+
 
 mulle_utf32_t   *_mulle_utf8_convert_to_utf32( mulle_utf8_t *src,
                                                size_t len,
@@ -199,7 +233,7 @@ mulle_utf32_t   *_mulle_utf8_convert_to_utf32( mulle_utf8_t *src,
 
 
 // low level conversion, no checks dst is assumed to be wide enough
-// returns end of dst
+// returns end of dst, len can't be -1
 mulle_utf16_t   *_mulle_utf8_convert_to_utf16( mulle_utf8_t *src,
                                                size_t len,
                                                mulle_utf16_t *dst);
@@ -211,7 +245,7 @@ mulle_utf32_t   *_mulle_utf8_convert_to_utf32( mulle_utf8_t *src,
 // You can supply a "mulle-buffer" here as "buffer" and mulle_buffer_add_bytes
 // as the callback.
 // These routines do not skip BOM characters. And don't check for validity.
-// The input must be correct!
+// The input must be correct! These routines do not add a trailing zero.
 //
 void   mulle_utf8_bufferconvert_to_utf16( mulle_utf8_t *src,
                                           size_t len,
@@ -225,6 +259,31 @@ void   mulle_utf8_bufferconvert_to_utf32( mulle_utf8_t *src,
                                           mulle_utf_add_bytes_function_t addbytes);
 
 
+//
+// dst should be 2 * len
+// These routines do not add a trailing zero. (untested)
+mulle_utf8_t   *_mulle_iso1_convert_to_utf8( char *src,
+                                             size_t len,
+                                             mulle_utf8_t *dst);
+
+// as above but for macroman
+mulle_utf8_t   *_mulle_macroman_convert_to_utf8( char *macroman,
+                                                 size_t len,
+                                                 mulle_utf8_t *dst);
+
+// as above but for nextstep
+mulle_utf8_t   *_mulle_nextstep_convert_to_utf8( char *nextstep,
+                                                 size_t len,
+                                                 mulle_utf8_t *dst);
+//
+// latin iso1 this len, will bail if it can't covert (return NULL) and unknown
+// is -1. If unknown is 0, will just skip. Otherwise will replace with unknown.
+// dst must be same len.
+// These routines do not add a trailing zero. (untested)
+char   *_mulle_utf8_convert_to_iso1( mulle_utf8_t *src,
+                                     size_t len,
+                                     char *dst,
+                                     int unknown);
 
 //
 // data may not have a bom
