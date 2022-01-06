@@ -21,6 +21,11 @@
 
 #include "_mulle-utf-include.h"
 
+#ifndef MULLE_UTF_EXTERN_GLOBAL
+# define MULLE_UTF_EXTERN_GLOBAL MULLE_C_EXTERN_GLOBAL
+#endif
+
+
 /* You can add some more include statements here */
 
 #endif

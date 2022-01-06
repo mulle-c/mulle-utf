@@ -1,3 +1,8 @@
+## 3.1.0
+
+* added iso, nextstep, macroman converter
+
+
 ### 3.0.1
 
 * added  function
