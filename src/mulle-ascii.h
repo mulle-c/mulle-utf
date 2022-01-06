@@ -50,7 +50,8 @@ struct mulle_asciidata
 };
 
 
-static inline struct mulle_asciidata   mulle_asciidata_make( char *s, size_t length)
+static inline struct mulle_asciidata
+   mulle_asciidata_make( char *s, size_t length)
 {
    struct mulle_asciidata   data;
 
@@ -63,19 +64,23 @@ static inline struct mulle_asciidata   mulle_asciidata_make( char *s, size_t len
 
 // low level conversion, no checks dst is assumed to be wide enough
 // returns end of dst
+MULLE_UTF_EXTERN_GLOBAL
 mulle_utf16_t   *_mulle_ascii_convert_to_utf16( char *src,
                                                 size_t len,
                                                 mulle_utf16_t *dst);
 
+MULLE_UTF_EXTERN_GLOBAL
 mulle_utf32_t   *_mulle_ascii_convert_to_utf32( char *src,
                                                 size_t len,
                                                 mulle_utf32_t *dst);
 
+MULLE_UTF_EXTERN_GLOBAL
 void   mulle_ascii_bufferconvert_to_utf16( char *src,
                                            size_t len,
                                            void *buffer,
                                            mulle_utf_add_bytes_function_t addbytes);
 
+MULLE_UTF_EXTERN_GLOBAL
 void   mulle_ascii_bufferconvert_to_utf32( char *src,
                                            size_t len,
                                            void *buffer,

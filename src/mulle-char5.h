@@ -24,6 +24,7 @@
 // 32 bit can hold up to 6 chars  with 2 bits left over
 // 64 bit can hold up to 12 chars with 4 bits left over
 //
+MULLE_UTF_EXTERN_GLOBAL
 int   mulle_char5_encode_character( int c);
 
 // this is usually faster
@@ -70,22 +71,34 @@ static inline int   mulle_char5_decode_character( int c)
 }
 
 
+MULLE_UTF_EXTERN_GLOBAL
 int   mulle_char5_is_char5string32( char *src, size_t len);
+MULLE_UTF_EXTERN_GLOBAL
 int   mulle_char5_is_char5string64( char *src, size_t len);
 
+MULLE_UTF_EXTERN_GLOBAL
 uint32_t   mulle_char5_encode32( char *src, size_t len);
+MULLE_UTF_EXTERN_GLOBAL
 uint64_t   mulle_char5_encode64( char *src, size_t len);
 
+MULLE_UTF_EXTERN_GLOBAL
 uint32_t   mulle_char5_encode32_utf16( mulle_utf16_t *src, size_t len);
+MULLE_UTF_EXTERN_GLOBAL
 uint64_t   mulle_char5_encode64_utf16( mulle_utf16_t *src, size_t len);
 
+MULLE_UTF_EXTERN_GLOBAL
 uint32_t   mulle_char5_encode32_utf32( mulle_utf32_t *src, size_t len);
+MULLE_UTF_EXTERN_GLOBAL
 uint64_t   mulle_char5_encode64_utf32( mulle_utf32_t *src, size_t len);
 
+MULLE_UTF_EXTERN_GLOBAL
 size_t   mulle_char5_decode32( uint32_t value, char *dst, size_t len);
+MULLE_UTF_EXTERN_GLOBAL
 size_t   mulle_char5_decode64( uint64_t value, char *src, size_t len);
 
+MULLE_UTF_EXTERN_GLOBAL
 int   mulle_char5_get64( uint64_t value, unsigned int index);
+MULLE_UTF_EXTERN_GLOBAL
 int   mulle_char5_get32( uint32_t value, unsigned int index);
 
 
@@ -205,7 +218,6 @@ static inline size_t  mulle_char5_fstrlen32( uint32_t value)
 }
 
 
-
 static inline uint64_t   mulle_char5_substring64( uint64_t value, unsigned int location, unsigned int length)
 {
    assert( location + length <= mulle_char5_strlen64( value));
@@ -291,7 +303,6 @@ static inline size_t   mulle_char5_strlen( mulle_char5_t value)
 }
 
 
-
 static inline size_t   mulle_char5_fstrlen( mulle_char5_t value)
 {
    if( sizeof( mulle_char5_t) == sizeof( uint32_t))
@@ -316,8 +327,6 @@ static inline mulle_char5_t  mulle_char5_substring( mulle_char5_t value,
       return( (mulle_char5_t) mulle_char5_substring32( (uint32_t) value, location, length));
    return( (mulle_char5_t) mulle_char5_substring64( value, location, length));
 }
-
-
 
 
 static inline uint32_t   _mulle_char5_fnv1a_32( uint32_t value)
