@@ -15,8 +15,11 @@
 #include <assert.h>
 
 
+MULLE_UTF_EXTERN_GLOBAL
 int   mulle_utf16_is_noncharacter( mulle_utf16_t c);
+MULLE_UTF_EXTERN_GLOBAL
 int   mulle_utf32_is_noncharacter( mulle_utf32_t c);
+MULLE_UTF_EXTERN_GLOBAL
 int   mulle_utf_is_noncharacterplane( unsigned int plane);
 
 
@@ -71,7 +74,9 @@ static inline int   mulle_utf32_is_invalidcharacter( mulle_utf32_t c)
 }
 
 
-static inline void  mulle_utf32_encode_surrogatepair( mulle_utf32_t x, mulle_utf16_t *hi, mulle_utf16_t *lo)
+static inline void  mulle_utf32_encode_surrogatepair( mulle_utf32_t x,
+                                                      mulle_utf16_t *hi,
+                                                      mulle_utf16_t *lo)
 {
    mulle_utf16_t  top;
    mulle_utf16_t  bottom;
@@ -93,7 +98,8 @@ static inline void  mulle_utf32_encode_surrogatepair( mulle_utf32_t x, mulle_utf
 }
 
 
-static inline mulle_utf32_t  mulle_utf16_decode_surrogatepair( mulle_utf16_t hi, mulle_utf16_t lo)
+static inline mulle_utf32_t  mulle_utf16_decode_surrogatepair( mulle_utf16_t hi,
+                                                               mulle_utf16_t lo)
 {
    mulle_utf32_t   top;
    mulle_utf32_t   bottom;

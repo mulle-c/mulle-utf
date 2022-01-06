@@ -35,6 +35,7 @@ src/include-private.h
 set( PUBLIC_GENERATED_HEADERS
 src/reflect/_mulle-utf-include.h
 src/reflect/_mulle-utf-provide.h
+src/reflect/_mulle-utf-versioncheck.h
 )
 
 #

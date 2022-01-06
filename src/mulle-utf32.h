@@ -73,13 +73,16 @@ static inline int   mulle_utf32_is_char5character( mulle_utf32_t c)
 }
 
 
+MULLE_UTF_EXTERN_GLOBAL
 size_t   mulle_utf32_utf8length( mulle_utf32_t *src,
                                  size_t len);
 
+MULLE_UTF_EXTERN_GLOBAL
 int   mulle_utf32_information( mulle_utf32_t *src,
                                size_t len,
                                struct mulle_utf_information *info);
 
+MULLE_UTF_EXTERN_GLOBAL
 mulle_utf32_t  *mulle_utf32_validate( mulle_utf32_t *src, size_t len);
 
 //
@@ -99,28 +102,34 @@ static inline mulle_utf32_t   _mulle_utf32_previous_utf32character( mulle_utf32_
 
 // low level conversion, no checks dst is assumed to be wide enough
 // returns end of dst
+MULLE_UTF_EXTERN_GLOBAL
 mulle_utf16_t  *_mulle_utf32_convert_to_utf16_as_surrogatepair( mulle_utf32_t x,
                                                                 mulle_utf16_t *dst);
 
+MULLE_UTF_EXTERN_GLOBAL
 mulle_utf16_t   *_mulle_utf32_convert_to_utf16( mulle_utf32_t *src,
                                                 size_t len,
                                                 mulle_utf16_t *dst);
+MULLE_UTF_EXTERN_GLOBAL
 mulle_utf8_t  *_mulle_utf32_convert_to_utf8( mulle_utf32_t *src,
                                              size_t len,
                                              mulle_utf8_t *dst);
 
 // these routines do not skip BOM characters
+MULLE_UTF_EXTERN_GLOBAL
 void   mulle_utf32_bufferconvert_to_utf8( mulle_utf32_t *src,
                                           size_t len,
                                           void *buffer,
                                           mulle_utf_add_bytes_function_t addbytes);
 
+MULLE_UTF_EXTERN_GLOBAL
 void   mulle_utf32_bufferconvert_to_utf16( mulle_utf32_t *src,
                                            size_t len,
                                            void *buffer,
                                            mulle_utf_add_bytes_function_t addbytes);
 
 
+MULLE_UTF_EXTERN_GLOBAL
 void
    mulle_utf32_bufferconvert_to_utf16_as_surrogatepair(
                        mulle_utf32_t x,
@@ -128,6 +137,7 @@ void
                        void (*addbytes)( void *buffer, void *bytes, size_t size));
 
 
+MULLE_UTF_EXTERN_GLOBAL
 mulle_utf8_t   *_mulle_utf32_as_utf8( mulle_utf32_t x, mulle_utf8_t *dst);
 
 // no error checks whatsoever
@@ -144,6 +154,7 @@ static inline mulle_utf8_t   *mulle_utf32_as_utf8( mulle_utf32_t x, mulle_utf8_t
 
 
 
+MULLE_UTF_EXTERN_GLOBAL
 enum mulle_utf_charinfo   _mulle_utf32_charinfo( mulle_utf32_t *src, size_t len);
 
 #endif

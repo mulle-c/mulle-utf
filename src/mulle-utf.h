@@ -37,7 +37,7 @@
 #ifndef mulle_utf_h__
 #define mulle_utf_h__
 
-#define MULLE_UTF_VERSION  ((3 << 20) | (0 << 8) | 1)
+#define MULLE_UTF_VERSION  ((3 << 20) | (1 << 8) | 0)
 
 #include "include.h"
 
@@ -58,5 +58,11 @@
 #include "mulle-utf-rover.h"
 #include "mulle-utf-scan.h"
 
+
+#ifdef __has_include
+# if __has_include( "_mulle-utf-versioncheck.h")
+#  include "_mulle-utf-versioncheck.h"
+# endif
+#endif
 
 #endif /* mulle_utf_h */
