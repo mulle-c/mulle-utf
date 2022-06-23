@@ -15,11 +15,11 @@
 #include <assert.h>
 
 
-MULLE_UTF_EXTERN_GLOBAL
+MULLE_UTF_GLOBAL
 int   mulle_utf16_is_noncharacter( mulle_utf16_t c);
-MULLE_UTF_EXTERN_GLOBAL
+MULLE_UTF_GLOBAL
 int   mulle_utf32_is_noncharacter( mulle_utf32_t c);
-MULLE_UTF_EXTERN_GLOBAL
+MULLE_UTF_GLOBAL
 int   mulle_utf_is_noncharacterplane( unsigned int plane);
 
 
