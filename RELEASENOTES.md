@@ -1,3 +1,8 @@
+### 3.1.1
+
+* GLOBAL change for Windows
+* fix GLOBAL for Windows
+
 ## 3.1.0
 
 * added iso, nextstep, macroman converter
