@@ -10,7 +10,7 @@ It is the backbone of **NSString**.
 
 | Release Version
 |-----------------------------------
-| ![Mulle kybernetiK tag](https://img.shields.io/github/tag/mulle-c/mulle-utf.svg?branch=release) [![Build Status](https://github.com/mulle-c/mulle-utf/workflows/CI/badge.svg?branch=release)](https://github.com/mulle-c/mulle-utf/actions)
+| ![Mulle kybernetiK tag](//img.shields.io/github/tag/mulle-c/mulle-utf.svg?branch=release) [![Build Status](//github.com/mulle-c/mulle-utf/workflows/CI/badge.svg?branch=release)](//github.com/mulle-c/mulle-utf/actions)
 
 
 ## Encode strings as integers
@@ -69,7 +69,7 @@ Use [mulle-sde](//github.com/mulle-sde) to build and install mulle-utf and all d
 
 ```
 mulle-sde install --linkorder --prefix /usr/local \
-   https://github.com/mulle-c/mulle-utf/archive/latest.tar.gz
+   //github.com/mulle-c/mulle-utf/archive/latest.tar.gz
 ```
 
 ### Manual Installation
