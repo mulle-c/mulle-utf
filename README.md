@@ -10,7 +10,7 @@ It is the backbone of **NSString**.
 
 | Release Version
 |-----------------------------------
-| ![Mulle kybernetiK tag](//img.shields.io/github/tag/mulle-c/mulle-utf.svg?branch=release) [![Build Status](//github.com/mulle-c/mulle-utf/workflows/CI/badge.svg?branch=release)](//github.com/mulle-c/mulle-utf/actions)
+| ![Mulle kybernetiK tag](https://img.shields.io/github/tag/mulle-c/mulle-utf.svg?branch=release) [![Build Status](https://github.com/mulle-c/mulle-utf/workflows/CI/badge.svg?branch=release)](//github.com/mulle-c/mulle-utf/actions)
 
 
 ## Encode strings as integers
