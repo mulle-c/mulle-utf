@@ -204,7 +204,6 @@ mulle_utf32_t   _mulle_utf8_next_utf32character( mulle_utf8_t **s_p)
 mulle_utf32_t   __mulle_utf8data_next_utf32character( struct mulle_utf8data *rover,
                                                       mulle_utf8_t c)
 {
-   mulle_utf8_t    *s;
    mulle_utf32_t   value;
    unsigned int    len;
 
@@ -224,10 +223,7 @@ mulle_utf32_t   __mulle_utf8data_next_utf32character( struct mulle_utf8data *rov
 
 mulle_utf32_t   _mulle_utf8data_next_utf32character( struct mulle_utf8data *rover)
 {
-   mulle_utf8_t    *s;
-   mulle_utf8_t    c;
-   mulle_utf32_t   value;
-   unsigned int    len;
+   mulle_utf8_t   c;
 
    if( ! rover->length)
       return( -1);
@@ -433,7 +429,6 @@ mulle_utf16_t   *_mulle_utf8_convert_to_utf16( mulle_utf8_t *src,
                                                size_t len,
                                                mulle_utf16_t *dst)
 {
-   mulle_utf16_t   _w;
    mulle_utf8_t    *next;
    mulle_utf8_t    *sentinel;
    mulle_utf8_t    _c;
@@ -483,7 +478,6 @@ mulle_utf32_t   *_mulle_utf8_convert_to_utf32( mulle_utf8_t *src,
    mulle_utf8_t   *sentinel;
    mulle_utf8_t   _c;
    size_t         extra_len;
-   mulle_utf32_t   x;
 
    assert( len != (size_t) -1);
 
@@ -818,7 +812,7 @@ int  mulle_utf8_information( mulle_utf8_t *src, size_t len, struct mulle_utf_inf
    }
 #endif
 
-done:
+//done:
    info->utf8len   = src - (mulle_utf8_t *) info->start;                // actual UTF8 strlen
    info->utf32len  = dst_len - (len - info->utf8len);  // number of characters
    info->utf16len += info->utf32len;                   // size in utf16 with escapes

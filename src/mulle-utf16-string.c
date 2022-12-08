@@ -235,6 +235,8 @@ static size_t   _mulle_utf16_strspn( mulle_utf16_t *s1, mulle_utf16_t *s2, int f
    size_t          s2_len;
    unsigned int    i;
 
+   assert( flag == 0 || flag == 1);
+
    start  = s1;
    s2_len = mulle_utf16_strlen( s2);
    if( ! s2_len)
@@ -269,7 +271,7 @@ static size_t   _mulle_utf16_strspn( mulle_utf16_t *s1, mulle_utf16_t *s2, int f
       --s1;
       while( tmp = s1, c = mulle_utf16_pull_surrogatepair( *++s1, &s1))
       {
-         if( ! bsearch( &c, buf, i, sizeof( mulle_utf32_t), compare_mulle_utf32_t) == flag)
+         if( (! bsearch( &c, buf, i, sizeof( mulle_utf32_t), compare_mulle_utf32_t)) == flag)
             break;
       }
       return( tmp + 1 - start);

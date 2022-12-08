@@ -14,7 +14,7 @@ popular characters.
 
 The string "a.reason" would be transformed into a 64 bit integer like this:
 
-```
+``` c
    ( mulle_char5_encode_character( 'n') << (7 * 5)) |
    ( mulle_char5_encode_character( 'o') << (6 * 5)) |
    ( mulle_char5_encode_character( 's') << (5 * 5)) |
@@ -33,7 +33,7 @@ On 32 bit systems the maximum string length is 6, on 64 bit systems it is 12.
 
 ## mulle_char5_get
 
-```
+``` c
 char  mulle_char5_get( mulle_char5_t value, unsigned int index);
 ```
 
@@ -43,7 +43,7 @@ returned value is 0.
 
 ### `mulle_char5_strlen`
 
-```
+``` c
 size_t  mulle_char5_strlen( uintptr_t value)
 ```
 
@@ -52,7 +52,7 @@ Retrieve the string length of `value`.
 
 ### `mulle_char5_get_maxlength`
 
-```
+``` c
 size_t  mulle_char5_get_maxlength( void)
 ```
 
@@ -61,7 +61,7 @@ Retrieve the maximum string length for `mulle_char5_t` on your system.
 
 ### `mulle_char5_substring`
 
-```
+``` c
 mulle_char5_t  mulle_char5_substring( mulle_char5_t value,
                                       unsigned int location,
                                       unsigned int length)
@@ -73,7 +73,7 @@ Range errors are ignored unless compiling with `asserts` enabled.
 
 ### `mulle_char5_is_char5string`
 
-```
+``` c
 int   mulle_char5_is_char5string( char *src, size_t len)
 ```
 
@@ -82,7 +82,7 @@ Check if string `src` of length `len` can be encoded as `mulle_char5_t`.
 
 ### `mulle_char5_encode`
 
-```
+``` c
 mulle_char5_t   mulle_char5_encode( char *src, size_t len)
 ```
 
@@ -94,7 +94,7 @@ is correct and that the string does not contain \0.
 
 ### `mulle_char5_decode`
 
-```
+``` c
 size_t  mulle_char5_decode( mulle_char5_t value, char *dst, size_t len)
 ```
 

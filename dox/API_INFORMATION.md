@@ -3,7 +3,7 @@
 The mulle-utf information functions uniformly analyze a string of `len`
 characters and fill a struct value:
 
-```
+``` c
 struct mulle_utf_information
 {
    size_t   utf8len;
@@ -19,18 +19,18 @@ struct mulle_utf_information
 };
 ```
 
-Field        | Description
--------------|---------------------------------------------------------
-utf8len      | Length of string if encoded as UTF8 without a BOM
-utf16len     | Length of string if encoded as UTF16 without a BOM
-utf32len     | Length of string if encoded as UTF32 without a BOM
-start        | Start of string, past a possibly leading BOM
-invalid      | The character, that makes the given string invalid UTF
-has_bom      | Set to one, if the string has a leading BOM
-is_ascii     | Set to one, if the string is compatble with ASCII (7 bit)
-is_char5     | Set to one, if the string is compatble with CHAR5 (5 bit)
-is_utf15     | Set to one, if the string is compatble with a 15 bit subset of UTF16
-has_terminating_zero | If the string is zero terminated
+| Field                  | Description                                             |
+|------------------------|---------------------------------------------------------|
+| `utf8len`              | Length of string if encoded as UTF8 without a BOM |
+| `utf16len`             | Length of string if encoded as UTF16 without a BOM |
+| `utf32len`             | Length of string if encoded as UTF32 without a BOM |
+| `start`                | Start of string, past a possibly leading BOM |
+| `invalid`              | The character, that makes the given string invalid UTF |
+| `has_bom`              | Set to one, if the string has a leading BOM |
+| `is_ascii`             | Set to one, if the string is compatble with ASCII (7 bit) |
+| `is_char5`             | Set to one, if the string is compatble with CHAR5 (5 bit) |
+| `is_utf15`             | Set to one, if the string is compatble with a 15 bit subset of UTF16 |
+| `has_terminating_zero` | If the string is zero terminated |
 
 
 # Functions
@@ -39,7 +39,7 @@ The information functions always skip the BOM.  If you use
 `mulle_utf32_information` and friends to figure out the lengths of
 strings in various decodings its easy to make this error:
 
-```
+``` c
    ...
    mulle_utf32_information( s, len, &info);
    ...
@@ -51,7 +51,7 @@ strings in various decodings its easy to make this error:
 
 It must be coded as:
 
-```
+``` c
    mulle_utf32_information( s, len, &info);
    ...
    mulle_utf32_bufferconvert_to_utf16( info.start, // !!!
@@ -62,7 +62,7 @@ It must be coded as:
 
 ## `mulle_utf8_information` et al.
 
-```
+``` c
 int  mulle_utf8_information( mulle_utf8_t *s, size_t len, struct mulle_utf_information *info);
 int  mulle_utf16_information( mulle_utf8_t *s, size_t len, struct mulle_utf_information *info);
 int  mulle_utf132_information( mulle_utf8_t *s, size_t len, struct mulle_utf_information *info);
