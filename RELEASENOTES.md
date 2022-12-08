@@ -1,3 +1,7 @@
+### 3.1.2
+
+* Various small improvements
+
 ### 3.1.1
 
 * GLOBAL change for Windows

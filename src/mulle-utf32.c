@@ -455,7 +455,6 @@ static inline int  mulle_utf32_is_invalid_char( mulle_utf32_t c)
 mulle_utf32_t  *mulle_utf32_validate( mulle_utf32_t *src, size_t len)
 {
    mulle_utf32_t   c;
-   mulle_utf32_t   d;
    mulle_utf32_t   *sentinel;
 
    if( ! src)

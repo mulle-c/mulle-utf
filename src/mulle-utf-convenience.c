@@ -269,14 +269,13 @@ int   _mulle_utf8_character_mogrify( struct mulle_utf8data *dst,
                                      struct mulle_utf8data *src,
                                      struct mulle_utf_mogrification_info *info)
 {
-   mulle_utf8_t             *p;
-   mulle_utf8_t             *q;
-   mulle_utf8_t             *p_sentinel;
-   mulle_utf8_t             *q_sentinel;
-   mulle_utf32_t            c;
-   mulle_utf32_t            d;
-   struct mulle_utf8data   buf;
-   size_t                   conversions;
+   mulle_utf8_t    *p;
+   mulle_utf8_t    *q;
+   mulle_utf8_t    *p_sentinel;
+   mulle_utf8_t    *q_sentinel;
+   mulle_utf32_t   c;
+   mulle_utf32_t   d;
+   size_t          conversions;
 
    assert( info);
    assert( dst);
@@ -316,13 +315,12 @@ int   _mulle_utf16_character_mogrify_unsafe( struct mulle_utf16data *dst,
                                              struct mulle_utf16data *src,
                                              struct mulle_utf_mogrification_info *info)
 {
-   mulle_utf16_t            *p;
-   mulle_utf16_t            *p_sentinel;
-   mulle_utf16_t            *q;
-   mulle_utf32_t            c;
-   mulle_utf32_t            d;
-   struct mulle_utf8data   buf;
-   size_t                   conversions;
+   mulle_utf16_t   *p;
+   mulle_utf16_t   *p_sentinel;
+   mulle_utf16_t   *q;
+   mulle_utf32_t   c;
+   mulle_utf32_t   d;
+   size_t          conversions;
 
    assert( info);
    assert( dst);
@@ -359,13 +357,12 @@ int   _mulle_utf16_character_mogrify( struct mulle_utf32data *dst,
                                       struct mulle_utf16data *src,
                                       struct mulle_utf_mogrification_info *info)
 {
-   mulle_utf16_t            *p;
-   mulle_utf16_t            *p_sentinel;
-   mulle_utf32_t            *q;
-   mulle_utf32_t            c;
-   mulle_utf32_t            d;
-   struct mulle_utf8data   buf;
-   size_t                   conversions;
+   mulle_utf16_t   *p;
+   mulle_utf16_t   *p_sentinel;
+   mulle_utf32_t   *q;
+   mulle_utf32_t   c;
+   mulle_utf32_t   d;
+   size_t          conversions;
 
    assert( info);
    assert( dst);
@@ -404,14 +401,12 @@ int   _mulle_utf32_character_mogrify( struct mulle_utf32data *dst,
                                       struct mulle_utf32data *src,
                                       struct mulle_utf_mogrification_info *info)
 {
-   mulle_utf32_t            *p;
-   mulle_utf32_t            *q;
-   mulle_utf32_t            *start;
-   mulle_utf32_t            *p_sentinel;
-   mulle_utf32_t            c;
-   mulle_utf32_t            d;
-   struct mulle_utf8data   buf;
-   size_t                   conversions;
+   mulle_utf32_t   *p;
+   mulle_utf32_t   *q;
+   mulle_utf32_t   *p_sentinel;
+   mulle_utf32_t   c;
+   mulle_utf32_t   d;
+   size_t          conversions;
 
    assert( info);
    assert( dst);
@@ -511,7 +506,6 @@ int   _mulle_utf16_word_mogrify( struct mulle_utf32data *dst,
    mulle_utf16_t   *p;
    mulle_utf16_t   *p_sentinel;
    mulle_utf32_t   *q;
-   mulle_utf32_t   *q_sentinel;
    size_t          conversions;
 
    assert( info);
@@ -576,7 +570,6 @@ int   _mulle_utf32_word_mogrify( struct mulle_utf32data *dst,
    mulle_utf32_t   *p;
    mulle_utf32_t   *q;
    mulle_utf32_t   *p_sentinel;
-   mulle_utf32_t   *q_sentinel;
    size_t          conversions;
 
    assert( info);

@@ -48,7 +48,6 @@ mulle_utf16_t   *_mulle_ascii_convert_to_utf16( char *src,
                                                 size_t len,
                                                 mulle_utf16_t *dst)
 {
-   char   *next;
    char   *sentinel;
    char   _c;
 
@@ -70,7 +69,6 @@ mulle_utf32_t   *_mulle_ascii_convert_to_utf32( char *src,
                                                 size_t len,
                                                 mulle_utf32_t *dst)
 {
-   char   *next;
    char   *sentinel;
    char   _c;
 
