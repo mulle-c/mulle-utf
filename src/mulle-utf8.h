@@ -186,7 +186,7 @@ static inline struct mulle_utf8data
    struct mulle_utf8data   data;
 
    data.characters = s;
-   data.length     = length;
+   data.length     = (length == -1) ? mulle_utf8_strlen( s) : length;
    return( data);
 }
 
