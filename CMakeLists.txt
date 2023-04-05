@@ -1,4 +1,4 @@
-cmake_minimum_required( VERSION 3.15)
+cmake_minimum_required( VERSION 3.14)
 
 project( mulle-utf C)
 
@@ -20,8 +20,8 @@ include( Files)
 
 if( HEADERS_PHASE)
    install( FILES ${INSTALL_PUBLIC_HEADERS}  DESTINATION "include/mulle-utf")
-   install( FILES ${INSTALL_PRIVATE_HEADERS} DESTINATION "include/mulle-utf/private")
-   install( FILES ${CMAKE_INCLUDES}          DESTINATION "include/mulle-utf/cmake")
+   install( FILES ${INSTALL_PRIVATE_HEADERS} DESTINATION "include/mulle-utf")
+   install( FILES ${INSTALL_CMAKE_INCLUDES}          DESTINATION "include/mulle-utf/cmake")
 
    # short cut out
    if( NOT COMPILE_PHASE AND NOT LINK_PHASE)
