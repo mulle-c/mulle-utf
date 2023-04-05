@@ -388,8 +388,6 @@ size_t  mulle_utf16_length( mulle_utf16_t *src, size_t len)
    mulle_utf16_t   *sentinel;
    size_t          dst_len;
 
-   assert( sizeof( wchar_t) == sizeof( mulle_utf16_t));
-
    if( len == (size_t) -1)
       len = mulle_utf16_strlen( src);
 

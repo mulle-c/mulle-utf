@@ -1,0 +1,24 @@
+{
+   project =
+   {
+      description="🔤 UTF8-16-32 analysis and manipulation library";
+      domain="github";
+      name="mulle-utf";
+      user="mulle-c";
+      repo="mulle-utf";
+      homepage="https://github.com/mulle-c/mulle-utf";
+      license="BSD-3-Clause"
+   };
+   dependencies =
+   (
+      {
+         name="mulle-allocator";
+         url="https://github.com/mulle-c/mulle-allocator";
+      },
+      {
+         name="mulle-data";
+         url="https://github.com/mulle-c/mulle-data";
+         description="#️⃣ A collection of hash functions";
+      }
+   )
+}
