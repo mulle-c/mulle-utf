@@ -12,14 +12,22 @@ It is the backbone of **NSString**.
 
 
 ## API
-| Documentation                          | Description                            |
-|----------------------------------------|----------------------------------------|
-| [`mulle_char7`](dox/API_CHAR7.md)      | Encode small ASCII strings into integers |
+
+| Documentation                          | Description                                      |
+|----------------------------------------|--------------------------------------------------|
+| [`mulle_char7`](dox/API_CHAR7.md)      | Encode small ASCII strings into integers         |
 | [`mulle_char5`](dox/API_CHAR5.md)      | Encode some more smallish ASCII strings integers |
-| [ctype](dox/API_CTYPE.md)              | Character type information |
-| [conversion](dox/API_CONVERSION.md)    | Character and string conversions |
-| [information](dox/API_INFORMATION.md)  | Analyze and classify string encodings |
-| [string](dox/API_STRING.md)            | Primitive UTF16 and UTF32 string handling |
+| [ctype](dox/API_CTYPE.md)              | Character type information                       |
+| [conversion](dox/API_CONVERSION.md)    | Character and string conversions                 |
+| [information](dox/API_INFORMATION.md)  | Analyze and classify string encodings            |
+| [string](dox/API_STRING.md)            | Primitive UTF16 and UTF32 string handling        |
+
+
+
+
+### You are here
+
+![Overview](overview.dot.svg)
 
 
 
@@ -75,10 +83,10 @@ cmake --build build --config Release &&
 cmake --install build --config Release
 ```
 
+
 ## Author
 
-[Nat!](//www.mulle-kybernetik.com/weblog) for
-[Mulle kybernetiK](//www.mulle-kybernetik.com) and
-[Codeon GmbH](//www.codeon.de)
+[Nat!](https://mulle-kybernetik.com/weblog) for Mulle kybernetiK
+
 
 
