@@ -17,6 +17,49 @@ src/reflect
 )
 
 #
+# contents selected with patternfile ??-header--other-headers
+#
+set( OTHER_HEADERS
+src/unicode/isalphanumeric-utf16-inv.inc
+src/unicode/isalphanumeric-utf32-inv.inc
+src/unicode/iscapitalized-utf16.inc
+src/unicode/iscontrol-utf16.inc
+src/unicode/iscontrol-utf32.inc
+src/unicode/isdecimaldigit-utf16.inc
+src/unicode/isdecimaldigit-utf32.inc
+src/unicode/isdecomposable-utf16.inc
+src/unicode/isdecomposable-utf32.inc
+src/unicode/isdigit-utf16.inc
+src/unicode/isdigit-utf32.inc
+src/unicode/islegal-utf16.inc
+src/unicode/islegal-utf32.inc
+src/unicode/isletter-utf16-inv.inc
+src/unicode/isletter-utf32-inv.inc
+src/unicode/islowercase-utf16.inc
+src/unicode/islowercase-utf32.inc
+src/unicode/isnonbase-utf16.inc
+src/unicode/isnonbase-utf32.inc
+src/unicode/isnumeric-utf16.inc
+src/unicode/isnumeric-utf32.inc
+src/unicode/isprivate-utf16.inc
+src/unicode/isprivate-utf32.inc
+src/unicode/ispunctuation-utf16.inc
+src/unicode/ispunctuation-utf32.inc
+src/unicode/isseparator-utf16.inc
+src/unicode/issymbol-utf16.inc
+src/unicode/issymbol-utf32.inc
+src/unicode/isuppercase-utf16.inc
+src/unicode/isuppercase-utf32.inc
+src/unicode/iswhitespace-utf16.inc
+src/unicode/tolower-utf16.inc
+src/unicode/tolower-utf32.inc
+src/unicode/totitlecase-utf16.inc
+src/unicode/totitlecase-utf32.inc
+src/unicode/toupper-utf16.inc
+src/unicode/toupper-utf32.inc
+)
+
+#
 # contents selected with patternfile ??-header--private-generated-headers
 #
 set( PRIVATE_GENERATED_HEADERS
