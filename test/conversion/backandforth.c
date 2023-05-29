@@ -40,7 +40,7 @@ struct buffer
       mulle_utf16_t   _16[ 16];
       mulle_utf8_t    _8[ 32];
    } text;
-   size_t         n;
+   size_t             n;
 };
 
 
@@ -132,7 +132,7 @@ static void   test_conversion( mulle_utf32_t text[ 4])
    // buffer.n is bytes!
    if( buffer32.n != 16 || memcmp( text, buffer32.text._32, 4))
    {
-      printf( "failed with %ls\n", text);
+      printf( "utf32 to utf8 and back failed with %ls\n", text);
       abort();
    }
 
@@ -145,8 +145,8 @@ static void   test_conversion( mulle_utf32_t text[ 4])
    // buffer.n is bytes!
    if( buffer32.n != 16 || memcmp( text, buffer32.text._32, 4))
    {
-      printf( "failed with %ls\n", text);
-      return;
+      printf( "utf32 to utf16 failed with %ls\n", text);
+      abort();
    }
 
    memset( &buffer32, 0, sizeof( buffer32));
@@ -163,8 +163,8 @@ static void   test_conversion( mulle_utf32_t text[ 4])
    // buffer.n is bytes!
    if( buffer32.n != 16 || memcmp( text, buffer32.text._32, 4))
    {
-      printf( "failed with %S\n", text);
-      return;
+      printf( "utf32 to utf16 to utf8 to utf16 failed with %S\n", text);
+      abort();
    }
 }
 

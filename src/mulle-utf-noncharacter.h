@@ -15,11 +15,11 @@
 #include <assert.h>
 
 
-MULLE_UTF_GLOBAL
+MULLE__UTF_GLOBAL
 int   mulle_utf16_is_noncharacter( mulle_utf16_t c);
-MULLE_UTF_GLOBAL
+MULLE__UTF_GLOBAL
 int   mulle_utf32_is_noncharacter( mulle_utf32_t c);
-MULLE_UTF_GLOBAL
+MULLE__UTF_GLOBAL
 int   mulle_utf_is_noncharacterplane( unsigned int plane);
 
 
@@ -70,7 +70,7 @@ static inline int   mulle_utf32_is_lowsurrogatecharacter( mulle_utf32_t x)
 // somewhat arbitrary
 static inline int   mulle_utf32_is_invalidcharacter( mulle_utf32_t c)
 {
-   return( mulle_utf32_is_noncharacter( c));   // utf-16 surrogate pair
+   return( mulle_utf32_is_noncharacter( c));   // e.g. utf-16 surrogate pair
 }
 
 
