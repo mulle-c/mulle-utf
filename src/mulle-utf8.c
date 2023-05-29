@@ -513,28 +513,37 @@ void   mulle_utf8_bufferconvert_to_utf16( mulle_utf8_t *src,
                                           void *buffer,
                                           mulle_utf_add_bytes_function_t addbytes)
 {
-   mulle_utf16_t   _w;
    mulle_utf8_t    *next;
    mulle_utf8_t    *sentinel;
    mulle_utf8_t    _c;
    size_t          extra_len;
    uint32_t        x;
+   mulle_utf16_t   *s;
+   mulle_utf16_t   *s_flush;
+   mulle_utf16_t   tmp[ 64];
 
-   if( len == (size_t) -1)
+   if( len == (size_t) - 1)
       len = mulle_utf8_strlen( src);
    // if dst_len == -1, then sentinel - 1 = dst_sentinel (OK!)
 
    sentinel = &src[ len];
+   s        = tmp;
+   s_flush  = &tmp[ sizeof( tmp) / sizeof( mulle_utf16_t) - 2];
 
    while( src < sentinel)
    {
+      if( s >= s_flush)
+      {
+         (*addbytes)( buffer, tmp, (s - tmp) * sizeof( mulle_utf16_t));
+         s = tmp;
+      }
+
       _c = *src++;
       assert( mulle_utf8_get_startcharactertype( _c) != mulle_utf8_invalid_start_character);
 
       if( (char) _c >= 0)
       {
-         _w = (uint16_t) _c;
-         (*addbytes)( buffer, &_w, sizeof( _w));
+         *s++ = (uint16_t) _c;
          continue;
       }
 
@@ -546,13 +555,15 @@ void   mulle_utf8_bufferconvert_to_utf16( mulle_utf8_t *src,
       src = next;
       if( x < 0x10000)
       {
-         _w = (uint16_t) x;
-         (*addbytes)( buffer, &_w, sizeof( _w));
+         *s++ = (uint16_t) x;
          continue;
       }
 
-      mulle_utf32_bufferconvert_to_utf16_as_surrogatepair( x, buffer, addbytes);
+      s = _mulle_utf32_convert_to_utf16_as_surrogatepair( x, s);
    }
+
+   if( s != tmp)
+      (*addbytes)( buffer, tmp, (s - tmp) * sizeof( mulle_utf16_t));
 }
 
 //
@@ -567,13 +578,17 @@ void  mulle_utf8_bufferconvert_to_utf32( mulle_utf8_t *src,
    mulle_utf8_t   *sentinel;
    mulle_utf8_t   _c;
    size_t         extra_len;
-   mulle_utf32_t   x;
+   mulle_utf32_t  *s;
+   mulle_utf32_t  *s_flush;
+   mulle_utf32_t  tmp[ 32];
 
    if( len == (size_t) -1)
       len = mulle_utf8_strlen( src);
    // if dst_len == -1, then sentinel - 1 = dst_sentinel (OK!)
 
    sentinel = &src[ len];
+   s        = tmp;
+   s_flush  = &tmp[ sizeof( tmp) / sizeof( mulle_utf32_t)];
 
    while( src < sentinel)
    {
@@ -582,19 +597,27 @@ void  mulle_utf8_bufferconvert_to_utf32( mulle_utf8_t *src,
 
       if( (char) _c >= 0)
       {
-         x = _c;
-         (*addbytes)( buffer, &x, sizeof( x));
-         continue;
+         *s++ = _c;
+      }
+      else
+      {
+         extra_len = mulle_utf8_get_extracharacterslength( _c);
+         next      = &src[ extra_len];
+         assert( next <= sentinel);
+
+         *s++ = mulle_utf8_extracharactersvalue( src - 1, extra_len);
+         src  = next;
       }
 
-      extra_len = mulle_utf8_get_extracharacterslength( _c);
-      next      = &src[ extra_len];
-      assert( next <= sentinel);
-
-      x   = mulle_utf8_extracharactersvalue( src - 1, extra_len);
-      src = next;
-      (*addbytes)( buffer, &x, sizeof( x));
+      if( s == s_flush)
+      {
+         (*addbytes)( buffer, tmp, sizeof( tmp));
+         s = tmp;
+      }
    }
+
+   if( s != tmp)
+      (*addbytes)( buffer, tmp, (s - tmp) * sizeof( mulle_utf32_t));
 }
 
 
@@ -718,7 +741,7 @@ int  mulle_utf8_information( mulle_utf8_t *src, size_t len, struct mulle_utf_inf
       }
    }
 
-   /* known not to be not is_char5 */
+   /* known not to be is_char5 */
    for( ; src < sentinel; _c = *++src)
    {
       if( ! _c)
@@ -734,7 +757,7 @@ int  mulle_utf8_information( mulle_utf8_t *src, size_t len, struct mulle_utf_inf
       }
    }
 
-   /* known not to be not is_ascii */
+   /* known not to be is_ascii */
    for( ; src < sentinel; _c = *++src)
    {
       if( mulle_utf8_is_asciicharacter( _c))
@@ -813,9 +836,9 @@ int  mulle_utf8_information( mulle_utf8_t *src, size_t len, struct mulle_utf_inf
 #endif
 
 //done:
-   info->utf8len   = src - (mulle_utf8_t *) info->start;                // actual UTF8 strlen
-   info->utf32len  = dst_len - (len - info->utf8len);  // number of characters
-   info->utf16len += info->utf32len;                   // size in utf16 with escapes
+   info->utf8len   = src - (mulle_utf8_t *) info->start; // actual UTF8 strlen
+   info->utf32len  = dst_len - (len - info->utf8len);    // number of characters
+   info->utf16len += info->utf32len;                     // size in utf16 with escapes
    info->is_char5 &= info->is_ascii;
 
    return( 0);
@@ -875,9 +898,54 @@ size_t  mulle_utf8_utf16length( mulle_utf8_t *src, size_t len)
       if( (char) _c >= 0)
          continue;
 
-      // 32 bit ?
-      if( _c >= 0xF0)
-         dst_len++;
+      extra_len = mulle_utf8_get_extracharacterslength( _c);
+      dst_len  -= extra_len == 3 ? 2 : extra_len; // ==3 : 32 bit
+
+      end       = &src[ extra_len];
+      if( end >= sentinel)
+         return( -1);
+#ifndef NDEBUG
+      do
+      {
+         _c = *++src;
+         assert( mulle_utf8_is_validcontinuationcharacter( _c));
+      }
+      while( src < end);
+#else
+      src = end;
+#endif
+   }
+   return( dst_len);
+}
+
+
+//
+// this routine does not validate...
+//
+size_t  mulle_utf8_utf32length( mulle_utf8_t *src, size_t len)
+{
+   mulle_utf8_t   _c;
+   mulle_utf8_t   *sentinel;
+   mulle_utf8_t   *end;
+   size_t          extra_len;
+   size_t          dst_len;
+
+   if( ! src)
+      return( 0);
+
+   if( len == (size_t) -1)
+      len = mulle_utf8_strlen( src);
+
+   sentinel = &src[ len];
+   dst_len  = len;
+
+   for( ; src < sentinel; src++)
+   {
+      _c = *src;
+      assert( mulle_utf8_get_startcharactertype( _c) != mulle_utf8_invalid_start_character);
+
+      if( (char) _c >= 0)
+         continue;
 
       extra_len = mulle_utf8_get_extracharacterslength( _c);
       dst_len  -= extra_len;
@@ -898,7 +966,6 @@ size_t  mulle_utf8_utf16length( mulle_utf8_t *src, size_t len)
    }
    return( dst_len);
 }
-
 
 
 
