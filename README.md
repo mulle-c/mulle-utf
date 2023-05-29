@@ -6,6 +6,7 @@ It is a C (C99) library to analyze and convert unicode strings. It also
 contains some limited `<string.h>` like functionality for UTF16 and UTF32.
 It is the backbone of **NSString**.
 
+
 | Release Version                                       | Release Notes
 |-------------------------------------------------------|--------------
 | ![Mulle kybernetiK tag](https://img.shields.io/github/tag/mulle-c/mulle-utf.svg?branch=release) [![Build Status](https://github.com/mulle-c/mulle-utf/workflows/CI/badge.svg?branch=release)](//github.com/mulle-c/mulle-utf/actions)| [RELEASENOTES](RELEASENOTES.md) |
@@ -34,6 +35,13 @@ It is the backbone of **NSString**.
 
 
 ## Add
+
+**This project is a component of the [mulle-core](//github.com/mulle-core/mulle-core) library. As such you usually will *not* add or install it
+individually, unless you specifically do not want to link against
+`mulle-core`.**
+
+
+### Add as an individual component
 
 Use [mulle-sde](//github.com/mulle-sde) to add mulle-utf to your project:
 

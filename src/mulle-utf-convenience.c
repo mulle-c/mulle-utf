@@ -18,16 +18,13 @@
 #include <errno.h>
 
 
-// len will be 1 to 4
+
 void  mulle_utf8_conversion_context_add_bytes( void *_p,
                                                void *bytes,
                                                size_t len)
 {
    struct mulle_utf8_conversion_context *p = _p;
-   mulle_utf8_t   *end;
-   mulle_utf8_t   *src;
-
-   assert( len >= 1 && len <= 4);
+   mulle_utf8_t                         *end;
 
    /* EOB reached ? */
    end = &p->buf[ len];
@@ -37,36 +34,42 @@ void  mulle_utf8_conversion_context_add_bytes( void *_p,
       return;
    }
 
-   src = bytes;
-   // probably faster then doing a memcpy, since we copy at most 4 bytes
-   while( p->buf < end)
-      *p->buf++ = *src++;
+   memcpy( p->buf, bytes, len);
 }
 
 
-// its much simpler since we get only a character at a time
-void  mulle_utf16_conversion_context_add_bytes( void  *_p,
-                                                void *bytes,
-                                                size_t len)
+void
+   mulle_utf16_conversion_context_add_bytes( void *_p, void *bytes, size_t len)
 {
    struct mulle_utf16_conversion_context *p = _p;
-   assert( len == sizeof( mulle_utf16_t));
+   mulle_utf16_t                         *end;
 
-   if( p->buf < p->sentinel)
-      *p->buf++ = *(mulle_utf16_t *) bytes;
+   end = &p->buf[ len / sizeof( mulle_utf16_t)];
+   if( end > p->sentinel)
+   {
+      p->sentinel = NULL; // ensure we don't add a late smaller character
+      return;
+   }
+
+   memcpy( p->buf, bytes, len);
 }
 
 
 
-void  mulle_utf32_conversion_context_add_bytes( void  *_p,
-                                                void *bytes,
-                                                size_t len)
+void
+   mulle_utf32_conversion_context_add_bytes( void *_p, void *bytes, size_t len)
 {
    struct mulle_utf32_conversion_context *p = _p;
-   assert( len == sizeof( mulle_utf32_t));
+   mulle_utf32_t                         *end;
 
-   if( p->buf < p->sentinel)
-      *p->buf++ = *(mulle_utf32_t *) bytes;
+   end = &p->buf[ len / sizeof( mulle_utf32_t)];
+   if( end > p->sentinel)
+   {
+      p->sentinel = NULL; // ensure we don't add a late smaller character
+      return;
+   }
+
+   memcpy( p->buf, bytes, len);
 }
 
 
