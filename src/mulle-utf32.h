@@ -151,9 +151,10 @@ static inline void
 
 
 MULLE__UTF_GLOBAL
-mulle_utf8_t   *_mulle_utf32_as_utf8( mulle_utf32_t x, mulle_utf8_t *dst);
+mulle_utf8_t   *_mulle_utf32_as_utf8_not_ascii( mulle_utf32_t x, mulle_utf8_t *dst);
 
 // no error checks whatsoever
+// returns end of `dst`
 static inline mulle_utf8_t   *mulle_utf32_as_utf8( mulle_utf32_t x, mulle_utf8_t *dst)
 {
    if( (uint32_t) x < 0x80)
@@ -161,7 +162,7 @@ static inline mulle_utf8_t   *mulle_utf32_as_utf8( mulle_utf32_t x, mulle_utf8_t
       *dst++ = (mulle_utf8_t) x;
       return( dst);
    }
-   return( _mulle_utf32_as_utf8( x, dst));
+   return( _mulle_utf32_as_utf8_not_ascii( x, dst));
 }
 
 

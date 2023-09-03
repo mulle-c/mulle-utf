@@ -189,8 +189,48 @@ static inline struct mulle_utf8data
    struct mulle_utf8data   data;
 
    data.characters = s;
-   data.length     = (length == -1) ? mulle_utf8_strlen( s) : length;
+   data.length     = (length == (size_t) -1) ? mulle_utf8_strlen( s) : length;
    return( data);
+}
+
+
+// keep this compatible with mulle-data
+static inline struct mulle_utf8data   mulle_utf8data_make_empty( void)
+{
+   struct mulle_utf8data   data;
+
+   data.characters = (mulle_utf8_t *) "";
+   data.length     = 0;
+   return( data);
+}
+
+// keep this compatible with mulle-data
+static inline struct mulle_utf8data   mulle_utf8data_make_invalid( void)
+{
+   struct mulle_utf8data   data;
+
+   data.characters = NULL;
+   data.length     = 0;
+   return( data);
+}
+
+
+
+static inline int   mulle_utf8data_is_empty( struct mulle_utf8data data)
+{
+   return( data.length == 0);
+}
+
+
+static inline int   mulle_utf8data_is_invalid( struct mulle_utf8data data)
+{
+   return( data.characters == NULL);
+}
+
+
+static inline void   mulle_utf8data_assert( struct mulle_utf8data data)
+{
+   assert( ! data.length || data.characters);
 }
 
 
@@ -200,22 +240,14 @@ static inline struct mulle_utf8data
 static inline struct mulle_utf8data
    mulle_data_as_utf8data( struct mulle_data data)
 {
-   struct mulle_utf8data   tmp;
-
-   tmp.characters = data.bytes;
-   tmp.length     = data.length;
-   return( tmp);
+   return( mulle_utf8data_make( data.bytes, data.length));
 }
 
 
 static inline struct mulle_data
    mulle_utf8data_as_data( struct mulle_utf8data data)
 {
-   struct mulle_data   tmp;
-
-   tmp.bytes  = data.characters;
-   tmp.length = data.length;
-   return( tmp);
+   return( mulle_data_make( data.characters, data.length));
 }
 
 
@@ -321,7 +353,8 @@ char   *_mulle_utf8_convert_to_iso1( mulle_utf8_t *src,
 // data may not have a bom
 //
 MULLE__UTF_GLOBAL
-struct mulle_utf8data   mulle_utf8data_range_of_utf32_range( struct mulle_utf8data,
-                                                             struct mulle_range range);
+struct mulle_utf8data
+   mulle_utf8data_range_of_utf32_range( struct mulle_utf8data,
+                                        struct mulle_range range);
 
 #endif
