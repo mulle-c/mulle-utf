@@ -1175,7 +1175,7 @@ static mulle_utf8_t   *_mulle_table_convert_to_utf8( char *macroman,
       }
 
       utf32 = table[ _c - 0x80];
-      dst   = _mulle_utf32_as_utf8( utf32, dst);
+      dst   = _mulle_utf32_as_utf8_not_ascii( utf32, dst);
    }
    return( dst);
 }
