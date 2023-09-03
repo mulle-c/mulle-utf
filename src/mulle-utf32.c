@@ -431,20 +431,15 @@ fail:
 
 
 
-mulle_utf8_t   *_mulle_utf32_as_utf8( mulle_utf32_t x, mulle_utf8_t *dst)
+mulle_utf8_t   *_mulle_utf32_as_utf8_not_ascii( mulle_utf32_t x, mulle_utf8_t *dst)
 {
    assert( x >= 0 && x <= mulle_utf32_max);
 
    if( x < 0x800)
    {
-      if( x >= 0x80)
-      {
-         *dst++ = 0xC0 | (mulle_utf8_t) (x >> 6);
-         *dst++ = 0x80 | (x & 0x3F);
-         return( dst);
-      }
-
-      *dst++ = (mulle_utf8_t) x;
+      assert( x >= 0x80);
+      *dst++ = 0xC0 | (mulle_utf8_t) (x >> 6);
+      *dst++ = 0x80 | (x & 0x3F);
       return( dst);
    }
 
@@ -464,9 +459,9 @@ mulle_utf8_t   *_mulle_utf32_as_utf8( mulle_utf32_t x, mulle_utf8_t *dst)
    *dst++ = 0x80 | ((x >> 12) & 0x3F);
    *dst++ = 0x80 | ((x >> 6) & 0x3F);
    *dst++ = 0x80 | (x & 0x3F);
-
    return( dst);
 }
+
 
 // same as mulle_utf16_is_invalid_char really
 static inline int  mulle_utf32_is_invalid_char( mulle_utf32_t c)
