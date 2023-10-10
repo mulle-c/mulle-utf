@@ -57,7 +57,7 @@
 //    3  : is unsigned long long but has trailing garbage
 //
 MULLE__UTF_GLOBAL
-int   _mulle_utf8_scan_longlong_decimal( mulle_utf8_t **p_s,
+int   _mulle_utf8_scan_longlong_decimal( char **p_s,
                                          size_t len,
                                          long long *p_value);
 

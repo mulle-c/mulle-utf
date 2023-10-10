@@ -39,7 +39,7 @@ struct buffer
    {
       mulle_utf32_t   _32[ 8];
       mulle_utf16_t   _16[ 16];
-      mulle_utf8_t    _8[ 32];
+      char    _8[ 32];
    } text;
    size_t   n;
 };
@@ -59,7 +59,7 @@ static void   test( mulle_utf32_t text[ 4])
    struct buffer   buffer8;
    mulle_utf32_t   *utf32;
    mulle_utf16_t   *utf16;
-   mulle_utf8_t    *utf8;
+   char    *utf8;
    mulle_utf32_t   c;
    unsigned int    i;
 
