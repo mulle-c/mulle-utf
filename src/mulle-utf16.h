@@ -131,9 +131,9 @@ mulle_utf32_t  *_mulle_utf16_convert_to_utf32( mulle_utf16_t *src,
                                                size_t len,
                                                mulle_utf32_t *dst);
 MULLE__UTF_GLOBAL
-mulle_utf8_t  *_mulle_utf16_convert_to_utf8( mulle_utf16_t *src,
+char  *_mulle_utf16_convert_to_utf8( mulle_utf16_t *src,
                                              size_t len,
-                                             mulle_utf8_t *dst);
+                                             char *dst);
 //
 // This will not stop on a zero. It will not by itself append a zero.
 // return value = 0  means OK!

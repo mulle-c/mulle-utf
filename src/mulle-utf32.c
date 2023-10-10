@@ -54,10 +54,9 @@ mulle_utf16_t  *_mulle_utf32_convert_to_utf16_as_surrogatepair( mulle_utf32_t x,
 
 
 // must be proper UTF32 code!
-mulle_utf8_t  *_mulle_utf32_convert_to_utf8( mulle_utf32_t *src,
-                                             size_t len,
-                                             mulle_utf8_t *dst)
+char  *_mulle_utf32_convert_to_utf8( mulle_utf32_t *src, size_t len, char *_dst)
 {
+   unsigned char   *dst = (unsigned char *) _dst;
    mulle_utf32_t   *sentinel;
    mulle_utf32_t   x;
 
@@ -74,10 +73,10 @@ mulle_utf8_t  *_mulle_utf32_convert_to_utf8( mulle_utf32_t *src,
       {
          if( x < 0x80)
          {
-            *dst++ = (mulle_utf8_t) x;
+            *dst++ = (unsigned char) x;
          }
 
-         *dst++ = 0xC0 | (mulle_utf8_t) (x >> 6);
+         *dst++ = 0xC0 | (unsigned char) (x >> 6);
          *dst++ = 0x80 | (x & 0x3F);
          continue;
       }
@@ -87,7 +86,7 @@ mulle_utf8_t  *_mulle_utf32_convert_to_utf8( mulle_utf32_t *src,
          {
             assert( ! mulle_utf32_is_surrogatecharacter( x));
 
-            *dst++ = 0xE0 | (mulle_utf8_t) (x >> 12);
+            *dst++ = 0xE0 | (unsigned char) (x >> 12);
             *dst++ = 0x80 | ((x >> 6) & 0x3F);
             *dst++ = 0x80 | (x & 0x3F);
             continue;
@@ -95,7 +94,7 @@ mulle_utf8_t  *_mulle_utf32_convert_to_utf8( mulle_utf32_t *src,
 
          assert( x <= 0x10FFFF);
 
-         *dst++ = 0xF0 | (mulle_utf8_t) (x >> 18);
+         *dst++ = 0xF0 | (unsigned char) (x >> 18);
          *dst++ = 0x80 | ((x >> 12) & 0x3F);
          *dst++ = 0x80 | ((x >> 6) & 0x3F);
          *dst++ = 0x80 | (x & 0x3F);
@@ -142,9 +141,9 @@ void  mulle_utf32_bufferconvert_to_utf8( mulle_utf32_t *src,
 {
    mulle_utf32_t   *sentinel;
    mulle_utf32_t   x;
-   mulle_utf8_t    *s;
-   mulle_utf8_t    *s_flush;
-   mulle_utf8_t    tmp[ 128];
+   unsigned char   *s;
+   unsigned char   *s_flush;
+   unsigned char   tmp[ 128];
 
    if( len == (size_t) -1)
       len = mulle_utf32_strlen( src);
@@ -153,7 +152,7 @@ void  mulle_utf32_bufferconvert_to_utf8( mulle_utf32_t *src,
 
    sentinel = &src[ len];
    s        = tmp;
-   s_flush  = &tmp[ sizeof( tmp) / sizeof( mulle_utf8_t) - 4];
+   s_flush  = &tmp[ sizeof( tmp) / sizeof( char) - 4];
 
    while( src < sentinel)
    {
@@ -169,11 +168,11 @@ void  mulle_utf32_bufferconvert_to_utf8( mulle_utf32_t *src,
       {
          if( x < 0x80)
          {
-            *s++ = (mulle_utf8_t) x;
+            *s++ = (unsigned char) x;
             continue;
          }
 
-         *s++ = 0xC0 | (mulle_utf8_t) (x >> 6);
+         *s++ = 0xC0 | (unsigned char) (x >> 6);
          *s++ = 0x80 | (x & 0x3F);
          continue;
       }
@@ -183,7 +182,7 @@ void  mulle_utf32_bufferconvert_to_utf8( mulle_utf32_t *src,
          {
             assert( ! mulle_utf32_is_surrogatecharacter( x));
 
-            *s++ = 0xE0 | (mulle_utf8_t) (x >> 12);
+            *s++ = 0xE0 | (unsigned char) (x >> 12);
             *s++ = 0x80 | ((x >> 6) & 0x3F);
             *s++ = 0x80 | (x & 0x3F);
             continue;
@@ -191,7 +190,7 @@ void  mulle_utf32_bufferconvert_to_utf8( mulle_utf32_t *src,
 
          assert( x <= 0x10FFFF);
 
-         *s++ = 0xF0 | (mulle_utf8_t) (x >> 18);
+         *s++ = 0xF0 | (unsigned char) (x >> 18);
          *s++ = 0x80 | ((x >> 12) & 0x3F);
          *s++ = 0x80 | ((x >> 6) & 0x3F);
          *s++ = 0x80 | (x & 0x3F);
@@ -431,14 +430,15 @@ fail:
 
 
 
-mulle_utf8_t   *_mulle_utf32_as_utf8_not_ascii( mulle_utf32_t x, mulle_utf8_t *dst)
+char   *_mulle_utf32_as_utf8_not_ascii( mulle_utf32_t x, char *_dst)
 {
+   unsigned char  *dst = (unsigned char *) _dst;
    assert( x >= 0 && x <= mulle_utf32_max);
 
    if( x < 0x800)
    {
       assert( x >= 0x80);
-      *dst++ = 0xC0 | (mulle_utf8_t) (x >> 6);
+      *dst++ = 0xC0 | (unsigned char) (x >> 6);
       *dst++ = 0x80 | (x & 0x3F);
       return( dst);
    }
@@ -447,7 +447,7 @@ mulle_utf8_t   *_mulle_utf32_as_utf8_not_ascii( mulle_utf32_t x, mulle_utf8_t *d
    {
       assert( ! mulle_utf32_is_surrogatecharacter( x));
 
-      *dst++ = 0xE0 | (mulle_utf8_t) (x >> 12);
+      *dst++ = 0xE0 | (unsigned char) (x >> 12);
       *dst++ = 0x80 | ((x >> 6) & 0x3F);
       *dst++ = 0x80 | (x & 0x3F);
       return( dst);
@@ -455,7 +455,7 @@ mulle_utf8_t   *_mulle_utf32_as_utf8_not_ascii( mulle_utf32_t x, mulle_utf8_t *d
 
    assert( x <= 0x10FFFF);
 
-   *dst++ = 0xF0 | (mulle_utf8_t) (x >> 18);
+   *dst++ = 0xF0 | (unsigned char) (x >> 18);
    *dst++ = 0x80 | ((x >> 12) & 0x3F);
    *dst++ = 0x80 | ((x >> 6) & 0x3F);
    *dst++ = 0x80 | (x & 0x3F);

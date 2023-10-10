@@ -6,7 +6,7 @@
 
 static mulle_utf16_t  text_with_emoji[] =
 {
-   0x0000003c, 0x0001f3b2, 0x0000003e, 0
+   0x003c, 0xd83c, 0xdfb2, 0x003e, 0x0000
 };
 
 static mulle_utf16_t  text_with_dollar[] =
@@ -26,7 +26,7 @@ static void   test( mulle_utf16_t *s)
 int  main()
 {
    test( text_with_emoji);
-   test( text_with_surrogate);
+   test( text_with_dollar);
    return( 0);
 }
 
