@@ -42,9 +42,9 @@
 #include <string.h>
 
 
-static inline int   mulle_utf8_is_asciicharacter( mulle_utf8_t c)
+static inline int   mulle_utf8_is_asciicharacter( char c)
 {
-   return( (char) c >= 0);
+   return( (unsigned char) c < 0x80);
 }
 
 
@@ -61,10 +61,10 @@ static inline int   mulle_utf8_is_asciicharacter( mulle_utf8_t c)
 // returned length does not include BOM
 //
 MULLE__UTF_GLOBAL
-size_t  mulle_utf8_utf16length( mulle_utf8_t *src, size_t len);
+size_t  mulle_utf8_utf16length( char *src, size_t len);
 
 MULLE__UTF_GLOBAL
-size_t  mulle_utf8_utf32length( mulle_utf8_t *src, size_t len);
+size_t  mulle_utf8_utf32length( char *src, size_t len);
 
 
 static inline size_t  mulle_utf8_utf16maxlength( size_t len)
@@ -73,19 +73,21 @@ static inline size_t  mulle_utf8_utf16maxlength( size_t len)
 }
 
 
-static inline int  mulle_utf8_has_leading_bomcharacter( mulle_utf8_t *src, size_t len)
+static inline int  mulle_utf8_has_leading_bomcharacter( char *src, size_t len)
 {
    if( len < 3)
       return( 0);
 
-   return( src[ 0] == 0xEF && src[ 1] == 0xBB && src[ 2] == 0xBF);
+   return( ((unsigned char *) src)[ 0] == 0xEF &&
+           ((unsigned char *) src)[ 1] == 0xBB &&
+           ((unsigned char *) src)[ 2] == 0xBF);
 }
 
 // 0: no 1: yes
 // if yes, p_c will contain char value
 //
 MULLE__UTF_GLOBAL
-int   mulle_utf8_are_valid_extracharacters( mulle_utf8_t *s, unsigned int len, mulle_utf32_t *p_c);
+int   mulle_utf8_are_valid_extracharacters( char *s, unsigned int len, mulle_utf32_t *p_c);
 
 //
 // if len is -1, assume that *s is '\0' terminated
@@ -95,19 +97,19 @@ int   mulle_utf8_are_valid_extracharacters( mulle_utf8_t *s, unsigned int len, m
 // TODO: find encoding where nothing needs to be composed
 
 MULLE__UTF_GLOBAL
-int  mulle_utf8_information( mulle_utf8_t *s, size_t len, struct mulle_utf_information *info);
+int  mulle_utf8_information( char *s, size_t len, struct mulle_utf_information *info);
 
 MULLE__UTF_GLOBAL
-int  mulle_utf8_is_ascii( mulle_utf8_t *s, size_t len);
+int  mulle_utf8_is_ascii( char *s, size_t len);
 
 // returns NULL if OK, otherwise the offending character address
 MULLE__UTF_GLOBAL
-mulle_utf8_t  *mulle_utf8_validate( mulle_utf8_t *src, size_t len);
+char  *mulle_utf8_validate( char *src, size_t len);
 
 
-static inline size_t  mulle_utf8_strlen( mulle_utf8_t *s)
+static inline size_t  mulle_utf8_strlen( char *s)
 {
-   return( strlen( (char *) s));
+   return( strlen( s));
 }
 
 
@@ -115,10 +117,10 @@ static inline size_t  mulle_utf8_strlen( mulle_utf8_t *s)
 // hand coded because linux doesn't have it by default, and I want to get rid
 // of the warning without having to define __USE_XOPEN2K8
 //
-static inline size_t  mulle_utf8_strnlen( mulle_utf8_t *s, size_t len)
+static inline size_t  mulle_utf8_strnlen( char *s, size_t len)
 {
-   mulle_utf8_t   *start;
-   mulle_utf8_t   *sentinel;
+   char   *start;
+   char   *sentinel;
 
    start    = s;
    sentinel = &s[ len];
@@ -134,23 +136,23 @@ static inline size_t  mulle_utf8_strnlen( mulle_utf8_t *s, size_t len)
 
 
 // use the more canonical *, size_t oder
-static inline int  mulle_utf8_strncmp( mulle_utf8_t *s, size_t len, mulle_utf8_t *other)
+static inline int  mulle_utf8_strncmp( char *s, size_t len, char *other)
 {
-   return( strncmp( (char *) s, (char *) other, len));
+   return( strncmp( s, other, len));
 }
 
 
 MULLE__UTF_GLOBAL
-mulle_utf8_t   *mulle_utf8_strnstr( mulle_utf8_t *s, size_t len, mulle_utf8_t *search);
+char   *mulle_utf8_strnstr( char *s, size_t len, char *search);
 
 MULLE__UTF_GLOBAL
-mulle_utf8_t   *mulle_utf8_strnchr( mulle_utf8_t *s, size_t len, mulle_utf8_t c);
+char   *mulle_utf8_strnchr( char *s, size_t len, char c);
 
 MULLE__UTF_GLOBAL
-size_t         mulle_utf8_strnspn( mulle_utf8_t *s, size_t len, mulle_utf8_t *search);
+size_t         mulle_utf8_strnspn( char *s, size_t len, char *search);
 
 MULLE__UTF_GLOBAL
-size_t         mulle_utf8_strncspn( mulle_utf8_t *s, size_t len, mulle_utf8_t *search);
+size_t         mulle_utf8_strncspn( char *s, size_t len, char *search);
 
 
 // extremely primitive! (Not as primitive anymore...)
@@ -158,15 +160,15 @@ size_t         mulle_utf8_strncspn( mulle_utf8_t *s, size_t len, mulle_utf8_t *s
 // this doesn't check for zero or buffer overflow
 //
 MULLE__UTF_GLOBAL
-mulle_utf32_t   _mulle_utf8_next_utf32character( mulle_utf8_t **s_p);
+mulle_utf32_t   _mulle_utf8_next_utf32character( char **s_p);
 
 MULLE__UTF_GLOBAL
-mulle_utf32_t   _mulle_utf8_previous_utf32character( mulle_utf8_t **s_p);
+mulle_utf32_t   _mulle_utf8_previous_utf32character( char **s_p);
 
 
 // use this to walk through a utf8 string
 // returns -2 if malformed
-static inline mulle_utf32_t   mulle_utf8_next_utf32character( mulle_utf8_t **s_p)
+static inline mulle_utf32_t   mulle_utf8_next_utf32character( char **s_p)
 {
    if( mulle_utf8_is_asciicharacter( **s_p))
       return( *(*s_p)++);
@@ -178,18 +180,18 @@ static inline mulle_utf32_t   mulle_utf8_next_utf32character( mulle_utf8_t **s_p
 // used in Foundation and maybe here in the future
 struct mulle_utf8data
 {
-   mulle_utf8_t   *characters;
-   size_t         length;
+   char    *characters;
+   size_t   length;
 };
 
 
 static inline struct mulle_utf8data
-   mulle_utf8data_make( mulle_utf8_t *s, size_t length)
+   mulle_utf8data_make( char *s, size_t length)
 {
    struct mulle_utf8data   data;
 
-   data.characters = s;
    data.length     = (length == (size_t) -1) ? mulle_utf8_strlen( s) : length;
+   data.characters = data.length ? s : "";
    return( data);
 }
 
@@ -199,7 +201,7 @@ static inline struct mulle_utf8data   mulle_utf8data_make_empty( void)
 {
    struct mulle_utf8data   data;
 
-   data.characters = (mulle_utf8_t *) "";
+   data.characters = "";
    data.length     = 0;
    return( data);
 }
@@ -235,6 +237,13 @@ static inline void   mulle_utf8data_assert( struct mulle_utf8data data)
 
 
 //
+// returned data is actually one longer and terminated by '\0'
+//
+struct mulle_utf8data   mulle_utf8data_copy( struct mulle_utf8data data, 
+                                             struct mulle_allocator *allocator);
+
+
+//
 // some conversions
 //
 static inline struct mulle_utf8data
@@ -257,7 +266,7 @@ mulle_utf32_t   _mulle_utf8data_next_utf32character( struct mulle_utf8data *rove
 
 MULLE__UTF_GLOBAL
 mulle_utf32_t   __mulle_utf8data_next_utf32character( struct mulle_utf8data *rover,
-                                                      mulle_utf8_t c);
+                                                      char c);
 
 // use this to walk through a utf8 string
 // changes contents of rover
@@ -265,7 +274,7 @@ mulle_utf32_t   __mulle_utf8data_next_utf32character( struct mulle_utf8data *rov
 // returns -2 if malformed
 static inline mulle_utf32_t   mulle_utf8data_next_utf32character( struct mulle_utf8data *rover)
 {
-   mulle_utf8_t   c;
+   char   c;
 
    if( ! rover->length)
       return( -1);
@@ -283,7 +292,7 @@ static inline mulle_utf32_t   mulle_utf8data_next_utf32character( struct mulle_u
 
 
 MULLE__UTF_GLOBAL
-mulle_utf32_t   *_mulle_utf8_convert_to_utf32( mulle_utf8_t *src,
+mulle_utf32_t   *_mulle_utf8_convert_to_utf32( char *src,
                                                size_t len,
                                                mulle_utf32_t *dst);
 
@@ -291,12 +300,12 @@ mulle_utf32_t   *_mulle_utf8_convert_to_utf32( mulle_utf8_t *src,
 // low level conversion, no checks dst is assumed to be wide enough
 // returns end of dst, len can't be -1
 MULLE__UTF_GLOBAL
-mulle_utf16_t   *_mulle_utf8_convert_to_utf16( mulle_utf8_t *src,
+mulle_utf16_t   *_mulle_utf8_convert_to_utf16( char *src,
                                                size_t len,
                                                mulle_utf16_t *dst);
 
 MULLE__UTF_GLOBAL
-mulle_utf32_t   *_mulle_utf8_convert_to_utf32( mulle_utf8_t *src,
+mulle_utf32_t   *_mulle_utf8_convert_to_utf32( char *src,
                                                size_t len,
                                                mulle_utf32_t *dst);
 //
@@ -306,14 +315,14 @@ mulle_utf32_t   *_mulle_utf8_convert_to_utf32( mulle_utf8_t *src,
 // The input must be correct! These routines do not add a trailing zero.
 //
 MULLE__UTF_GLOBAL
-void   mulle_utf8_bufferconvert_to_utf16( mulle_utf8_t *src,
+void   mulle_utf8_bufferconvert_to_utf16( char *src,
                                           size_t len,
                                           void *buffer,
                                           mulle_utf_add_bytes_function_t addbytes);
 
 // as above, but for utf32
 MULLE__UTF_GLOBAL
-void   mulle_utf8_bufferconvert_to_utf32( mulle_utf8_t *src,
+void   mulle_utf8_bufferconvert_to_utf32( char *src,
                                           size_t len,
                                           void *buffer,
                                           mulle_utf_add_bytes_function_t addbytes);
@@ -323,28 +332,28 @@ void   mulle_utf8_bufferconvert_to_utf32( mulle_utf8_t *src,
 // dst should be 2 * len
 // These routines do not add a trailing zero. (untested)
 MULLE__UTF_GLOBAL
-mulle_utf8_t   *_mulle_iso1_convert_to_utf8( char *src,
+char   *_mulle_iso1_convert_to_utf8( char *src,
                                              size_t len,
-                                             mulle_utf8_t *dst);
+                                             char *dst);
 
 // as above but for macroman
 MULLE__UTF_GLOBAL
-mulle_utf8_t   *_mulle_macroman_convert_to_utf8( char *macroman,
+char   *_mulle_macroman_convert_to_utf8( char *macroman,
                                                  size_t len,
-                                                 mulle_utf8_t *dst);
+                                                 char *dst);
 
 // as above but for nextstep
 MULLE__UTF_GLOBAL
-mulle_utf8_t   *_mulle_nextstep_convert_to_utf8( char *nextstep,
+char   *_mulle_nextstep_convert_to_utf8( char *nextstep,
                                                  size_t len,
-                                                 mulle_utf8_t *dst);
+                                                 char *dst);
 //
 // latin iso1 this len, will bail if it can't covert (return NULL) and unknown
 // is -1. If unknown is 0, will just skip. Otherwise will replace with unknown.
 // dst must be same len.
 // These routines do not add a trailing zero. (untested)
 MULLE__UTF_GLOBAL
-char   *_mulle_utf8_convert_to_iso1( mulle_utf8_t *src,
+char   *_mulle_utf8_convert_to_iso1( char *src,
                                      size_t len,
                                      char *dst,
                                      int unknown);

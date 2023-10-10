@@ -9,7 +9,7 @@ static void   test_conversion( mulle_utf32_t text[ 5])
    struct mulle_utf_information   info32;
    struct mulle_utf_information   info16;
    struct mulle_utf_information   info8;
-   mulle_utf8_t                   *utf8;
+   char                   *utf8;
    mulle_utf16_t                  *utf16;
    mulle_utf32_t                  *utf32;
 

@@ -22,8 +22,8 @@
 
 struct mulle_utf8_conversion_context
 {
-   mulle_utf8_t   *buf;
-   mulle_utf8_t   *sentinel;
+   char   *buf;
+   char   *sentinel;
 };
 
 
@@ -58,16 +58,16 @@ void  mulle_utf32_conversion_context_add_bytes( void *p,
 // the returned string is allocated with the allocator, which may be NULL
 
 MULLE__UTF_GLOBAL
-mulle_utf16_t   *mulle_utf8_convert_to_utf16_string( mulle_utf8_t *src,
+mulle_utf16_t   *mulle_utf8_convert_to_utf16_string( char *src,
                                                      size_t len,
                                                      struct mulle_allocator *allocator);
 MULLE__UTF_GLOBAL
-mulle_utf32_t   *mulle_utf8_convert_to_utf32_string( mulle_utf8_t *src,
+mulle_utf32_t   *mulle_utf8_convert_to_utf32_string( char *src,
                                                      size_t len,
                                                      struct mulle_allocator *allocator);
 
 MULLE__UTF_GLOBAL
-mulle_utf8_t    *mulle_utf16_convert_to_utf8_string( mulle_utf16_t *src,
+char    *mulle_utf16_convert_to_utf8_string( mulle_utf16_t *src,
                                                      size_t len,
                                                      struct mulle_allocator *allocator);
 MULLE__UTF_GLOBAL
@@ -76,7 +76,7 @@ mulle_utf32_t   *mulle_utf16_convert_to_utf32_string( mulle_utf16_t *src,
                                                       struct mulle_allocator *allocator);
 
 MULLE__UTF_GLOBAL
-mulle_utf8_t    *mulle_utf32_convert_to_utf8_string( mulle_utf32_t *src,
+char    *mulle_utf32_convert_to_utf8_string( mulle_utf32_t *src,
                                                      size_t len,
                                                      struct mulle_allocator *allocator);
 MULLE__UTF_GLOBAL

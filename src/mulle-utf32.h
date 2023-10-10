@@ -115,9 +115,7 @@ mulle_utf16_t   *_mulle_utf32_convert_to_utf16( mulle_utf32_t *src,
                                                 size_t len,
                                                 mulle_utf16_t *dst);
 MULLE__UTF_GLOBAL
-mulle_utf8_t  *_mulle_utf32_convert_to_utf8( mulle_utf32_t *src,
-                                             size_t len,
-                                             mulle_utf8_t *dst);
+char  *_mulle_utf32_convert_to_utf8( mulle_utf32_t *src, size_t len, char *dst);
 
 // these routines do not skip BOM characters
 MULLE__UTF_GLOBAL
@@ -151,15 +149,15 @@ static inline void
 
 
 MULLE__UTF_GLOBAL
-mulle_utf8_t   *_mulle_utf32_as_utf8_not_ascii( mulle_utf32_t x, mulle_utf8_t *dst);
+char   *_mulle_utf32_as_utf8_not_ascii( mulle_utf32_t x, char *dst);
 
 // no error checks whatsoever
 // returns end of `dst`
-static inline mulle_utf8_t   *mulle_utf32_as_utf8( mulle_utf32_t x, mulle_utf8_t *dst)
+static inline char   *mulle_utf32_as_utf8( mulle_utf32_t x, char *dst)
 {
    if( (uint32_t) x < 0x80)
    {
-      *dst++ = (mulle_utf8_t) x;
+      *dst++ = (char) x;
       return( dst);
    }
    return( _mulle_utf32_as_utf8_not_ascii( x, dst));

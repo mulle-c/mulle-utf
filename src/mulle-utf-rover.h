@@ -83,7 +83,7 @@ void   _mulle_utf16_rover_init( struct mulle_utf_rover *rover,
                                 size_t len);
 MULLE__UTF_GLOBAL
 void   _mulle_utf8_rover_init( struct mulle_utf_rover *rover,
-                               mulle_utf8_t *s,
+                               char *s,
                                size_t len);
 
 #endif

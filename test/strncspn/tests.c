@@ -22,7 +22,7 @@ static void   test( char *s, size_t len, char *p)
 
    printf( ") = ");
 
-   result = mulle_utf8_strncspn( (mulle_utf8_t *) s, len, (mulle_utf8_t *) p);
+   result = mulle_utf8_strncspn( (char *) s, len, (char *) p);
    printf( "%ld (%ld)\n", (long) result, (long) ((s && p) ? strcspn( s, p) : 0));
 }
 
