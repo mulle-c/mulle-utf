@@ -1,7 +1,7 @@
 {
    "name" : "mulle-utf",
    "version" : "4.0.0",
-   "description" : "UTF8-16-32 analysis and manipulation library",
+   "description" : "🔤 UTF8-16-32 analysis and manipulation library",
    "keywords" : [],
    "license" : "BSD-3-Clause",
    "repo" : "mulle-c/mulle-utf",
