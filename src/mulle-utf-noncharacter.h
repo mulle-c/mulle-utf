@@ -55,15 +55,16 @@ static inline int   mulle_utf32_is_surrogatecharacter( mulle_utf32_t c)
    return( c >= 0xD800 && c <= 0xE000);
 }
 
-static inline int   mulle_utf32_is_highsurrogatecharacter( mulle_utf32_t x)
+
+static inline int   mulle_utf32_is_highsurrogatecharacter( mulle_utf32_t c)
 {
-   return( x >= 0xD800 && x < 0xDC00);
+   return( c >= 0xD800 && c < 0xDC00);
 }
 
 
-static inline int   mulle_utf32_is_lowsurrogatecharacter( mulle_utf32_t x)
+static inline int   mulle_utf32_is_lowsurrogatecharacter( mulle_utf32_t c)
 {
-   return( x >= 0xDC00 && x < 0xE000);
+   return( c >= 0xDC00 && c < 0xE000);
 }
 
 

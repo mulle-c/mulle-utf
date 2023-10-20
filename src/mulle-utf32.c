@@ -100,7 +100,7 @@ char  *_mulle_utf32_convert_to_utf8( mulle_utf32_t *src, size_t len, char *_dst)
          *dst++ = 0x80 | (x & 0x3F);
       }
    }
-   return( dst);
+   return( (char *) dst);
 }
 
 
@@ -440,7 +440,7 @@ char   *_mulle_utf32_as_utf8_not_ascii( mulle_utf32_t x, char *_dst)
       assert( x >= 0x80);
       *dst++ = 0xC0 | (unsigned char) (x >> 6);
       *dst++ = 0x80 | (x & 0x3F);
-      return( dst);
+      return( (char *) dst);
    }
 
    if( x < 0x10000)
@@ -450,7 +450,7 @@ char   *_mulle_utf32_as_utf8_not_ascii( mulle_utf32_t x, char *_dst)
       *dst++ = 0xE0 | (unsigned char) (x >> 12);
       *dst++ = 0x80 | ((x >> 6) & 0x3F);
       *dst++ = 0x80 | (x & 0x3F);
-      return( dst);
+      return( (char *) dst);
    }
 
    assert( x <= 0x10FFFF);
@@ -459,7 +459,8 @@ char   *_mulle_utf32_as_utf8_not_ascii( mulle_utf32_t x, char *_dst)
    *dst++ = 0x80 | ((x >> 12) & 0x3F);
    *dst++ = 0x80 | ((x >> 6) & 0x3F);
    *dst++ = 0x80 | (x & 0x3F);
-   return( dst);
+
+   return( (char *) dst);
 }
 
 
