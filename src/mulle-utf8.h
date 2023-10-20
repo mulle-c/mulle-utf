@@ -48,6 +48,65 @@ static inline int   mulle_utf8_is_asciicharacter( char c)
 }
 
 
+enum
+{
+   mulle_utf8_ascii_start_character,
+   mulle_utf8_multiple_start_character,
+   mulle_utf8_invalid_start_character
+};
+
+
+
+// https://en.wikipedia.org/wiki/UTF-8#Invalid_byte_sequences
+// 0x80-0xBF can only appear after a start character
+// 0xC0-0xC1 and 0xF5-0xFF are unsupported
+//
+static inline int   mulle_utf8_is_invalidstartcharacter( char c)
+{
+   return( ((unsigned char) c >= 0x80 && (unsigned char) c < 0xC2) || (unsigned char) c >= 0xF5);
+}
+
+
+//static inline int   mulle_utf8_is_start_character( char c)
+//{
+//   return( !  mulle_utf8_is_invalidstartcharacter( c));
+//}
+
+
+
+static inline int   mulle_utf8_get_startcharactertype( char c)
+{
+   if( mulle_utf8_is_asciicharacter( c))
+      return( mulle_utf8_ascii_start_character);
+
+   if( mulle_utf8_is_invalidstartcharacter( c))
+      return( mulle_utf8_invalid_start_character);
+
+   return( mulle_utf8_multiple_start_character);
+}
+
+
+static inline int   mulle_utf8_is_validcontinuationcharacter( char c)
+{
+   return( (unsigned char) c >= 0x80 && (unsigned char) c < 0xC0);
+}
+
+
+// length excluding 'c'
+static inline unsigned int  mulle_utf8_get_extracharacterslength( char c)
+{
+   assert( mulle_utf8_get_startcharactertype( c) == mulle_utf8_multiple_start_character);
+
+   if( (unsigned char) c < 0xE0)
+      return( 1);  // 11 bits
+
+   if( (unsigned char) c < 0xF0)
+      return( 2); //  16 bits
+
+   return( 3);  // 21 bits -> UTF32
+}
+
+
 // Check: http://tools.ietf.org/html/rfc3629
 // General considerations.
 //    On the initial procurement of your UTF8 string, you must validate it once

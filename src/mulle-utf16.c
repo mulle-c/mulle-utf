@@ -170,7 +170,7 @@ recheck:
       *dst++ = 0x80 | ((x >> 6) & 0x3F);
       *dst++ = 0x80 | (x & 0x3F);
    }
-   return( dst);
+   return( (char *) dst);
 }
 
 

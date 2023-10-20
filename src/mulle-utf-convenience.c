@@ -19,45 +19,96 @@
 
 
 
-void  mulle_utf8_conversion_context_add_bytes( void *_p,
-                                               void *bytes,
-                                               size_t len)
+void   mulle_utf8_conversion_context_add_bytes( void *_p,
+                                                void *bytes,
+                                                size_t len)
 {
    struct mulle_utf8_conversion_context *p = _p;
-   char                         *end;
+   char                                 *end;
+   char                                 *s_end;
+   char                                 *s;
+   char                                 *t;
+   char                                 c;
 
    /* EOB reached ? */
    end = &p->buf[ len];
    if( end > p->sentinel)
    {
+      if( ! p->sentinel)
+         return;
+
+      // figure out what we can safely copy and then stop
+      // copy over what can be copied safely ?
+      s     = bytes;
+      s_end = &s[ p->sentinel - p->buf];
+      for(;;)
+      {
+         t = s;
+         c = *s++;
+         if( ! mulle_utf8_is_asciicharacter( c))
+            s = &s[ mulle_utf8_get_extracharacterslength( c)];
+         if( s > s_end)
+            break;
+      }
+
+      len         = (t - (char *) bytes);
+      end         = &p->buf[ len];
       p->sentinel = NULL; // ensure we don't add a late smaller character
-      return;
    }
 
    memcpy( p->buf, bytes, len);
+
+   // dial forwards for next memcpy
+   p->buf = end;
 }
 
 
-void
-   mulle_utf16_conversion_context_add_bytes( void *_p, void *bytes, size_t len)
+void   mulle_utf16_conversion_context_add_bytes( void *_p,
+                                                 void *bytes,
+                                                 size_t len)
 {
    struct mulle_utf16_conversion_context *p = _p;
    mulle_utf16_t                         *end;
+   mulle_utf16_t                         *s;
+   mulle_utf16_t                         *t;
+   mulle_utf16_t                         *s_end;
+   mulle_utf16_t                         c;
 
    end = &p->buf[ len / sizeof( mulle_utf16_t)];
    if( end > p->sentinel)
    {
+      if( ! p->sentinel)
+         return;
+
+      // figure out what we can safely copy and then stop
+      // copy over what can be copied safely ?
+      s     = (mulle_utf16_t *) bytes;
+      s_end = &s[ p->sentinel - p->buf];
+      for(;;)
+      {
+         t = s;
+         c = *s++;
+         if( mulle_utf32_is_surrogatecharacter( c))
+            s++;
+         if( s > s_end)
+            break;
+      }
+
+      len         = (t - (mulle_utf16_t *) bytes) * sizeof( mulle_utf16_t);
+      end         = &p->buf[ len];
       p->sentinel = NULL; // ensure we don't add a late smaller character
-      return;
    }
 
    memcpy( p->buf, bytes, len);
+
+   // dial forwards for next memcpy
+   p->buf = end;
 }
 
 
-
-void
-   mulle_utf32_conversion_context_add_bytes( void *_p, void *bytes, size_t len)
+void   mulle_utf32_conversion_context_add_bytes( void *_p,
+                                                 void *bytes,
+                                                 size_t len)
 {
    struct mulle_utf32_conversion_context *p = _p;
    mulle_utf32_t                         *end;
@@ -65,11 +116,18 @@ void
    end = &p->buf[ len / sizeof( mulle_utf32_t)];
    if( end > p->sentinel)
    {
+      if( ! p->sentinel)
+         return;
+
+      len         = (p->sentinel - p->buf) * sizeof( mulle_utf32_t);
       p->sentinel = NULL; // ensure we don't add a late smaller character
-      return;
+      // fall thru
    }
 
    memcpy( p->buf, bytes, len);
+
+   // dial forwards for next memcpy
+   p->buf = end;
 }
 
 
@@ -141,11 +199,11 @@ mulle_utf32_t  *mulle_utf8_convert_to_utf32_string( char *src,
 # pragma mark - utf16
 
 char  *mulle_utf16_convert_to_utf8_string( mulle_utf16_t *src,
-                                            size_t len,
-                                            struct mulle_allocator *allocator)
+                                           size_t len,
+                                           struct mulle_allocator *allocator)
 {
    struct mulle_utf_information           info;
-   char                           *memo;
+   char                                   *memo;
    struct mulle_utf8_conversion_context   ctxt;
 
    if( mulle_utf16_information( src, len, &info))
@@ -171,8 +229,8 @@ char  *mulle_utf16_convert_to_utf8_string( mulle_utf16_t *src,
 
 
 mulle_utf32_t  *mulle_utf16_convert_to_utf32_string( mulle_utf16_t *src,
-                                              size_t len,
-                                              struct mulle_allocator *allocator)
+                                                     size_t len,
+                                                     struct mulle_allocator *allocator)
 {
    struct mulle_utf_information            info;
    mulle_utf32_t                           *memo;
@@ -205,11 +263,11 @@ mulle_utf32_t  *mulle_utf16_convert_to_utf32_string( mulle_utf16_t *src,
 # pragma mark utf32
 
 char  *mulle_utf32_convert_to_utf8_string( mulle_utf32_t *src,
-                                            size_t len,
-                                            struct mulle_allocator *allocator)
+                                           size_t len,
+                                           struct mulle_allocator *allocator)
 {
    struct mulle_utf_information           info;
-   char                           *memo;
+   char                                   *memo;
    struct mulle_utf8_conversion_context   ctxt;
 
    if( mulle_utf32_information( src, len, &info))
@@ -235,8 +293,8 @@ char  *mulle_utf32_convert_to_utf8_string( mulle_utf32_t *src,
 
 
 mulle_utf16_t  *mulle_utf32_convert_to_utf16_string( mulle_utf32_t *src,
-                                              size_t len,
-                                              struct mulle_allocator *allocator)
+                                                     size_t len,
+                                                     struct mulle_allocator *allocator)
 {
    struct mulle_utf_information            info;
    mulle_utf16_t                           *memo;
@@ -448,10 +506,10 @@ int   _mulle_utf8_word_mogrify( struct mulle_utf8data *dst,
    int             is_start;
    mulle_utf32_t   c;
    mulle_utf32_t   d;
-   char    *p;
-   char    *q;
-   char    *p_sentinel;
-   char    *q_sentinel;
+   char            *p;
+   char            *q;
+   char            *p_sentinel;
+   char            *q_sentinel;
    size_t          conversions;
 
    assert( info);
