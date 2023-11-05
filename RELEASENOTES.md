@@ -1,3 +1,15 @@
+# 4.0.0
+
+* upped the test coverage significantly
+* **BREAKING CHANGE** the `mulle_utf_add_bytes_function_t` typedef is no longer a function pointer, to keep it more inline with other library callback typedefs
+* **BREAKING CHANGE** changed the parameter order of `_strcnpy` functions, because progress demands it
+* **BREAKING CHANGE** renamed `mulle_unicode_is_privatecharacterplane` to `mulle_utf_is_privatecharacterplane` (but MulleObjCUnicodeFoundation resupplies it as a static inline function)
+* **BREAKING CHANGE** uses now ``size_t`` for char (byte) lengths and unsigned int for anything else
+* `mulle_utf8_t` is no more, it is now just char
+* improve `mulle_utf32_as_utf8` conversion, add some `mulle_utf8data` introspection
+* improve buffer conversion by not calling addbytes for each character
+
+
 ### 3.1.3
 
 * remove package.json as it conflicts with clib.json

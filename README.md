@@ -7,9 +7,10 @@ contains some limited `<string.h>` like functionality for UTF16 and UTF32.
 It is the backbone of **NSString**.
 
 
+
 | Release Version                                       | Release Notes
 |-------------------------------------------------------|--------------
-| ![Mulle kybernetiK tag](https://img.shields.io/github/tag/mulle-c/mulle-utf.svg?branch=release) [![Build Status](https://github.com/mulle-c/mulle-utf/workflows/CI/badge.svg?branch=release)](//github.com/mulle-c/mulle-utf/actions)| [RELEASENOTES](RELEASENOTES.md) |
+| ![Mulle kybernetiK tag](https://img.shields.io/github/tag/mulle-c/mulle-utf.svg?branch=release) [![Build Status](https://github.com/mulle-c/mulle-utf/workflows/CI/badge.svg?branch=release)](//github.com/mulle-c/mulle-utf/actions) ![Coverage](https://img.shields.io/badge/coverage-75%25%C2%A0-yellow) | [RELEASENOTES](RELEASENOTES.md) |
 
 
 ## API
@@ -23,6 +24,8 @@ It is the backbone of **NSString**.
 | [information](dox/API_INFORMATION.md)  | Analyze and classify string encodings            |
 | [string](dox/API_STRING.md)            | Primitive UTF16 and UTF32 string handling        |
 
+`size_t` is used for byte-sized (really `char`-sized) lengths. UTF16 and
+UTF32 use `unsigned int`.
 
 
 
@@ -96,7 +99,7 @@ cmake --install build --config Release
 
 ## Author
 
-[Nat!](https://mulle-kybernetik.com/weblog) for Mulle kybernetiK
+[Nat!](https://mulle-kybernetik.com/weblog) for Mulle kybernetiK  
 
 
 

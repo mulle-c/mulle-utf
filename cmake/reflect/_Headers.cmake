@@ -101,6 +101,7 @@ src/mulle-utf16-string.h
 src/mulle-utf32.h
 src/mulle-utf32-string.h
 src/mulle-utf8.h
+src/mulle-utf8-string.h
 src/mulle-utf-convenience.h
 src/mulle-utf.h
 src/mulle-utf-noncharacter.h
