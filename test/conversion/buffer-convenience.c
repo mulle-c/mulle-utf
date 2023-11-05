@@ -11,7 +11,7 @@ int   main( void)
       "L\xc3\xb6\xc3\xb6\xc3\xb6\xc3\xb6orem ipsum dolor sit amet, consectetur "
       "adipisici elit, sed eiusmod "
    };
-   char             buf[ 4];
+   char             buf[ 5];
    mulle_utf32_t    *s;
 
    ctxt.buf      = buf;
@@ -22,7 +22,9 @@ int   main( void)
                                       4,
                                       &ctxt,
                                       mulle_utf8_conversion_context_add_bytes);
-   printf( "%.*s\n", 4, buf);
+   *ctxt.buf = 0;
+
+   printf( "%s\n", buf);
    mulle_free( s);
 
    return( 0);
