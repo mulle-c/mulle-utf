@@ -1,0 +1,210 @@
+{
+    "branch_covered": 675,
+    "branch_percent": 65.5,
+    "branch_total": 1030,
+    "files": [
+        {
+            "branch_covered": 12,
+            "branch_percent": 1.0,
+            "branch_total": 12,
+            "filename": "mulle-ascii.c",
+            "line_covered": 30,
+            "line_percent": 1.0,
+            "line_total": 30
+        },
+        {
+            "branch_covered": 77,
+            "branch_percent": 0.846,
+            "branch_total": 91,
+            "filename": "mulle-char5.c",
+            "line_covered": 149,
+            "line_percent": 0.914,
+            "line_total": 163
+        },
+        {
+            "branch_covered": 1,
+            "branch_percent": 0.5,
+            "branch_total": 2,
+            "filename": "mulle-char5.h",
+            "line_covered": 8,
+            "line_percent": 0.8,
+            "line_total": 10
+        },
+        {
+            "branch_covered": 50,
+            "branch_percent": 0.833,
+            "branch_total": 60,
+            "filename": "mulle-char7.c",
+            "line_covered": 114,
+            "line_percent": 0.919,
+            "line_total": 124
+        },
+        {
+            "branch_covered": 0,
+            "branch_percent": null,
+            "branch_total": 0,
+            "filename": "mulle-char7.h",
+            "line_covered": 0,
+            "line_percent": 0.0,
+            "line_total": 2
+        },
+        {
+            "branch_covered": 50,
+            "branch_percent": 0.6579999999999999,
+            "branch_total": 76,
+            "filename": "mulle-utf-convenience.c",
+            "line_covered": 194,
+            "line_percent": 0.833,
+            "line_total": 233
+        },
+        {
+            "branch_covered": 19,
+            "branch_percent": 0.95,
+            "branch_total": 20,
+            "filename": "mulle-utf-noncharacter.c",
+            "line_covered": 19,
+            "line_percent": 0.8640000000000001,
+            "line_total": 22
+        },
+        {
+            "branch_covered": 10,
+            "branch_percent": 0.833,
+            "branch_total": 12,
+            "filename": "mulle-utf-noncharacter.h",
+            "line_covered": 16,
+            "line_percent": 1.0,
+            "line_total": 16
+        },
+        {
+            "branch_covered": 15,
+            "branch_percent": 0.938,
+            "branch_total": 16,
+            "filename": "mulle-utf-privatecharacter.c",
+            "line_covered": 19,
+            "line_percent": 1.0,
+            "line_total": 19
+        },
+        {
+            "branch_covered": 0,
+            "branch_percent": null,
+            "branch_total": 0,
+            "filename": "mulle-utf-rover.c",
+            "line_covered": 45,
+            "line_percent": 1.0,
+            "line_total": 45
+        },
+        {
+            "branch_covered": 0,
+            "branch_percent": null,
+            "branch_total": 0,
+            "filename": "mulle-utf-rover.h",
+            "line_covered": 9,
+            "line_percent": 1.0,
+            "line_total": 9
+        },
+        {
+            "branch_covered": 27,
+            "branch_percent": 0.9309999999999999,
+            "branch_total": 29,
+            "filename": "mulle-utf-scan.c",
+            "line_covered": 63,
+            "line_percent": 0.9690000000000001,
+            "line_total": 65
+        },
+        {
+            "branch_covered": 58,
+            "branch_percent": 0.725,
+            "branch_total": 80,
+            "filename": "mulle-utf16-string.c",
+            "line_covered": 96,
+            "line_percent": 0.787,
+            "line_total": 122
+        },
+        {
+            "branch_covered": 76,
+            "branch_percent": 0.45799999999999996,
+            "branch_total": 166,
+            "filename": "mulle-utf16.c",
+            "line_covered": 151,
+            "line_percent": 0.557,
+            "line_total": 271
+        },
+        {
+            "branch_covered": 4,
+            "branch_percent": 1.0,
+            "branch_total": 4,
+            "filename": "mulle-utf16.h",
+            "line_covered": 9,
+            "line_percent": 1.0,
+            "line_total": 9
+        },
+        {
+            "branch_covered": 34,
+            "branch_percent": 0.607,
+            "branch_total": 56,
+            "filename": "mulle-utf32-string.c",
+            "line_covered": 68,
+            "line_percent": 0.687,
+            "line_total": 99
+        },
+        {
+            "branch_covered": 76,
+            "branch_percent": 0.585,
+            "branch_total": 130,
+            "filename": "mulle-utf32.c",
+            "line_covered": 163,
+            "line_percent": 0.718,
+            "line_total": 227
+        },
+        {
+            "branch_covered": 6,
+            "branch_percent": 1.0,
+            "branch_total": 6,
+            "filename": "mulle-utf32.h",
+            "line_covered": 14,
+            "line_percent": 1.0,
+            "line_total": 14
+        },
+        {
+            "branch_covered": 35,
+            "branch_percent": 0.9209999999999999,
+            "branch_total": 38,
+            "filename": "mulle-utf8-string.c",
+            "line_covered": 62,
+            "line_percent": 0.9840000000000001,
+            "line_total": 63
+        },
+        {
+            "branch_covered": 0,
+            "branch_percent": null,
+            "branch_total": 0,
+            "filename": "mulle-utf8-string.h",
+            "line_covered": 2,
+            "line_percent": 1.0,
+            "line_total": 2
+        },
+        {
+            "branch_covered": 101,
+            "branch_percent": 0.515,
+            "branch_total": 196,
+            "filename": "mulle-utf8.c",
+            "line_covered": 243,
+            "line_percent": 0.606,
+            "line_total": 401
+        },
+        {
+            "branch_covered": 24,
+            "branch_percent": 0.667,
+            "branch_total": 36,
+            "filename": "mulle-utf8.h",
+            "line_covered": 31,
+            "line_percent": 0.838,
+            "line_total": 37
+        }
+    ],
+    "gcovr/summary_format_version": "0.2",
+    "line_covered": 1505,
+    "line_percent": 75.9,
+    "line_total": 1983,
+    "root": "../../src"
+}

@@ -8,3 +8,6 @@
 | [conversion](dox/API_CONVERSION.md)    | Character and string conversions                 |
 | [information](dox/API_INFORMATION.md)  | Analyze and classify string encodings            |
 | [string](dox/API_STRING.md)            | Primitive UTF16 and UTF32 string handling        |
+
+`size_t` is used for byte-sized (really `char`-sized) lengths. UTF16 and
+UTF32 use `unsigned int`.

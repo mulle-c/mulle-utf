@@ -35,6 +35,8 @@
       "src/mulle-utf32-string.h",
       "src/mulle-utf32.c",
       "src/mulle-utf32.h",
+      "src/mulle-utf8-string.c",
+      "src/mulle-utf8-string.h",
       "src/mulle-utf8.c",
       "src/mulle-utf8.h",
       "src/reflect/_mulle-utf-include-private.h",

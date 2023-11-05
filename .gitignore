@@ -58,3 +58,7 @@ dox/BUILD.md
 wilted/
 mulle-template-composer-*
 mulle-markdown-preview-*.html
+coverage*.html
+*.gcda
+*.gcno
+cola/wilted/

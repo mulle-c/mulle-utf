@@ -1,4 +1,9 @@
 {
+   config =
+   {
+      showButtons  = YES;
+      showCoverage = YES;
+   };
    project =
    {
       description="🔤 UTF8-16-32 analysis and manipulation library";

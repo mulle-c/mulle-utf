@@ -15,7 +15,10 @@ static mulle_utf32_t   random_char( mulle_utf32_t mask)
       if( ! c)
          continue;
    }
-   while( mulle_utf32_is_bomcharacter( c) || mulle_utf32_is_noncharacter( c) || mulle_utf32_is_privatecharacter( c));
+   while( mulle_utf32_is_bomcharacter( c) || \
+          mulle_utf32_is_noncharacter( c) || \
+          (mulle_utf_is_privatecharacterplane( mulle_utf32_get_unicodeplane( c)) &&  \
+          mulle_utf32_is_privatecharacter( c)));
 
    return( c);
 }
