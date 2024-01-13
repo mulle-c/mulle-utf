@@ -80,7 +80,7 @@ Install the requirements:
 
 | Requirements                                 | Description
 |----------------------------------------------|-----------------------
-| [mulle-allocator](https://github.com/mulle-c/mulle-allocator)             | 
+| [mulle-allocator](https://github.com/mulle-c/mulle-allocator)             | 🔄 Flexible C memory allocation scheme
 | [mulle-data](https://github.com/mulle-c/mulle-data)             | #️⃣ A collection of hash functions
 
 Download the latest [tar](https://github.com/mulle-c/mulle-utf/archive/refs/tags/latest.tar.gz) or [zip](https://github.com/mulle-c/mulle-utf/archive/refs/tags/latest.zip) archive and unpack it.
