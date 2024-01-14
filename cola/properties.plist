@@ -7,7 +7,7 @@
       user="mulle-c";
       repo="mulle-utf";
       homepage="https://github.com/mulle-c/mulle-utf";
-      license="BSD-3-Clause"
+      license="BSD-3-Clause";
    };
    dependencies =
    (
