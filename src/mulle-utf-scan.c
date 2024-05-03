@@ -112,7 +112,7 @@ int   _mulle_utf_rover_longlong_decimal( struct mulle_utf_rover *rover,
    }
    else
    {
-      if( value > (unsigned long) LLONG_MIN)
+      if( value > (unsigned long long) LLONG_MIN)
       {
          _mulle_utf_rover_dial_back( rover);
          return( mulle_utf_has_overflown);
