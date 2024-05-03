@@ -401,21 +401,15 @@ void   mulle_utf8_bufferconvert_to_utf32( char *src,
 // dst should be 2 * len
 // These routines do not add a trailing zero. (untested)
 MULLE__UTF_GLOBAL
-char   *_mulle_iso1_convert_to_utf8( char *src,
-                                             size_t len,
-                                             char *dst);
+char   *_mulle_iso1_convert_to_utf8( char *src, size_t len, char *dst);
 
 // as above but for macroman
 MULLE__UTF_GLOBAL
-char   *_mulle_macroman_convert_to_utf8( char *macroman,
-                                                 size_t len,
-                                                 char *dst);
+char   *_mulle_macroman_convert_to_utf8( char *macroman, size_t len, char *dst);
 
 // as above but for nextstep
 MULLE__UTF_GLOBAL
-char   *_mulle_nextstep_convert_to_utf8( char *nextstep,
-                                                 size_t len,
-                                                 char *dst);
+char   *_mulle_nextstep_convert_to_utf8( char *nextstep, size_t len, char *dst);
 //
 // latin iso1 this len, will bail if it can't covert (return NULL) and unknown
 // is -1. If unknown is 0, will just skip. Otherwise will replace with unknown.
