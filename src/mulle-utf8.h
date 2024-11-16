@@ -93,7 +93,7 @@ static inline int   mulle_utf8_is_validcontinuationcharacter( char c)
 
 
 // length excluding 'c'
-static inline unsigned int  mulle_utf8_get_extracharacterslength( char c)
+static inline size_t  mulle_utf8_get_extracharacterslength( char c)
 {
    assert( mulle_utf8_get_startcharactertype( c) == mulle_utf8_multiple_start_character);
 
@@ -120,10 +120,10 @@ static inline unsigned int  mulle_utf8_get_extracharacterslength( char c)
 // returned length does not include BOM
 //
 MULLE__UTF_GLOBAL
-unsigned int  mulle_utf8_utf16length( char *src, size_t len);
+size_t  mulle_utf8_utf16length( char *src, size_t len);
 
 MULLE__UTF_GLOBAL
-unsigned int  mulle_utf8_utf32length( char *src, size_t len);
+size_t  mulle_utf8_utf32length( char *src, size_t len);
 
 
 static inline size_t  mulle_utf8_utf16maxlength( size_t len)

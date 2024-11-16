@@ -34,7 +34,7 @@ On 32 bit systems the maximum string length is 6, on 64 bit systems it is 12.
 ## mulle_char5_get
 
 ``` c
-char  mulle_char5_get( mulle_char5_t value, unsigned int index);
+char  mulle_char5_get( mulle_char5_t value, size_t index);
 ```
 
 Get character at `index`. If the index is out of range, the
@@ -63,8 +63,8 @@ Retrieve the maximum string length for `mulle_char5_t` on your system.
 
 ``` c
 mulle_char5_t  mulle_char5_substring( mulle_char5_t value,
-                                      unsigned int location,
-                                      unsigned int length)
+                                      size_t location,
+                                      size_t length)
 ```
 
 Retrieve substring of `length` characters of `value` starting at `location`.
