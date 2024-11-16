@@ -1,3 +1,29 @@
+# 5.0.0
+
+feat: improve UTF string handling and `size_t` compatibility
+
+* Enhance UTF string conversion and buffer handling
+  - Improve buffer conversion efficiency by batching character adds
+  - Add `mulle_utf8data` introspection capabilities
+  - Optimize UTF32 to UTF8 conversion paths
+
+* Strengthen type safety and consistency
+  - Replace unsigned int with `size_t` for string lengths
+  - Change `mulle_utf8_t` to char for better C compatibility
+  - Update function signatures to use `size_t` consistently
+
+* Breaking changes
+  - Rename `mulle_unicode_is_privatecharacterplane` to `mulle_utf_is_privatecharacterplane`
+  - Change parameter order in `_strcnpy` functions
+  - Update `mulle_utf_add_bytes_function_t` typedef
+  - Move stdlib-like code to mulle-utf8-string.c
+
+* Other improvements
+  - Increase test coverage significantly
+  - Fix 32-bit compatibility issues
+  - Update CMake configuration for better Windows support
+
+
 # 4.0.0
 
 * upped the test coverage significantly

@@ -182,7 +182,7 @@ static void  test( mulle_utf32_t text[ 4])
 static void   stress_test()
 {
    mulle_utf32_t   text[ 4];
-   unsigned int    i;
+   size_t    i;
    mulle_utf32_t   mask;
 
    mask = 0;

@@ -25,7 +25,7 @@ It is the backbone of **NSString**.
 | [string](dox/API_STRING.md)            | Primitive UTF16 and UTF32 string handling        |
 
 `size_t` is used for byte-sized (really `char`-sized) lengths. UTF16 and
-UTF32 use `unsigned int`.
+UTF32 use `size_t`.
 
 
 
@@ -65,8 +65,6 @@ Add `-isystem src/mulle-c` to your `CFLAGS` and compile all the sources that wer
 
 ## Install
 
-### Install with mulle-sde
-
 Use [mulle-sde](//github.com/mulle-sde) to build and install mulle-utf and all dependencies:
 
 ``` sh
@@ -74,7 +72,7 @@ mulle-sde install --prefix /usr/local \
    https://github.com/mulle-c/mulle-utf/archive/latest.tar.gz
 ```
 
-### Manual Installation
+### Legacy Installation
 
 Install the requirements:
 

@@ -24,7 +24,7 @@ it is 8.
 ## mulle_char7_get
 
 ``` c
-char  mulle_char7_get( mulle_char7_t value, unsigned int index);
+char  mulle_char7_get( mulle_char7_t value, size_t index);
 ```
 
 Get character at `index`. If the index is out of range, the returned value is
@@ -52,7 +52,7 @@ Retrieve the maximum string length for `mulle_char7_t` on your system.
 ### `mulle_char7_substring`
 
 ``` c
-mulle_char7_t  mulle_char7_substring( mulle_char7_t value, unsigned int location, unsigned int length)
+mulle_char7_t  mulle_char7_substring( mulle_char7_t value, size_t location, size_t length)
 ```
 
 Retrieve substring of `length` charactes of `value` starting at `location`.

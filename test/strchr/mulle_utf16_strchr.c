@@ -12,7 +12,7 @@ int  main()
    mulle_utf16_t   *end;
 
    end = _mulle_utf32_convert_to_utf16( emos3_32, 3, emos3);
-   assert( end < &emos3[ sizeof( emos3)]);
+   assert( end < &emos3[ 256]);
    *end = 0;
 
    if( mulle_utf16_strchr( NULL, 'a') != NULL)
