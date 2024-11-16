@@ -9,13 +9,13 @@ int  main()
 {
    char            macos[ 256];
    int             n;
-   unsigned int    m;
+   size_t    m;
    char            buf[ 256 * 4] = { 0 };
    char            *end;
    char            *s;
    char            *t;
    int             i;
-   unsigned int    off;
+   size_t    off;
 
    for( n = 0, i = 32; i < 256; i++, n++)
       macos[ n] = i;
