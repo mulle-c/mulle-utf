@@ -1,6 +1,6 @@
 cmake_minimum_required( VERSION 3.14)
 
-project( mulle-utf VERSION 5.0.0 LANGUAGES C)
+project( mulle-utf VERSION 5.0.1 LANGUAGES C)
 
 
 
