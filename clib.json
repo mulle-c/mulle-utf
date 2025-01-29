@@ -1,6 +1,6 @@
 {
    "name" : "mulle-utf",
-   "version" : "5.0.0",
+   "version" : "5.0.1",
    "description" : "🔤 UTF8-16-32 analysis and manipulation library",
    "keywords" : [],
    "license" : "BSD-3-Clause",
