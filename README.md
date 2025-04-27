@@ -8,9 +8,9 @@ It is the backbone of **NSString**.
 
 
 
-| Release Version                                       | Release Notes
-|-------------------------------------------------------|--------------
-| ![Mulle kybernetiK tag](https://img.shields.io/github/tag/mulle-c/mulle-utf.svg) [![Build Status](https://github.com/mulle-c/mulle-utf/workflows/CI/badge.svg)](//github.com/mulle-c/mulle-utf/actions) ![Coverage](https://img.shields.io/badge/coverage-75%25%C2%A0-yellow) | [RELEASENOTES](RELEASENOTES.md) |
+| Release Version                                       | Release Notes  | AI Documentation
+|-------------------------------------------------------|----------------|---------------
+| ![Mulle kybernetiK tag](https://img.shields.io/github/tag/mulle-c/mulle-utf.svg) [![Build Status](https://github.com/mulle-c/mulle-utf/workflows/CI/badge.svg)](//github.com/mulle-c/mulle-utf/actions) ![Coverage](https://img.shields.io/badge/coverage-75%25%C2%A0-yellow) | [RELEASENOTES](RELEASENOTES.md) | [DeepWiki for mulle-utf](https://deepwiki.com/mulle-c/mulle-utf)
 
 
 ## API
