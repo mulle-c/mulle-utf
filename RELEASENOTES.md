@@ -1,3 +1,7 @@
+### 5.0.1
+
+Various small improvements
+
 # 5.0.0
 
 feat: improve UTF string handling and `size_t` compatibility
