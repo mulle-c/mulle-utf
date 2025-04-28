@@ -128,7 +128,7 @@ char  *_mulle_utf16_convert_to_utf8( mulle_utf16_t *src, size_t len, char *_dst)
    {
       x = *src++;
 
-      assert( x >= 0 && x <= mulle_utf32_max);
+      assert( /* x >= 0 && */ x <= mulle_utf32_max);
 
       // 4 cases
       // < 0x80, < 0x800 < 0x10000, > 0x10000
@@ -213,7 +213,7 @@ void  mulle_utf16_bufferconvert_to_utf8( mulle_utf16_t *src,
       x = *src++;
 
 recheck:
-      assert( x >= 0 && x <= mulle_utf32_max);
+      assert( /* x >= 0 && */ x <= mulle_utf32_max);
       if( x < 0x80)
       {
          *s++ = (unsigned char) x;

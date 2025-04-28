@@ -64,7 +64,7 @@ static mulle_utf32_t   mulle_utf8_extracharactersvalue( char *_src,
    mulle_utf32_t   x;
 
    assert( src);
-   assert( extra_len >=0 && extra_len <= 3);
+   assert( /* extra_len >=0 && */ extra_len <= 3);
 
    _c = *src++;
    x  = _c;
