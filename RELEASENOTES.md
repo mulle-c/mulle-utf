@@ -1,3 +1,7 @@
+### 5.0.2
+
+* conversion routines are a little less trusting now
+
 ### 5.0.1
 
 Various small improvements
