@@ -99,7 +99,8 @@ mulle_utf32_t  *_mulle_utf16_convert_to_utf32( mulle_utf16_t *src,
       if( mulle_utf32_is_highsurrogatecharacter( x))  // hi surrogate
       {
          // decode surrogate
-         assert( src < sentinel);
+         if( src >= sentinel)
+            break;
          x = mulle_utf16_decode_surrogatepair( (mulle_utf16_t) x, *src++);
       }
 
@@ -150,7 +151,8 @@ recheck:
          if( mulle_utf32_is_highsurrogatecharacter( x))  // hi surrogate
          {
             // decode surrogate
-            assert( src < sentinel);
+            if( src >= sentinel)
+               break;
             x = mulle_utf16_decode_surrogatepair( (mulle_utf16_t) x, *src++);
             goto recheck;
          }
@@ -234,7 +236,8 @@ recheck:
          if( mulle_utf32_is_highsurrogatecharacter( x))  // hi surrogate
          {
             // decode surrogate
-            assert( src < sentinel);
+            if( src >= sentinel)
+               break;
             x = mulle_utf16_decode_surrogatepair( (mulle_utf16_t) x, *src++);
             goto recheck;
          }
@@ -287,7 +290,8 @@ void  mulle_utf16_bufferconvert_to_utf32( mulle_utf16_t *src,
       if( mulle_utf32_is_highsurrogatecharacter( x))  // hi surrogate
       {
          // decode surrogate
-         assert( src < sentinel);
+         if( src >= sentinel)
+            break;
          x = mulle_utf16_decode_surrogatepair( (mulle_utf16_t) x, *src++);
       }
 
