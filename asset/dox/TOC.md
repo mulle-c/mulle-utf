@@ -1,4 +1,5 @@
 # mulle-utf Library Documentation for AI
+<!-- Keywords: utf, encoding -->
 
 ## 1. Introduction & Purpose
 

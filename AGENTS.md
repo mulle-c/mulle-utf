@@ -7,34 +7,23 @@
 DO NOT skip these steps. DO NOT treat them as optional. DO NOT proceed with any
 task until you have completed ALL of these commands in order:
 
-### Step 1: REQUIRED - Enable vibecoding and read help
+### Step 1: REQUIRED - Enable vibecoding and study the returned information
 
 ```bash
 mulle-sde vibecoding on
-mulle-sde help
-```
-
-### Step 2: REQUIRED - Read howto and api help
-
-```bash
-mulle-sde howto help
-mulle-sde api help
-```
-
-### Step 3: REQUIRED - List available commands and howtos
-
-```bash
 mulle-sde commands
+mulle-sde howto cat dependency
+mulle-sde howto cat testing
 mulle-sde howto list
+mulle-sde api list
 ```
 
-**REMEMBER**: `mulle-sde howto` is THE tool for getting work done in this
-project. Use it FIRST before attempting any task manually.
+The provided information is CRITICAL to your success.
 
 
-## MANDATORY BEFORE WRITING ANY CODE
+## MANDATORY BEFORE WRITING ANY PROJECT CODE
 
-🚨 **YOU MUST RUN THIS COMMAND BEFORE WRITING OR MODIFYING ANY CODE** 🚨
+🚨 **YOU MUST RUN THIS COMMAND BEFORE WRITING OR MODIFYING ANY PROJECT CODE** 🚨
 
 ```bash
 value="$(mulle-sde env get PROJECT_DIALECT)"
@@ -43,6 +32,18 @@ mulle-sde howto show --keyword styleguide --keyword "${value}"
 ```
 
 This gets the style information for the project. It is NOT optional.
+
+
+## MANDATORY BEFORE CHANGING ANY MULLE-SDE SHELL CODE
+
+🚨 **YOU MUST RUN THIS COMMAND BEFORE WRITING OR MODIFYING ANY MULLE-SDE SHELL CODE** 🚨
+
+```bash
+mulle-bashfunctions toc
+```
+
+This gets you the coding information for the shell/bash project. It is NOT optional.
+
 ## Library
 
 This is a library project, you can not run it.
