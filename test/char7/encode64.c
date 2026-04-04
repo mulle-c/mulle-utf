@@ -45,8 +45,8 @@ int  main()
       abort();
    }
 
-   printf( "strlen  = %ld\n", mulle_char7_strlen64( code));
-   printf( "fstrlen = %ld\n", mulle_char7_fstrlen64( code));
+   printf( "strlen  = %zu\n", mulle_char7_strlen64( code));
+   printf( "fstrlen = %zu\n", mulle_char7_fstrlen64( code));
 
    if( buf[ 4] != 'c' || buf[ 5] != ':')
    {
