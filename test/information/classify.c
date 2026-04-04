@@ -64,31 +64,31 @@ static void   test( mulle_utf32_t text[ 4], int is_ascii, int is_utf15, int is_c
    // buffer.n is bytes!
    if( ! mulle_utf_information_is_equal( &info32, &info8))
    {
-      printf( "failed with %S\n", text);
+      printf( "failed with %S\n", (wchar_t *) text);
       return;
    }
 
    if( ! mulle_utf_information_is_equal( &info16, &info8))
    {
-      printf( "failed with %S (16/8)\n", text);
+      printf( "failed with %S (16/8)\n", (wchar_t *) text);
       return;
    }
 
    if( is_ascii >= 0 && info8.is_ascii != is_ascii)
    {
-      printf( "ASCII detection failed with %S\n", text);
+      printf( "ASCII detection failed with %S\n", (wchar_t *) text);
       return;
    }
 
    if( is_utf15 >= 0 && info8.is_utf15 != is_utf15)
    {
-      printf( "UTF15 detection failed with %S\n", text);
+      printf( "UTF15 detection failed with %S\n", (wchar_t *) text);
       return;
    }
 
    if( is_char5 >= 0 && info8.is_char5 != is_char5)
    {
-      printf( "CHAR5 detection failed with %S\n", text);
+      printf( "CHAR5 detection failed with %S\n", (wchar_t *) text);
       return;
    }
 

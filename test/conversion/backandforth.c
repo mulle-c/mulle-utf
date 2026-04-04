@@ -68,7 +68,7 @@ static void   test_prediction( mulle_utf32_t text[ 4])
    mulle_utf32_bufferconvert_to_utf8( info.start, info.utf32len, &buffer8, (void *) buffer_add);
    if( buffer8.n != info.utf8len)
    {
-      printf( "failed with %ls\n", text);
+      printf( "failed with %ls\n", (wchar_t *) text);
       return;
    }
 
@@ -76,7 +76,7 @@ static void   test_prediction( mulle_utf32_t text[ 4])
    mulle_utf8_bufferconvert_to_utf32( buffer8.text._8, buffer8.n, &buffer32, (void *) buffer_add);
    if( buffer32.n / sizeof( mulle_utf32_t) != info.utf32len)
    {
-      printf( "failed with %ls\n", text);
+      printf( "failed with %ls\n", (wchar_t *) text);
       return;
    }
 
@@ -86,7 +86,7 @@ static void   test_prediction( mulle_utf32_t text[ 4])
    mulle_utf32_bufferconvert_to_utf16( info.start, info.utf32len, &buffer16, (void *) buffer_add);
    if( buffer16.n / sizeof( mulle_utf16_t) != info.utf16len)
    {
-      printf( "failed with %ls\n", text);
+      printf( "failed with %ls\n", (wchar_t *) text);
       return;
    }
 
@@ -94,7 +94,7 @@ static void   test_prediction( mulle_utf32_t text[ 4])
    mulle_utf16_bufferconvert_to_utf32( buffer16.text._16, buffer16.n / sizeof( mulle_utf16_t), &buffer32, (void *) buffer_add);
    if( buffer32.n / sizeof( mulle_utf32_t) != info.utf32len)
    {
-      printf( "failed with %ls\n", text);
+      printf( "failed with %ls\n", (wchar_t *) text);
       return;
    }
 
@@ -103,7 +103,7 @@ static void   test_prediction( mulle_utf32_t text[ 4])
    mulle_utf16_bufferconvert_to_utf8( buffer16.text._16, buffer16.n / sizeof( mulle_utf16_t), &buffer8, (void *) buffer_add);
    if( buffer8.n != info.utf8len)
    {
-      printf( "failed with %ls\n", text);
+      printf( "failed with %ls\n", (wchar_t *) text);
       return;
    }
 
@@ -111,7 +111,7 @@ static void   test_prediction( mulle_utf32_t text[ 4])
    mulle_utf8_bufferconvert_to_utf16( buffer8.text._8, buffer8.n, &buffer16, (void *) buffer_add);
    if( buffer16.n / sizeof( mulle_utf16_t) != info.utf16len)
    {
-      printf( "failed with %ls\n", text);
+      printf( "failed with %ls\n", (wchar_t *) text);
       return;
    }
 }
@@ -135,7 +135,7 @@ static void   test_conversion( mulle_utf32_t text[ 4])
    // buffer.n is bytes!
    if( buffer32.n != 16 || memcmp( text, buffer32.text._32, 4))
    {
-      printf( "utf32 to utf8 and back failed with %ls\n", text);
+      printf( "utf32 to utf8 and back failed with %ls\n", (wchar_t *) text);
       abort();
    }
 
@@ -148,7 +148,7 @@ static void   test_conversion( mulle_utf32_t text[ 4])
    // buffer.n is bytes!
    if( buffer32.n != 16 || memcmp( text, buffer32.text._32, 4))
    {
-      printf( "utf32 to utf16 failed with %ls\n", text);
+      printf( "utf32 to utf16 failed with %ls\n", (wchar_t *) text);
       abort();
    }
 
@@ -166,7 +166,7 @@ static void   test_conversion( mulle_utf32_t text[ 4])
    // buffer.n is bytes!
    if( buffer32.n != 16 || memcmp( text, buffer32.text._32, 4))
    {
-      printf( "utf32 to utf16 to utf8 to utf16 failed with %S\n", text);
+      printf( "utf32 to utf16 to utf8 to utf16 failed with %S\n", (wchar_t *) text);
       abort();
    }
 }

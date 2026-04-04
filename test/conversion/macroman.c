@@ -32,14 +32,14 @@ int  main()
       if( m != 16)
          break;
 
-      printf( "%02x: %.*s\n", off, (int) (t - s), s);
+      printf( "%02x: %.*s\n", (unsigned int) off, (int) (t - s), s);
       s    = t;
       off += 16;
    }
 
    if( end != s)
    {
-      printf( "%02x: %.*s\n", off, (int) (end - s), s);
+      printf( "%02x: %.*s\n", (unsigned int) off, (int) (end - s), s);
    }
    return( 0);
 }
