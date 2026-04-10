@@ -1,11 +1,12 @@
-## 5.1.0
-
-
-* clarified project setup steps with `mulle-sde vibecoding on`
-* added explicit note about skipping Add section after quickstart
+## 5.2.0
 
 
 
-feature: add range-based character access helper
 
-* new `mulle_utf8data_characters_in_range()` inline function for safe substring access
+
+
+
+feature: expose lookup table and add UTF‑32 → UTF‑16 conversion helpers
+
+* expose `mulle_char5_lookup_table` as a public symbol so callers can use direct table lookups for encoding/decoding
+* add `mulle_utf32_as_utf16` (inline) and `_mulle_utf32_as_utf16_not_ascii` helpers to convert UTF‑32 codepoints to UTF‑16 (including surrogate pair handling)
