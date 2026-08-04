@@ -27,6 +27,11 @@ It is the backbone of **NSString**.
 `size_t` is used for byte-sized (really `char`-sized) lengths. UTF16 and
 UTF32 use `size_t`.
 
+## Documentation & Guides
+
+* [API Summary](asset/dox/api/toc)
+
+
 
 
 ### You are here
