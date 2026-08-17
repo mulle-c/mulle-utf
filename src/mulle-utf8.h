@@ -118,9 +118,11 @@ static inline size_t  mulle_utf8_get_extracharacterslength( char c)
 // function is not ware of UTF8 BOM
 // returned length does not include BOM
 //
+// fuzzed
 MULLE__UTF_GLOBAL
 size_t  mulle_utf8_utf16length( char *src, size_t len);
 
+// fuzzed
 MULLE__UTF_GLOBAL
 size_t  mulle_utf8_utf32length( char *src, size_t len);
 
@@ -154,6 +156,7 @@ int   mulle_utf8_are_valid_extracharacters( char *s, size_t len, mulle_utf32_t *
 // returns pointer to character, that is invalid (first of compound chars)
 // TODO: find encoding where nothing needs to be composed
 
+// fuzzed
 MULLE__UTF_GLOBAL
 int  mulle_utf8_information( char *s, size_t len, struct mulle_utf_information *info);
 
@@ -161,6 +164,7 @@ MULLE__UTF_GLOBAL
 int  mulle_utf8_is_ascii( char *s, size_t len);
 
 // returns NULL if OK, otherwise the offending character address
+// fuzzed
 MULLE__UTF_GLOBAL
 char  *mulle_utf8_validate( char *src, size_t len);
 
@@ -171,9 +175,11 @@ char  *mulle_utf8_validate( char *src, size_t len);
 // iterate back and forth over a  buffer. the utf8 must be valid, and
 // this doesn't check for zero or buffer overflow
 //
+// fuzzed
 MULLE__UTF_GLOBAL
 mulle_utf32_t   _mulle_utf8_next_utf32character( char **s_p);
 
+// fuzzed
 MULLE__UTF_GLOBAL
 mulle_utf32_t   _mulle_utf8_previous_utf32character( char **s_p);
 
@@ -331,6 +337,7 @@ static inline struct mulle_data
 
 
 // changes contents of rover
+// fuzzed
 MULLE__UTF_GLOBAL
 mulle_utf32_t   _mulle_utf8data_next_utf32character( struct mulle_utf8data *rover);
 
@@ -369,11 +376,13 @@ mulle_utf32_t   *_mulle_utf8_convert_to_utf32( char *src,
 
 // low level conversion, no checks dst is assumed to be wide enough
 // returns end of dst, len can't be -1
+// fuzzed
 MULLE__UTF_GLOBAL
 mulle_utf16_t   *_mulle_utf8_convert_to_utf16( char *src,
                                                size_t len,
                                                mulle_utf16_t *dst);
 
+// fuzzed
 MULLE__UTF_GLOBAL
 mulle_utf32_t   *_mulle_utf8_convert_to_utf32( char *src,
                                                size_t len,

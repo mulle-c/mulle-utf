@@ -103,23 +103,31 @@ int   mulle_char5_is_char5string32( char *src, size_t len);
 MULLE__UTF_GLOBAL
 int   mulle_char5_is_char5string64( char *src, size_t len);
 
+// fuzzed
 MULLE__UTF_GLOBAL
 uint32_t   mulle_char5_encode32( char *src, size_t len);
+// fuzzed
 MULLE__UTF_GLOBAL
 uint64_t   mulle_char5_encode64( char *src, size_t len);
 
+// fuzzed
 MULLE__UTF_GLOBAL
 uint32_t   mulle_char5_encode32_utf16( mulle_utf16_t *src, size_t len);
+// fuzzed
 MULLE__UTF_GLOBAL
 uint64_t   mulle_char5_encode64_utf16( mulle_utf16_t *src, size_t len);
 
+// fuzzed
 MULLE__UTF_GLOBAL
 uint32_t   mulle_char5_encode32_utf32( mulle_utf32_t *src, size_t len);
+// fuzzed
 MULLE__UTF_GLOBAL
 uint64_t   mulle_char5_encode64_utf32( mulle_utf32_t *src, size_t len);
 
+// fuzzed
 MULLE__UTF_GLOBAL
 size_t   mulle_char5_decode32( uint32_t value, char *dst, size_t len);
+// fuzzed
 MULLE__UTF_GLOBAL
 size_t   mulle_char5_decode64( uint64_t value, char *src, size_t len);
 

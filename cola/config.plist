@@ -3,5 +3,6 @@
    showButtons = YES;
    showCoverage = YES;
    showCodacy = NO;
+   skipDocLinks = YES;
    }
 }

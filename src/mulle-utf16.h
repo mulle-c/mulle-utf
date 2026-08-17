@@ -88,17 +88,17 @@ static inline int   mulle_utf16_is_char5character( mulle_utf16_t c)
 }
 
 
+// fuzzed
 MULLE__UTF_GLOBAL
 int     mulle_utf16_information( mulle_utf16_t *src, size_t len, struct mulle_utf_information *info);
 
+// fuzzed
 MULLE__UTF_GLOBAL
 size_t  mulle_utf16_utf8length( mulle_utf16_t *src, size_t len);
 
+// fuzzed
 MULLE__UTF_GLOBAL
 size_t  mulle_utf16_utf32length( mulle_utf16_t *src, size_t len);
-
-MULLE__UTF_GLOBAL
-size_t  mulle_utf16_length( mulle_utf16_t *src, size_t len);
 
 MULLE__UTF_GLOBAL
 int   mulle_utf16_contains_character_larger_or_equal( mulle_utf16_t *src,
@@ -122,6 +122,7 @@ static inline size_t  mulle_utf16_utf8maxlength( size_t len)
    return( len * 4);
 }
 
+// fuzzed
 MULLE__UTF_GLOBAL
 mulle_utf16_t  *mulle_utf16_validate( mulle_utf16_t *src, size_t len);
 
@@ -130,19 +131,23 @@ MULLE__UTF_GLOBAL
 int  mulle_utf16_is_valid_surrogatepair( mulle_utf16_t hi, mulle_utf16_t lo);
 
 // step through string characters
+// fuzzed
 MULLE__UTF_GLOBAL
 mulle_utf32_t   _mulle_utf16_next_utf32character( mulle_utf16_t **s_p);
 
+// fuzzed
 MULLE__UTF_GLOBAL
 mulle_utf32_t   _mulle_utf16_previous_utf32character( mulle_utf16_t **s_p);
 
 
 // low level conversion, no checks dst is assumed to be wide enough
 // returns end of dst
+// fuzzed
 MULLE__UTF_GLOBAL
 mulle_utf32_t  *_mulle_utf16_convert_to_utf32( mulle_utf16_t *src,
                                                size_t len,
                                                mulle_utf32_t *dst);
+// fuzzed
 MULLE__UTF_GLOBAL
 char  *_mulle_utf16_convert_to_utf8( mulle_utf16_t *src,
                                      size_t len,

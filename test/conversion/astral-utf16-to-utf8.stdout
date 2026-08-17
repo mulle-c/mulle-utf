@@ -1,0 +1,13 @@
+PASS: ascii
+PASS: latin1 U+00E9
+PASS: bmp U+20AC
+PASS: astral U+1F600
+PASS: mixed astral
+PASS: two astral
+PASS: round trip ascii
+PASS: round trip bmp
+PASS: round trip astral
+PASS: round trip mixed astral
+PASS: round trip two astral
+
+All tests passed!
