@@ -79,10 +79,10 @@ mulle_utf16_t  *_mulle_utf32_convert_to_utf16_as_surrogatepair( mulle_utf32_t x,
 
 
 // must be proper UTF32 code!
-char  *_mulle_utf32_convert_to_utf8( mulle_utf32_t *src, size_t len, char *_dst)
+char  *_mulle_utf32_convert_to_utf8( const mulle_utf32_t *src, size_t len, char *_dst)
 {
    unsigned char   *dst = (unsigned char *) _dst;
-   mulle_utf32_t   *sentinel;
+   const mulle_utf32_t   *sentinel;
    mulle_utf32_t   x;
 
    // if dst_len == -1, then sentinel - 1 = dst_sentinel (OK!)
@@ -130,11 +130,11 @@ char  *_mulle_utf32_convert_to_utf8( mulle_utf32_t *src, size_t len, char *_dst)
 }
 
 
-mulle_utf16_t   *_mulle_utf32_convert_to_utf16( mulle_utf32_t *src,
+mulle_utf16_t   *_mulle_utf32_convert_to_utf16( const mulle_utf32_t *src,
                                                 size_t len,
                                                 mulle_utf16_t *dst)
 {
-   mulle_utf32_t   *sentinel;
+   const mulle_utf32_t   *sentinel;
    mulle_utf32_t   x;
 
    // if dst_len == -1, then sentinel - 1 = dst_sentinel (OK!)
@@ -160,12 +160,12 @@ mulle_utf16_t   *_mulle_utf32_convert_to_utf16( mulle_utf32_t *src,
 
 
 // must be proper UTF32 code!
-void  mulle_utf32_bufferconvert_to_utf8( mulle_utf32_t *src,
+void  mulle_utf32_bufferconvert_to_utf8( const mulle_utf32_t *src,
                                          size_t len,
                                          void *buffer,
                                          mulle_utf_add_bytes_function_t *addbytes)
 {
-   mulle_utf32_t   *sentinel;
+   const mulle_utf32_t   *sentinel;
    mulle_utf32_t   x;
    unsigned char   *s;
    unsigned char   *s_flush;
@@ -228,12 +228,12 @@ void  mulle_utf32_bufferconvert_to_utf8( mulle_utf32_t *src,
 }
 
 
-void   mulle_utf32_bufferconvert_to_utf16( mulle_utf32_t *src,
+void   mulle_utf32_bufferconvert_to_utf16( const mulle_utf32_t *src,
                                            size_t len,
                                            void *buffer,
                                            mulle_utf_add_bytes_function_t *addbytes)
 {
-   mulle_utf32_t   *sentinel;
+   const mulle_utf32_t   *sentinel;
    mulle_utf32_t   x;
    mulle_utf16_t   *s;
    mulle_utf16_t   *s_flush;
@@ -284,10 +284,10 @@ void   mulle_utf32_bufferconvert_to_utf16( mulle_utf32_t *src,
 // UTF-32 has no structural truncation problem since every element is one
 // code point.
 //
-size_t   mulle_utf32_utf8length( mulle_utf32_t *src,
+size_t   mulle_utf32_utf8length( const mulle_utf32_t *src,
                                  size_t len)
 {
-   mulle_utf32_t  *sentinel;
+   const mulle_utf32_t  *sentinel;
    uint32_t       x;
    size_t         size;
 
@@ -333,10 +333,10 @@ size_t   mulle_utf32_utf8length( mulle_utf32_t *src,
 
 
 // See comment above mulle_utf32_utf8length for the error signalling rationale.
-size_t   mulle_utf32_utf16length( mulle_utf32_t *src,
+size_t   mulle_utf32_utf16length( const mulle_utf32_t *src,
                                         size_t len)
 {
-   mulle_utf32_t  *sentinel;
+   const mulle_utf32_t  *sentinel;
    uint32_t       x;
 
    if( ! src)
@@ -365,13 +365,13 @@ size_t   mulle_utf32_utf16length( mulle_utf32_t *src,
 }
 
 
-int   mulle_utf32_information( mulle_utf32_t *src,
+int   mulle_utf32_information( const mulle_utf32_t *src,
                                size_t len,
                                struct mulle_utf_information *info)
 {
    mulle_utf32_t                  _c;
-   mulle_utf32_t                  *start;
-   mulle_utf32_t                  *sentinel;
+   const mulle_utf32_t                  *start;
+   const mulle_utf32_t                  *sentinel;
    struct mulle_utf_information   dummy;
 
    if( ! info)
@@ -379,7 +379,7 @@ int   mulle_utf32_information( mulle_utf32_t *src,
 
    info->has_terminating_zero = 0;
    info->invalid              = NULL;
-   info->start                = src;
+   info->start                = (void *) src;
    info->is_ascii             = 1;
    info->is_char5             = 1;
    info->is_utf15             = 1;
@@ -406,7 +406,7 @@ int   mulle_utf32_information( mulle_utf32_t *src,
       len -= 1;
    }
 
-   info->start = src;
+   info->start = (void *) src;
    start       = src;
    sentinel    = &src[ len];
 
@@ -459,7 +459,7 @@ int   mulle_utf32_information( mulle_utf32_t *src,
 
 fail:
    memset( info, 0, sizeof( *info));
-   info->invalid = src;
+   info->invalid = (void *) src;
    return( -1);
 }
 
@@ -500,10 +500,10 @@ char   *_mulle_utf32_as_utf8_not_ascii( mulle_utf32_t x, char *_dst)
 
 
 
-mulle_utf32_t  *mulle_utf32_validate( mulle_utf32_t *src, size_t len)
+mulle_utf32_t  *mulle_utf32_validate( const mulle_utf32_t *src, size_t len)
 {
    mulle_utf32_t   c;
-   mulle_utf32_t   *sentinel;
+   const mulle_utf32_t   *sentinel;
 
    if( ! src)
       return( NULL);
@@ -521,25 +521,25 @@ mulle_utf32_t  *mulle_utf32_validate( mulle_utf32_t *src, size_t len)
          break;   // embedded NUL is a valid terminator
 
       if( c < 0 || c > mulle_utf32_max)
-         return( src);
+         return( (mulle_utf32_t *) src);
 
 #if FORBID_NON_CHARACTERS
       if( mulle_utf32_is_invalidcharacter( c))
-         return( src);
+         return( (mulle_utf32_t *) src);
 #endif
 
       if( mulle_utf32_is_surrogatecharacter( c))
-         return( src);
+         return( (mulle_utf32_t *) src);
    }
    return( 0);
 }
 
 
-enum mulle_utf_charinfo   _mulle_utf32_charinfo( mulle_utf32_t *src, size_t len)
+enum mulle_utf_charinfo   _mulle_utf32_charinfo( const mulle_utf32_t *src, size_t len)
 {
    mulle_utf32_t   _c;
-   mulle_utf32_t   *start;
-   mulle_utf32_t   *sentinel;
+   const mulle_utf32_t   *start;
+   const mulle_utf32_t   *sentinel;
 
    assert( len);
    assert( len != (size_t) -1);
