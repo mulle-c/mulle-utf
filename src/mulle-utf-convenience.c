@@ -120,7 +120,7 @@ void   mulle_utf16_conversion_context_add_bytes( void *_p,
       }
 
       len         = (t - (mulle_utf16_t *) bytes) * sizeof( mulle_utf16_t);
-      end         = &p->buf[ len];
+      end         = &p->buf[ len / sizeof( mulle_utf16_t)];
       p->sentinel = NULL; // ensure we don't add a late smaller character
    }
 

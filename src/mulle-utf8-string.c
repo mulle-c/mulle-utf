@@ -76,9 +76,11 @@ char   *mulle_utf8_strncpy( char *dst, size_t len, char *src)
 //
 char   *mulle_utf8_strnstr( char *s, size_t len, char *search)
 {
-   char   *p;
    char   *sentinel;
-   size_t  offset;
+   char   *candidate;
+   char   *p;
+   char   *q;
+   size_t  search_len;
 
    if( ! s || ! search)
       return( NULL);
@@ -86,32 +88,31 @@ char   *mulle_utf8_strnstr( char *s, size_t len, char *search)
    if( len == (size_t) -1)
       len = mulle_utf8_strlen( s);
 
-   offset = mulle_utf8_strlen( search);
-   if( ! offset)
+   search_len = mulle_utf8_strlen( search);
+   if( ! search_len)
       return( s);
 
-   sentinel = &s[ len];
-   p        = search;
+   if( search_len > len)
+      return( NULL);
 
-   // fprintf( stderr, "# s=\"%s\" search=\"%s\" len=%ld, offset=%ld, sentinel=\"%s\"\n",
-   //            s, search, (long) len, (long) offset, sentinel);
+   sentinel = &s[ len - search_len + 1];
 
-   for(;;)
+   for( candidate = s; candidate < sentinel; candidate++)
    {
-      if( s >= sentinel)
-         return( NULL);
+      if( *candidate != *search)
+         continue;
 
-      if( *s++ != *p)
+      p = candidate + 1;
+      q = search + 1;
+      while( *q && *p == *q)
       {
-         p = search;
-         continue;
+         p++;
+         q++;
       }
-
-      if( *++p)
-         continue;
-
-      return( (char *) &s[ -(long) offset]);
+      if( ! *q)
+         return( candidate);
    }
+   return( NULL);
 }
 
 

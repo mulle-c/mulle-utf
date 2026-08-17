@@ -351,17 +351,24 @@ char   *
          continue;
       }
 
-      if( (_c & 0xFC) == 0xC0) // we have 110000nn
+      if( (_c & 0xFC) == 0xC0) // we have 110000nn (C0-C3)
       {                        // and     10nnnnnn
          if( src < sentinel)
          {
             _d = *src++;
-            if( (_c & 0xC0) == 0x80)
+            if( (_d & 0xC0) == 0x80)
             {
                *dst++ = ((_c & 0x3) << 6) | (_d & 0x3F);
                continue;
             }
+            --src; // _d was not a continuation, put it back
          }
+      }
+      else
+      {
+         // skip continuation bytes of multi-byte sequences (3 or 4 byte)
+         while( src < sentinel && (*src & 0xC0) == 0x80)
+            ++src;
       }
       if( unknown < 0)
          return( NULL);
@@ -608,7 +615,7 @@ char  *mulle_utf8_validate( char *_src, size_t len)
    for( ; src < sentinel; src++)
    {
       if( ! (_c = *src))
-         return( (char *) src);
+         break;   // embedded NUL is a valid terminator
 
       if( mulle_utf8_is_asciicharacter( _c))
          continue;
@@ -835,7 +842,11 @@ int   mulle_utf8_is_ascii( char *src, size_t len)
 }
 
 //
-// this routine does not validate...
+// This routine does not validate, but returns (size_t) -1 if a multi-byte
+// sequence extends past the buffer. This isn't a validation service — it's
+// unavoidable because we'd read out of bounds otherwise. The utf32 length
+// functions don't have this issue (each element is self-contained) and just
+// assert instead.
 //
 size_t   mulle_utf8_utf16length( char *src, size_t len)
 {
@@ -866,7 +877,7 @@ size_t   mulle_utf8_utf16length( char *src, size_t len)
       dst_len  -= extra_len == 3 ? 2 : extra_len; // ==3 : 32 bit
       end       = &src[ extra_len];
       if( end > sentinel)
-         return( 0);
+         return( (size_t) -1);
 #ifndef NDEBUG
       do
       {
@@ -882,9 +893,7 @@ size_t   mulle_utf8_utf16length( char *src, size_t len)
 }
 
 
-//
-// this routine does not validate...
-//
+// See comment above mulle_utf8_utf16length for the error signalling rationale.
 size_t  mulle_utf8_utf32length( char *src, size_t len)
 {
    char           *end;
@@ -967,13 +976,28 @@ struct mulle_utf8data  mulle_utf8data_range_of_utf32_range( struct mulle_utf8dat
    {
       if( i == range.location)
          rval.characters = s;
-      if( (unsigned char) *s++ & 0x80)
+
+      // skip continuation bytes (10xxxxxx), only count lead/ASCII bytes
+      if( ((unsigned char) *s & 0xC0) == 0x80)
+      {
+         s++;
          continue;
-      if( ++i == end)
+      }
+
+      if( i == end)
       {
          rval.length = s - rval.characters;
          return( rval);
       }
+      ++i;
+      s++;
+   }
+
+   // handle range that extends to end of string
+   if( i == end)
+   {
+      rval.length = s - rval.characters;
+      return( rval);
    }
 
    return( mulle_utf8data_make( NULL, 0));

@@ -133,7 +133,7 @@ int   mulle_char5_is_char5string32( char *src, size_t len)
    while( src < sentinel)
       switch( mulle_char5_lookup_character( *src++))
       {
-      case 0  : return( 1);   // zero byte, ok fine!
+      case 0  : return( 0);   // zero byte within len can't be encoded
       case -1 : return( 0);   // invalid char
       }
 
@@ -158,7 +158,7 @@ int   mulle_char5_is_char5string64( char *src, size_t len)
    while( src < sentinel)
       switch( mulle_char5_lookup_character( *src++))
       {
-      case 0  : return( 1);
+      case 0  : return( 0);   // zero byte within len can't be encoded
       case -1 : return( 0);
       }
 

@@ -275,7 +275,15 @@ void   mulle_utf32_bufferconvert_to_utf16( mulle_utf32_t *src,
 }
 
 
-// must be proper UTF32 code!
+//
+// Input must be valid UTF-32 (no surrogates, no values > 0x10FFFF).
+// Use mulle_utf32_information or mulle_utf32_validate first.
+// Unlike the utf8/utf16 length functions, these do NOT return (size_t) -1
+// on invalid input — they just assert. The utf8/utf16 variants detect
+// truncated multi-byte sequences because they'd read out of bounds otherwise;
+// UTF-32 has no structural truncation problem since every element is one
+// code point.
+//
 size_t   mulle_utf32_utf8length( mulle_utf32_t *src,
                                  size_t len)
 {
@@ -324,7 +332,7 @@ size_t   mulle_utf32_utf8length( mulle_utf32_t *src,
 }
 
 
-// must be proper UTF32 code!
+// See comment above mulle_utf32_utf8length for the error signalling rationale.
 size_t   mulle_utf32_utf16length( mulle_utf32_t *src,
                                         size_t len)
 {
@@ -350,7 +358,7 @@ size_t   mulle_utf32_utf16length( mulle_utf32_t *src,
 
       assert( /* x >= 0 && */ x <= mulle_utf32_max);
 
-      if( x >= 0xFFFF)
+      if( x >= 0x10000)
          len++;
    }
    return( len);
@@ -491,12 +499,6 @@ char   *_mulle_utf32_as_utf8_not_ascii( mulle_utf32_t x, char *_dst)
 }
 
 
-// same as mulle_utf16_is_invalid_char really
-static inline int  mulle_utf32_is_invalid_char( mulle_utf32_t c)
-{
-   return( c == 0xFFFE || c == 0xFFFF || (c >= 0xFDD0 && c <= 0xFDEF));
-}
-
 
 mulle_utf32_t  *mulle_utf32_validate( mulle_utf32_t *src, size_t len)
 {
@@ -515,11 +517,16 @@ mulle_utf32_t  *mulle_utf32_validate( mulle_utf32_t *src, size_t len)
    {
       c = *src;
 
-      if( ! c || c > mulle_utf32_max)
+      if( ! c)
+         break;   // embedded NUL is a valid terminator
+
+      if( c < 0 || c > mulle_utf32_max)
          return( src);
 
-      if( mulle_utf32_is_invalid_char( c))
+#if FORBID_NON_CHARACTERS
+      if( mulle_utf32_is_invalidcharacter( c))
          return( src);
+#endif
 
       if( mulle_utf32_is_surrogatecharacter( c))
          return( src);

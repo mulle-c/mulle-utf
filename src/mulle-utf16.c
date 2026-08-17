@@ -334,10 +334,12 @@ mulle_utf16_t  *mulle_utf16_validate( mulle_utf16_t *src, size_t len)
       c = *src;
 
       if( ! c)
-         return( src);
+         break;   // embedded NUL is a valid terminator
 
+#if FORBID_NON_CHARACTERS
       if( mulle_utf16_is_invalid_char( c))
          return( src);
+#endif
 
       if( ! mulle_utf32_is_surrogatecharacter( c))
          continue;
@@ -345,10 +347,10 @@ mulle_utf16_t  *mulle_utf16_validate( mulle_utf16_t *src, size_t len)
       if( mulle_utf32_is_lowsurrogatecharacter( c))
          return( src);
 
-      if( src >= sentinel)
-         return( src);
+      if( ++src >= sentinel)
+         return( src - 1);
 
-      d = *++src;
+      d = *src;
       if( ! mulle_utf32_is_lowsurrogatecharacter( d))
          return( src);
 
@@ -362,7 +364,8 @@ mulle_utf16_t  *mulle_utf16_validate( mulle_utf16_t *src, size_t len)
 }
 
 //
-// this routine does not validate...
+// Does not validate, but returns (size_t) -1 if a surrogate pair is truncated
+// at the buffer end. See mulle_utf8_utf16length comment for the rationale.
 //
 size_t  mulle_utf16_utf8length( mulle_utf16_t *src, size_t len)
 {
@@ -407,6 +410,7 @@ size_t  mulle_utf16_utf8length( mulle_utf16_t *src, size_t len)
 }
 
 
+// See mulle_utf16_utf8length comment for the error signalling rationale.
 size_t  mulle_utf16_utf32length( mulle_utf16_t *src, size_t len)
 {
    mulle_utf16_t   c;
@@ -434,42 +438,6 @@ size_t  mulle_utf16_utf32length( mulle_utf16_t *src, size_t len)
    return( len);
 }
 
-
-
-size_t  mulle_utf16_length( mulle_utf16_t *src, size_t len)
-{
-   mulle_utf16_t   c;
-   mulle_utf16_t   *sentinel;
-   size_t          dst_len;
-
-   if( len == (size_t) -1)
-      len = mulle_utf16_strlen( src);
-
-   sentinel = &src[ len];
-   dst_len  = len;
-
-   for( ; src < sentinel;)
-   {
-      c = *src++;
-
-      if( c < 0x0800)
-         continue;
-
-      // not a surrogate pair ?
-      if( ! mulle_utf32_is_surrogatecharacter( c))
-      {
-         dst_len--;
-         continue;
-      }
-
-      if( ++src > sentinel)
-         return( -1);
-
-      dst_len -= 2;
-   }
-
-   return( dst_len);
-}
 
 
 mulle_utf32_t   _mulle_utf16_next_utf32character( mulle_utf16_t **s_p)
@@ -583,12 +551,11 @@ int  mulle_utf16_information( mulle_utf16_t *src, size_t len, struct mulle_utf_i
          info->is_utf15 = 0;
 
       // surrogate pair
-      if( _c >= 0xD800 && _c <= 0xE000)
+      if( _c >= 0xD800 && _c < 0xE000)
       {
          if( ! mulle_utf32_is_highsurrogatecharacter( _c))
             goto fail;
 
-         info->utf8len++;
          info->utf32len--;
 
          if( ++src >= sentinel)
