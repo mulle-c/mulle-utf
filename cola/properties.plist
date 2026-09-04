@@ -4,7 +4,7 @@
       description="🔤 UTF8-16-32 analysis and manipulation library";
       domain="github";
       name="mulle-utf";
-      version="5.2.1";
+      version="6.0.0";
       user="mulle-c";
       repo="mulle-utf";
       homepage="https://github.com/mulle-c/mulle-utf";
