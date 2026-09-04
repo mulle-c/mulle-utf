@@ -83,3 +83,6 @@ environment-user-*.sh
 /fuzz/build/
 /fuzz/crashes/
 fuzz/corpus/
+.kiro/
+TODO.md
+REVIEW.md
