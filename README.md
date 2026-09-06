@@ -21,10 +21,13 @@ It is the backbone of **NSString**.
 |----------------------------------------|--------------------------------------------------|
 | [`mulle_char7`](dox/API_CHAR7.md)      | Encode small ASCII strings into integers         |
 | [`mulle_char5`](dox/API_CHAR5.md)      | Encode some more smallish ASCII strings integers |
-| [ctype](dox/API_CTYPE.md)              | Character type information                       |
 | [conversion](dox/API_CONVERSION.md)    | Character and string conversions                 |
 | [information](dox/API_INFORMATION.md)  | Analyze and classify string encodings            |
 | [string](dox/API_STRING.md)            | Primitive UTF16 and UTF32 string handling        |
+
+For character type classification (`is_alphanumeric`, `is_whitespace`,
+`tolower`, `toupper`, etc.) see
+[mulle-unicode](//github.com/mulle-c/mulle-unicode).
 
 `size_t` is used for byte-sized (really `char`-sized) lengths. UTF16 and
 UTF32 use `size_t`.
