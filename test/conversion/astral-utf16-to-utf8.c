@@ -43,15 +43,17 @@ static void   *poison_calloc( size_t n, size_t size, struct mulle_allocator *all
 // mulle_allocator_malloc() routes through realloc, so this is the one that
 // has to poison
 //
-static void   *poison_realloc( void *block, size_t size, struct mulle_allocator *allocator)
+static void   *poison_realloc( void *block, size_t n, size_t size, struct mulle_allocator *allocator)
 {
    void   *p;
+   size_t  total;
 
    MULLE_C_UNUSED( allocator);
 
-   p = realloc( block, size);
+   total = n * size;
+   p     = realloc( block, total);
    if( p && ! block)
-      memset( p, 0xAA, size);
+      memset( p, 0xAA, total);
    return( p);
 }
 
