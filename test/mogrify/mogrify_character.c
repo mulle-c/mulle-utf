@@ -36,7 +36,6 @@ static void   test_8( mulle_utf16_t original[ 4])
 
 static void   test_16( mulle_utf16_t original[ 4])
 {
-   mulle_utf16_t            *text;
    char                     *s;
    char                     *t;
    mulle_utf32_t            buf[ 32] = { 0 };  // important
@@ -57,7 +56,6 @@ static void   test_16( mulle_utf16_t original[ 4])
 
 static void   test_16_unsafe( mulle_utf16_t original[ 4])
 {
-   mulle_utf16_t            *text;
    char                     *s;
    char                     *t;
    mulle_utf16_t            buf[ 32] = { 0 };  // important

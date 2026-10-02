@@ -123,7 +123,6 @@ static void   test_conversion( mulle_utf32_t text[ 4])
    struct buffer   buffer32;
    struct buffer   buffer16;
    struct buffer   buffer8;
-   struct mulle_utf_information   info;
 
 
    memset( &buffer32, 0, sizeof( buffer32));

@@ -11,7 +11,6 @@ static void   test_conversion( mulle_utf32_t text[ 5])
    struct mulle_utf_information   info8;
    char                   *utf8;
    mulle_utf16_t                  *utf16;
-   mulle_utf32_t                  *utf32;
 
    // UTF32 <-> UTF8
    mulle_utf32_information( text, -1, &info32);

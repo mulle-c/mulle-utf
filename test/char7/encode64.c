@@ -8,9 +8,7 @@
 
 int  main()
 {
-   int         c;
    int         i;
-   int         d;
    uint64_t    code;
    char        buf[ 7];
    size_t      size;

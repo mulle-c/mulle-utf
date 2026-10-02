@@ -8,9 +8,7 @@
 
 int  main()
 {
-   int         c;
    int         i;
-   int         d;
    uint32_t    code;
    uint32_t    code64;
    char        buf[ 7];

@@ -11,9 +11,7 @@ int  main()
    int         i;
    uint32_t    code32;
    uint64_t    code64;
-   size_t      len;
    char        *text;
-   char        buf[ 32];
    size_t      strlen1;
    size_t      strlen2;
 

@@ -46,7 +46,7 @@ int   main( int argc, char **argv)
    mulle_utf32_t  bc[ 4] = { 'b', 'c', 0 };
    mulle_utf32_t  a[ 2] = { 'a', 0 };
    mulle_utf32_t  b[ 2] = { 'b', 0 };
-   mulle_utf32_t  d[ 2] = { 'b', 0 };
+   mulle_utf32_t  d[ 2] = { 'd', 0 };
    mulle_utf32_t  empty[ 1] = { 0 };
 
    test( NULL, NULL);

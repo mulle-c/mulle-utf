@@ -59,10 +59,6 @@ static void  test( char *s)
 
 int  main()
 {
-   int  c;
-   int  i;
-   int  d;
-
    test( "");
    test( "A");
    test( "AB");
