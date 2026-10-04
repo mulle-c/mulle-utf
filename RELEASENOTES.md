@@ -1,3 +1,15 @@
+### 6.0.1
+
+
+* Document ``mulle_utf32_strcspn()`` single-character search set fix
+* Note raised minimum dependencies: `mulle-allocator` 9.0.0 and `mulle-data` 0.6.1
+
+
+
+* ``mulle_utf32_strcspn`` now returns the true span when the exclusion set has exactly one character
+* previously such calls returned the ``mulle_utf32_strspn`` result, so the returned offset was wrong whenever the first character of the string matched the set
+* added `"d"` case to the `strcspn_utf32` test and corrected its expected output
+
 # 6.0.0
 
 
