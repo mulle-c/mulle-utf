@@ -1,6 +1,7 @@
 ### 6.0.1
 
 
+
 * Document ``mulle_utf32_strcspn()`` single-character search set fix
 * Note raised minimum dependencies: `mulle-allocator` 9.0.0 and `mulle-data` 0.6.1
 
