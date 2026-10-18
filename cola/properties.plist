@@ -3,8 +3,9 @@
    {
       description="🔤 UTF8-16-32 analysis and manipulation library";
       domain="github";
+      language="c";
+      dialect="c";
       name="mulle-utf";
-      version="6.0.1";
       user="mulle-c";
       repo="mulle-utf";
       homepage="https://github.com/mulle-c/mulle-utf";
@@ -21,7 +22,7 @@
          user="mulle-c";
       },
       {
-         description="#️⃣ A collection of hash functions";
+         description="#️⃣  A collection of hash functions";
          domain="github";
          name="mulle-data";
          repo="mulle-data";
