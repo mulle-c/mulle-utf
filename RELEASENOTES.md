@@ -2,6 +2,20 @@
 
 
 
+
+* the exported INTERFACE include directory is set again, so a consumer that only calls ``target_link_libraries()`` with ``add_subdirectory()`-based` integration finds headers by their installed-style path, e.g. ``<mulle-utf/mulle-utf.h>``, instead of failing with "file not found"
+* the library is now built as strict ANSI/ISO C11 with compiler extensions off by default, so hiding a POSIX/BSD call becomes a compile error; pass ``-DCMAKE_C_STANDARD=23`` or a `-std=` flag on the command line to test another dialect
+
+
+
+
+
+
+
+* Document ``mulle_utf32_strcspn()`` single-character search set fix
+* Note raised minimum dependencies: `mulle-allocator` 9.0.0 and `mulle-data` 0.6.1
+
+
 * Document ``mulle_utf32_strcspn()`` single-character search set fix
 * Note raised minimum dependencies: `mulle-allocator` 9.0.0 and `mulle-data` 0.6.1
 
